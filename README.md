@@ -3,6 +3,10 @@
 [![Paper](https://img.shields.io/badge/paper-5f16a8?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2602.24286)
 [![Project Page](https://img.shields.io/badge/Blog-3858bf?style=for-the-badge&logo=homepage&logoColor=white)](https://cuda-agent.github.io/)
 [![Dataset: CUDA-Agent-Ops-6K](https://img.shields.io/badge/Datasets-4d8cd8?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/datasets/BytedTsinghua-SIA/CUDA-Agent-Ops-6K)
+
+> [!IMPORTANT]
+> - [2026/03/04] We sincerely appreciate everyone’s attention and feedback. We have also noticed that the scores of some cases are not appropriate, either due to flaws in the test cases themselves or because certain cases were hacked by the agent. We will rerun the evaluation and release an updated version of the results in the near future.
+
 ## 1. Project Overview
 
 CUDA-Agent is the first known RL-trained model to surpass advanced models such as Claude Opus-4.6 and Gemini 3 Pro on high-performance CUDA kernel generation. It achieves state-of-the-art results on KernelBench, consistently outperforming the torch.compile baseline across difficulty levels, with especially strong gains on the hardest cases. To support the LLM-based CUDA generation community, we have released our training data, expert-designed SKILL.md and agent environment.
