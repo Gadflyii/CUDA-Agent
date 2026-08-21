@@ -20,6 +20,7 @@ real boundary: target Program round or public Engine measurement
 candidate budget: maximum candidates per cycle
 acceptance gate: repeatability threshold and allowed pointwise regressions
 terminal rule: number of complete no-win cycles before stopping the target
+consolidation rule: eligibility, package budget, and terminal no-win count
 ```
 
 The current campaign defaults are:
@@ -33,7 +34,13 @@ The current campaign defaults are:
 - run the named short- and long-context Engine semantic sentinels and registered real test before
   final acceptance;
 - begin a new cycle from the accepted commit and collect a fresh baseline/profile; and
-- stop the target after one complete 24-candidate cycle has no accepted candidate.
+- after one complete 24-candidate single-mechanism cycle has no accepted candidate, freeze that
+  ledger and enter consolidation when at least one evidence-supported package can plausibly reach
+  the real-boundary gate;
+- use the same 24-candidate budget, first-accept closure, correctness/performance gates, and fresh
+  baseline policy for consolidation cycles; and
+- stop the target after one complete 24-candidate consolidation cycle has no accepted package, or
+  immediately when the frozen evidence yields no eligible package.
 
 These are campaign controls, not timeless GInfer semantics. A user-supplied budget, threshold, or
 no-win count replaces the corresponding default and must be written into the campaign header.
@@ -95,6 +102,44 @@ Commit candidate source before remote execution. Reject through a normal revert 
 accepted tree and experimental history remain inspectable. Do not leave a rejected implementation
 in the final source merely because one microbenchmark point improved.
 
+## Consolidate compatible rejected mechanisms
+
+Consolidation is the final bounded phase of a target campaign, not an excuse to weaken the
+single-hypothesis loop. Start it only after the single-mechanism terminal cycle is complete:
+
+1. commit the terminal report and freeze the original candidate ledger by commit and content hash;
+2. collect a fresh full matrix and decision-specific profile from the retained binary;
+3. classify promising rejected mechanisms as dispatch-disjoint, overlapping, mutually exclusive,
+   or cache/resource interacting;
+4. exclude mutually exclusive alternatives from the same package and discount overlapping or
+   stale savings rather than adding them at face value;
+5. rank only packages with a concrete current-baseline path to the real-boundary gate; and
+6. create a separate consolidation report, candidate numbering, raw profile tree, and ledger.
+
+A consolidation package is one falsifiable combined-effect hypothesis. Before source mutation,
+record:
+
+```text
+component ledger IDs and source commits | component mechanisms | interaction class |
+dispatch domains and files | conservative current-baseline ceiling | interaction risks |
+package hypothesis | predicted affected/neutral matrix | rejection observation
+```
+
+Components from an older accepted baseline must be remeasured on the current retained source.
+Profile-derived savings are ceilings, not realized gains. A package may target disjoint sequential
+kernels or a deliberate same-kernel synergy, but it must explain why the effects should coexist.
+Do not combine mechanisms merely because their historical percentages sum above the threshold.
+
+Apply the package in one source commit, with a narrow follow-up commit allowed only for mechanical
+qualification containment that does not change the hypothesis. Rebuild and remeasure every
+affected public Op. The package reaches the real boundary only when those current measurements can
+plausibly clear the gate. Acceptance still requires two independent real-boundary repetitions,
+the complete matrix, independent oracles, real-artifact test, and short/long Engine sentinels.
+
+The original single-mechanism ledger remains immutable. The consolidation ledger has one row per
+package and additionally records component provenance, interaction prediction, current public-Op
+evidence, both real-boundary repetitions, full-matrix/Engine gates, and restoration commit.
+
 ## Gate from narrow evidence to real inference
 
 Use the cheapest decisive gate first:
@@ -108,6 +153,13 @@ Use the cheapest decisive gate first:
 
 Reject immediately when a lower gate disproves the hypothesis. Do not spend a model load or
 long-context run on a candidate that already fails its oracle or public-Op matrix.
+
+Explicitly build or relink every executable used for candidate timing after the source commit;
+record the source commit and exact build target with the measurement. A successful library build
+does not prove that a standalone benchmark executable was relinked. If provenance is ambiguous,
+the measurement is non-decisive: preserve its row, reapply the exact patch under a new candidate,
+explicitly relink the benchmark, verify source equivalence with a stable patch ID, and append a
+correction sidecar mapping the affected row to its validating row and unchanged or revised decision.
 
 Generated text must be coherent and satisfy the fixture's independent retrieval/task oracle.
 Stochastic token streams, completion lengths, and acceptance ratios may differ after a numerically
@@ -126,13 +178,16 @@ On acceptance:
 5. start the next numbered cycle with the candidate counter reset to zero.
 
 On rejection, restore the accepted source through a normal revert, verify the oracle as needed, and
-continue until the cycle budget is exhausted. When a full cycle has no accepted candidate, verify
-that the final source tree matches the cycle-start source, rebuild the accepted binary, close and
-commit the ledger summary, and apply the terminal no-win rule.
+continue until the cycle budget is exhausted. When a full single-mechanism cycle has no accepted
+candidate, verify that the final source tree matches the cycle-start source, rebuild the accepted
+binary, close and commit the immutable ledger summary, then enter the consolidation procedure
+above when eligible. When a full consolidation cycle has no accepted package, perform the same
+restorative verification, close its ledger and any required correction sidecar, and stop the target.
 
-After a target stops, hand off in the declared order. Preserve the same branch and accepted source,
-but freeze a new target-specific artifact/workload baseline and start candidate numbering at cycle
-one for that target. The current order for each GPU family is Muse Glimmer first, then Qwen3.8-27B.
+After consolidation stops or has no eligible package, hand off in the declared order. Preserve the
+same branch and accepted source, but freeze a new target-specific artifact/workload baseline and
+start candidate numbering at cycle one for that target. The current order for each GPU family is
+Muse Glimmer first, then Qwen3.8-27B.
 
 ## Commit durable evidence, leave bulk data local
 
@@ -147,4 +202,6 @@ Before handoff, require:
 - no untracked source snapshots, forced selectors, scratch executables, or losing variants;
 - a focused oracle and registered real test passing from the final binary;
 - a durable result summary and rejection ledger; and
+- a distinct consolidation ledger, plus a correction sidecar when provenance corrections were
+  required; and
 - explicit pending qualification for every physical GPU not yet measured.

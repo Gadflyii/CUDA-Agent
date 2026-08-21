@@ -112,10 +112,10 @@
       ],
       "compiler_observations": [
         {
-          "fact_id": "sm120a-muse-consolidation-build-19687307",
-          "claim": "The accepted Muse consolidation source passed the native sm_120a Release build and focused real-artifact and numerical tests; the same source cross-compiled its retained CLI, Program, Q4, and W8 targets for sm_86 and sm_89 without selecting the sm_120a-only W8 route.",
-          "source_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052"],
-          "applicability": "GInfer Muse consolidation source 196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0; cross-build statements are compile evidence only",
+          "fact_id": "sm120a-muse-consolidation-terminal-4a3587a3",
+          "claim": "The terminal Muse consolidation source passed the native sm_120a Release build and seven focused real-artifact and numerical tests; the unchanged retained source also completed fresh sm_86 and sm_89 Release cross-builds without selecting the sm_120a-only W8 route.",
+          "source_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3"],
+          "applicability": "GInfer retained Muse source 196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0 at terminal report 4a3587a3fdb5d6ce8d3022b4de1eae15348d56e7; cross-build statements are compile evidence only",
           "toolchain": "CUDA 13.3.73",
           "build_revision": "196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0",
           "hardware_sku": null,
@@ -142,6 +142,16 @@
           "build_revision": "196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0",
           "hardware_sku": "NVIDIA GeForce RTX 5090",
           "workload_key": "muse-dflash2-draft4-int8g64-c8-8k-consolidation"
+        },
+        {
+          "fact_id": "sm120a-muse-consolidation-terminal-matrix",
+          "claim": "On the campaign RTX 5090, the unchanged retained package's terminal confirmation measured 41.0798 ms and 872.154 aggregate tok/s at C8/8K, plus 32.4739 ms at C1/129041; relative to consolidation start these are 3.1125% and 2.9384% latency improvements.",
+          "source_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3"],
+          "applicability": "that physical RTX 5090 terminal confirmation only",
+          "toolchain": "CUDA 13.3.73",
+          "build_revision": "196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0",
+          "hardware_sku": "NVIDIA GeForce RTX 5090",
+          "workload_key": "muse-dflash2-draft4-int8g64-terminal-matrix"
         }
       ]
     }

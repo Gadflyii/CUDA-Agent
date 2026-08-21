@@ -122,8 +122,8 @@ decision needs:
   evidence packet, single-hypothesis refinement loop, and acceptance memory used throughout a run.
 - For a multi-cycle campaign or a handoff between GPUs or model targets, also read
   [references/campaign-orchestration.md](references/campaign-orchestration.md). It defines the
-  worktree preparation, candidate accounting, current 24-candidate cycle policy, durable ledger,
-  restoration, and terminal stop condition.
+  worktree preparation, candidate accounting, current 24-candidate cycle policy, durable ledgers,
+  the post-search multi-patch consolidation phase, restoration, and terminal stop condition.
 - Before changing device code, read
   [references/cuda-kernel-design.md](references/cuda-kernel-design.md) for execution, memory,
   resource, and inference-pattern guidance.
@@ -200,6 +200,13 @@ predicted effect on the scoped matrix, narrow candidate change, and result that 
 hypothesis before editing. Keep diagnosis and implementation as distinct phases; when the user has
 authorized parallel agents, a read-only judge may produce the diagnosis packet while the coding
 agent implements it. The benchmark and correctness suite remain the judges of fact.
+
+Ordinary search candidates isolate one mechanism so their result is attributable. After a complete
+single-mechanism no-win cycle, the campaign orchestrator may enter its defined consolidation phase.
+A consolidation candidate can contain several source patches only when it is one coherent package
+of explicitly named immutable-ledger components, with dispatch overlap, cache/resource interaction,
+current-baseline ceiling, and a falsifiable combined-effect hypothesis recorded before mutation.
+This is not permission to bundle unrelated ideas or average individually sub-threshold results.
 
 Then implement the strongest coherent solution for that hypothesis. Relevant techniques can
 include fusion, fewer memory passes, architecture-appropriate layouts and vector movement,
@@ -278,6 +285,11 @@ After each material candidate:
    without a material unsupported regression;
 5. compile all three SM images and run broader affected tests after the design stabilizes;
 6. use the remote validation workflow to run the same matrix on the other physical GPUs.
+
+For a campaign, a full no-win single-mechanism cycle is the boundary for consolidation rather than
+an automatic target handoff. Follow `campaign-orchestration.md`: freeze the original ledger, run
+eligible multi-patch packages in a distinct ledger, and stop only when the consolidation terminal
+rule fires or no evidence-supported package can reach the gate.
 
 Finish a scoped task when its requested boundary is correct, its performance claim is supported,
 and no known in-scope issue prevents use. Remove scratch binaries, logs, forced selectors,

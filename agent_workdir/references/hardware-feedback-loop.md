@@ -13,6 +13,7 @@ The packet should contain:
 
 ```text
 claim boundary: public Op / target round / public Engine route
+campaign phase: single mechanism / consolidation
 workload: exact shapes, dtype/format, resident context, C=1..8, graph/cache/speculative mode
 binary: commit, compiler, flags, build type, exact SM image
 device: live GPU, compute capability, driver, clocks/thermal/contention caveats
@@ -20,6 +21,7 @@ baseline: repeated samples and summary for every scoped matrix point
 profile: only metrics needed to distinguish the current hypotheses
 diagnosis: one dominant bottleneck and the evidence supporting it
 candidate: one coherent change and its predicted matrix effect
+components: immutable ledger IDs, commits, compatibility, and interaction class when consolidating
 disproof: observation that would reject the hypothesis
 result: correctness plus paired performance matrix
 decision: accept, reject, or gather one named missing measurement
@@ -55,7 +57,9 @@ physical measurements decide acceptance; an agent's confidence does not.
 1. Confirm the current accepted commit and baseline are still comparable.
 2. If the bottleneck is already clear from the timeline or algorithm, avoid profiling. Otherwise
    collect a small decision-specific Nsight packet.
-3. Produce one diagnosis packet. Do not combine unrelated changes that prevent attribution.
+3. Produce one diagnosis packet. In ordinary search, isolate one mechanism. In an authorized
+   consolidation phase, one candidate may combine named ledger components only when their combined
+   behavior is the hypothesis and their overlap and interaction remain attributable.
 4. Implement the candidate without weakening the public contract.
 5. Build and run the focused conformance test before timing it.
 6. Run paired measurements using the same binary mode, workload ordering, warmup, repetition,
@@ -68,6 +72,32 @@ A correctness failure changes the next step to repair, not performance diagnosis
 rerun correctness before profiling or timing. A performance regression changes the next step to
 reject or explain with new evidence; do not keep a slower candidate because its implementation is
 more sophisticated.
+
+## Run a consolidation iteration
+
+Enter this mode only through the campaign transition in `campaign-orchestration.md`. The diagnosis
+packet must additionally contain:
+
+```text
+component rows and source commits
+dispatch relationship: disjoint / overlapping / mutually exclusive
+current-baseline evidence for each component
+conservative combined ceiling at the real boundary
+cache, occupancy, issue, power, and ordering interaction risks
+observation that disproves additivity or the intended synergy
+```
+
+Apply the components as one committed package and measure every affected public Op again. Old cold
+microbenchmarks and results from an earlier accepted baseline are ranking evidence, not current
+performance claims. Advance to the real warm Program boundary only if the remeasured affected
+domains can plausibly clear the campaign gate. The same two-repetition and full-matrix acceptance
+rules apply; a cold additive win that disappears or reverses in the mixed schedule is a rejection.
+
+The build that produces a timing binary must explicitly name or otherwise prove relinking of that
+benchmark after the candidate source commit. If executable provenance is ambiguous, preserve the
+row as non-decisive, reapply the exact patch under a new candidate ID, explicitly relink, verify the
+stable patch identity, and record the mapping in a correction sidecar. Never overwrite the original
+measurement or silently promote it.
 
 ## Bound exploration
 

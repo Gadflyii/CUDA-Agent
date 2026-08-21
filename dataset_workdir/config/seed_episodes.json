@@ -514,5 +514,127 @@
     "view": {"candidate_generation": true, "input_event_ids": ["e000", "e001"], "target_event_ids": ["e002", "e003"], "withheld_event_ids": ["e004", "e005", "e006"], "result_label_visible": false},
     "outcome": {"disposition": "accepted", "candidate_commit": "196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0", "restoration_commit": null, "correctness": "passed", "performance_claim": "Combined package improved C8 Program latency 2.0566% and 2.5385% in two repetitions with the full matrix and Engine sentinels passing.", "limitations": ["Runtime performance is qualified only on the campaign RTX 5090; sm86 and sm89 evidence is compile-only."]},
     "quality": {"review_status": "seed_reviewed", "hard_negative": false, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|consolidation|w8-q4-selective|accepted", "notes": ["The final containment commit is the outcome revision; the source package began at a1d20707."]}
+  },
+  {
+    "schema_version": "1.0.0",
+    "episode_id": "ginfer-sm120a-muse-consolidation-c2-c9-provenance-judgment",
+    "family_id": "family-sm120a-muse-w8-q4-consolidation",
+    "task_view": "judgment",
+    "scope": {
+      "repository": "GInfer",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "explicitly relinked Q4 public Ops before Program admission",
+      "op_family": "q4_linear",
+      "architectures": ["sm_120a"],
+      "hardware_skus": ["NVIDIA GeForce RTX 5090"],
+      "workload": {"mode": "DFlash2", "draft_width": 4, "kv": "INT8-G64", "concurrency": 8, "resident_tokens_per_request": 8192}
+    },
+    "provenance": {
+      "source_ids": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3"],
+      "snapshot_refs": ["latest:ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3", "latest:ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3", "latest:ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3", "latest:ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3"],
+      "license_status": "internal",
+      "evidence_cutoff": "2026-08-21T14:19:56-05:00"
+    },
+    "split_group": {
+      "group_id": "sm120a-muse-consolidation-c2-c9-provenance",
+      "lineage_id": "cd580ff7ab91f313acb8eef05aad219c10be349d+80d4899105fb2fb0df7d7d9381e6aa75c3ef1838",
+      "campaign_id": "sm120a-muse-consolidation-rtx5090-20260821",
+      "mechanism_cluster": "explicit-relink-q4-occupancy-prefetch-rerun",
+      "assigned_split": "test",
+      "evaluation_tier": "real_hardware"
+    },
+    "events": [
+      {"event_id": "e000", "sequence": 0, "actor": "system", "event_type": "instruction", "information_class": "task_context", "payload": "A candidate's standalone benchmark must be explicitly rebuilt after its source change. Ambiguous executable provenance cannot support acceptance or a performance claim; reproduce the exact patch before deciding.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3#cycle-2-terminal-result"]},
+      {"event_id": "e001", "sequence": 1, "actor": "tool", "event_type": "observation", "information_class": "pre_candidate_evidence", "payload": "Cycle-2 candidate 2 did not explicitly name the standalone public benchmark in its incremental build. The correction map links its exact stable patch ID to candidate 9, which rebuilds and relinks the benchmark explicitly.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3#candidate-2"]},
+      {"event_id": "e002", "sequence": 2, "actor": "assistant", "event_type": "patch", "information_class": "candidate_artifact", "payload": "Candidate cd580ff7 reapplies the exact occupancy-plus-prefetch patch and explicitly rebuilds the Q4 public benchmark before measurement.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3#cd580ff7ab91f313acb8eef05aad219c10be349d"]},
+      {"event_id": "e003", "sequence": 3, "actor": "tool", "event_type": "validation", "information_class": "post_candidate_result", "payload": "The stable patch ID matches candidate 2 exactly, the public benchmark was explicitly relinked, and the decoded-Q4 independent oracle passed.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3#candidate-2", "ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3#candidate-9"]},
+      {"event_id": "e004", "sequence": 4, "actor": "tool", "event_type": "measurement", "information_class": "post_candidate_result", "payload": "N19968 improved from 93.472 to 91.424 us and the representative broad shape from 255.232 to 247.072 us, but their valid combined projection is only about 0.626 ms or 1.54% of the 40.5895 ms round, below the mandatory 0.8118 ms or 2% gate.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3#candidate-9"], "measurements": [{"name": "projected_program_ceiling", "value": -1.54, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k-projection", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}]},
+      {"event_id": "e005", "sequence": 5, "actor": "assistant", "event_type": "decision", "information_class": "disposition_label", "payload": "Reject before the expensive Program run. Corrected, explicitly relinked evidence confirms that the affected domains cannot reach the frozen whole-round gate; the provenance correction does not change the original rejection.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3#candidate-9"]},
+      {"event_id": "e006", "sequence": 6, "actor": "tool", "event_type": "restoration", "information_class": "restoration", "payload": "Restored the retained source with commit 80d48991.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3#80d4899105fb2fb0df7d7d9381e6aa75c3ef1838"]}
+    ],
+    "view": {"candidate_generation": false, "input_event_ids": ["e000", "e001", "e002", "e003", "e004"], "target_event_ids": ["e005"], "withheld_event_ids": ["e005", "e006"], "result_label_visible": false},
+    "outcome": {"disposition": "rejected", "candidate_commit": "cd580ff7ab91f313acb8eef05aad219c10be349d", "restoration_commit": "80d4899105fb2fb0df7d7d9381e6aa75c3ef1838", "correctness": "passed", "performance_claim": "Explicitly relinked public evidence projects only a 1.54% whole-round ceiling, below the 2% gate.", "limitations": ["Program timing was intentionally not run after the valid lower-boundary evidence disproved the candidate."]},
+    "preference": {"chosen_event_ids": ["e005"], "rejected_response": "Use the earlier ambiguous benchmark result or the old 2.33% additive estimate to advance the candidate to Program timing; the exact relink is unnecessary because the source patch is unchanged.", "failure_mode": "false_qualification"},
+    "quality": {"review_status": "seed_reviewed", "hard_negative": true, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|consolidation|explicit-relink|provenance-correction", "notes": ["Captures exact-patch validation and a provenance correction that preserves the decision."]}
+  },
+  {
+    "schema_version": "1.0.0",
+    "episode_id": "ginfer-sm120a-muse-consolidation-c2-c23-judgment",
+    "family_id": "family-sm120a-muse-w8-q4-consolidation",
+    "task_view": "judgment",
+    "scope": {
+      "repository": "GInfer",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "combined Q4 public Ops followed by warm Muse Program round",
+      "op_family": "q4_linear",
+      "architectures": ["sm_120a"],
+      "hardware_skus": ["NVIDIA GeForce RTX 5090"],
+      "workload": {"mode": "DFlash2", "draft_width": 4, "kv": "INT8-G64", "concurrency": 8, "resident_tokens_per_request": 8192}
+    },
+    "provenance": {
+      "source_ids": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3"],
+      "snapshot_refs": ["latest:ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3", "latest:ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3", "latest:ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3"],
+      "license_status": "internal",
+      "evidence_cutoff": "2026-08-21T14:19:56-05:00"
+    },
+    "split_group": {
+      "group_id": "sm120a-muse-consolidation-c2-c23",
+      "lineage_id": "ef30671c0e5d0cf78a97174b61bdf156a4e8a0bb+b47628b5e7974aaf7dc5810a9251b12579703a44",
+      "campaign_id": "sm120a-muse-consolidation-rtx5090-20260821",
+      "mechanism_cluster": "q4-occupancy-pingpong-deep-prefetch-package",
+      "assigned_split": "test",
+      "evaluation_tier": "real_hardware"
+    },
+    "events": [
+      {"event_id": "e000", "sequence": 0, "actor": "system", "event_type": "instruction", "information_class": "task_context", "payload": "A cold public-Op projection can admit a candidate to the real boundary, but acceptance requires two warm Program repetitions each at least 2% faster. Reject immediately if the first real repetition regresses.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3#frozen-contract"]},
+      {"event_id": "e001", "sequence": 1, "actor": "assistant", "event_type": "patch", "information_class": "candidate_artifact", "payload": "Candidate ef30671c combines N19968 two-block fragment overlap with broad three-stage prefetch and a three-block launch bound, targeting dispatch-disjoint Q4 domains.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3#ef30671c0e5d0cf78a97174b61bdf156a4e8a0bb"]},
+      {"event_id": "e002", "sequence": 2, "actor": "tool", "event_type": "validation", "information_class": "post_candidate_result", "payload": "The decoded-Q4 independent oracle passed. Cold public medians improved N19968 from 93.472 to 91.424 us and N6656/K33280 from 255.232 to 242.944 us, making this the strongest remaining package admitted to Program timing.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3#candidate-23"]},
+      {"event_id": "e003", "sequence": 3, "actor": "tool", "event_type": "measurement", "information_class": "post_candidate_result", "payload": "The first warm C8 Program round regressed from 40.5895 to 42.2354 ms, a 4.0550% latency increase. Cold kernel gains reversed under the mixed schedule.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3#candidate-23"], "measurements": [{"name": "program_c8_rep1_delta", "value": 4.0550, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}]},
+      {"event_id": "e004", "sequence": 4, "actor": "assistant", "event_type": "decision", "information_class": "disposition_label", "payload": "Reject and stop timing. The real production boundary regresses materially despite correct and faster isolated Ops; do not infer warm mixed-schedule performance from cold additive ceilings.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3#candidate-23"]},
+      {"event_id": "e005", "sequence": 5, "actor": "tool", "event_type": "restoration", "information_class": "restoration", "payload": "Restored the retained source with commit b47628b5.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3#b47628b5e7974aaf7dc5810a9251b12579703a44"]}
+    ],
+    "view": {"candidate_generation": false, "input_event_ids": ["e000", "e001", "e002", "e003"], "target_event_ids": ["e004"], "withheld_event_ids": ["e004", "e005"], "result_label_visible": false},
+    "outcome": {"disposition": "rejected", "candidate_commit": "ef30671c0e5d0cf78a97174b61bdf156a4e8a0bb", "restoration_commit": "b47628b5e7974aaf7dc5810a9251b12579703a44", "correctness": "passed", "performance_claim": "Cold public Ops improved, but the first real C8 Program round regressed 4.0550%.", "limitations": []},
+    "preference": {"chosen_event_ids": ["e004"], "rejected_response": "Accept the package because both isolated Q4 shapes improved and their old additive ceiling exceeded 3%; the warm Program regression is probably noise.", "failure_mode": "microbenchmark_overclaim"},
+    "quality": {"review_status": "seed_reviewed", "hard_negative": true, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|consolidation|q4-deep-prefetch|warm-reversal", "notes": ["Preserves the strongest terminal cold-to-warm reversal as a hard negative."]}
+  },
+  {
+    "schema_version": "1.0.0",
+    "episode_id": "ginfer-sm120a-muse-consolidation-c2-stop-orchestration",
+    "family_id": "family-sm120a-muse-consolidation-terminal",
+    "task_view": "orchestration_reporting",
+    "scope": {
+      "repository": "GInfer",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "consolidation campaign closure",
+      "op_family": "campaign_orchestration",
+      "architectures": ["sm_120a"],
+      "hardware_skus": ["NVIDIA GeForce RTX 5090"],
+      "workload": {"candidate_budget_per_cycle": 24, "terminal_no_win_cycles": 1, "consolidation_packages": 29}
+    },
+    "provenance": {
+      "source_ids": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3", "ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3"],
+      "snapshot_refs": ["latest:ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3", "latest:ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3", "latest:ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3", "latest:ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3"],
+      "license_status": "internal",
+      "evidence_cutoff": "2026-08-21T14:19:56-05:00"
+    },
+    "split_group": {
+      "group_id": "sm120a-muse-consolidation-c2-terminal",
+      "lineage_id": "e5036052883adeed229b7449d19351875fa764db..4a3587a3fdb5d6ce8d3022b4de1eae15348d56e7",
+      "campaign_id": "sm120a-muse-consolidation-rtx5090-20260821",
+      "mechanism_cluster": "terminal-no-win-consolidation-cycle",
+      "assigned_split": "test",
+      "evaluation_tier": "real_hardware"
+    },
+    "events": [
+      {"event_id": "e000", "sequence": 0, "actor": "system", "event_type": "instruction", "information_class": "task_context", "payload": "Terminate consolidation after one complete 24-package cycle has no acceptance. Preserve every candidate, revert, correction, and decisive gate; do not retain sub-threshold combinations.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3#frozen-contract"]},
+      {"event_id": "e001", "sequence": 1, "actor": "tool", "event_type": "report", "information_class": "post_candidate_result", "payload": "Cycle 2 consumed all 24 authorized packages and accepted none. Candidates 8 through 14 reproduced the exact patches from provenance-ambiguous candidates 1 through 7 with explicit benchmark relinks; every correction preserved the rejection decision.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3#cycle-2", "ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3#corrections"]},
+      {"event_id": "e002", "sequence": 2, "actor": "tool", "event_type": "validation", "information_class": "post_candidate_result", "payload": "The retained source is identical to the accepted cycle-1 package. Native sm120 and seven focused tests passed; fresh complete sm86 and sm89 cross-builds passed; the full C1-C8/8K and C1/129041 Program matrix plus both Engine retrieval sentinels passed.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3#final-retained-result-and-qualification"]},
+      {"event_id": "e003", "sequence": 3, "actor": "tool", "event_type": "measurement", "information_class": "post_candidate_result", "payload": "Terminal confirmation measured C8 at 41.0798 ms and 872.154 aggregate tok/s, 3.1125% faster than consolidation start; C1/129041 measured 32.4739 ms, 2.9384% faster. Engine sentinels measured 2727.80/126.19 prompt/decode tok/s at 8K and 2189.50/116.77 at 129041.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3#final-retained-result-and-qualification"], "measurements": [{"name": "terminal_program_c8_delta", "value": -3.1125, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k-terminal", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}, {"name": "terminal_program_129k_delta", "value": -2.9384, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c1-129041-terminal", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}]},
+      {"event_id": "e004", "sequence": 4, "actor": "assistant", "event_type": "decision", "information_class": "disposition_label", "payload": "Close cycle 2 and terminate consolidation. Retain only the accepted cycle-1 source, preserve the complete 29-row ledger and correction sidecar, and do not continue into an unauthorized cycle after every measured combination ceiling is exhausted.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3#cycle-2-terminal-result"]}
+    ],
+    "view": {"candidate_generation": false, "input_event_ids": ["e000", "e001", "e002", "e003"], "target_event_ids": ["e004"], "withheld_event_ids": ["e004"], "result_label_visible": false},
+    "outcome": {"disposition": "report_only", "candidate_commit": null, "restoration_commit": "f067151a7eba4ab7e94d4359f4c50d78a6d29048", "correctness": "passed", "performance_claim": "Cycle 2 closed after 24 rejections; the unchanged retained package confirmed C8 and 129K latency gains of 3.1125% and 2.9384% versus consolidation start.", "limitations": ["Runtime performance is qualified only on the named RTX 5090 workload; sm86 and sm89 results are compile-only."]},
+    "quality": {"review_status": "seed_reviewed", "hard_negative": false, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|consolidation|cycle2|terminal", "notes": ["The raw layer preserves all 29 package rows and the seven-row provenance correction map."]}
   }
 ]

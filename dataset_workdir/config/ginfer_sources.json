@@ -164,17 +164,57 @@
       "title": "SM120a RTX 5090 Muse consolidation cycle 1 candidate and restoration history",
       "mime_type": "application/x-ndjson",
       "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "4a3587a3fdb5d6ce8d3022b4de1eae15348d56e7",
+      "path": "docs/results/2026-08-21-sm120a-muse-consolidation-campaign.md",
+      "title": "Terminal SM120a RTX 5090 Muse consolidation campaign report",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "4a3587a3fdb5d6ce8d3022b4de1eae15348d56e7",
+      "path": "docs/results/2026-08-21-sm120a-muse-consolidation-ledger.csv",
+      "title": "Terminal SM120a RTX 5090 Muse 29-package consolidation ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "4a3587a3fdb5d6ce8d3022b4de1eae15348d56e7",
+      "path": "docs/results/2026-08-21-sm120a-muse-consolidation-corrections.csv",
+      "title": "SM120a RTX 5090 Muse consolidation benchmark-provenance correction map",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3",
+      "kind": "git_range",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision_start_exclusive": "e5036052883adeed229b7449d19351875fa764db",
+      "revision_end_inclusive": "4a3587a3fdb5d6ce8d3022b4de1eae15348d56e7",
+      "title": "SM120a RTX 5090 Muse consolidation cycle 2 candidate, restoration, correction, and terminal history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_120a"]
     }
   ],
   "live_references": [
     {
       "source_id": "ginfer-sm120a-rtx5090-active-ledger",
-      "title": "Active local RTX 5090 SM120a Muse consolidation ledger after closed cycle 1",
+      "title": "Terminal local RTX 5090 SM120a Muse consolidation ledger",
       "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
       "path": "docs/results/2026-08-21-sm120a-muse-consolidation-ledger.csv",
-      "observed_revision": "e5036052883adeed229b7449d19351875fa764db",
+      "observed_revision": "4a3587a3fdb5d6ce8d3022b4de1eae15348d56e7",
       "sm_applicability": ["sm_120a"],
-      "note": "Registered only. Consolidation cycle 1 is ingested through its immutable commit; cycle 2 and later active content remain excluded until each cycle owner closes the boundary."
+      "note": "Registered location only. The complete terminal campaign is ingested through immutable commit 4a3587a3; any future campaign content remains excluded until a new owner closes another boundary."
     },
     {
       "source_id": "ginfer-sm86-server2-live-campaign",

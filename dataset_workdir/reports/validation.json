@@ -2,11 +2,11 @@
   "counts": {
     "cross_sm_deltas": 3,
     "curated_manifest": 9,
-    "episodes": 13,
+    "episodes": 16,
     "normalized_manifest": 5,
-    "raw_manifest": 46,
+    "raw_manifest": 50,
     "schemas": 5,
-    "source_registry": 52
+    "source_registry": 56
   },
   "errors": [],
   "invariants": {
@@ -19,6 +19,6 @@
     "split_lineages_checked": true
   },
   "status": "pass",
-  "validated_at": "2026-08-21T18:25:55Z",
+  "validated_at": "2026-08-21T19:29:20Z",
   "warnings": []
 }
