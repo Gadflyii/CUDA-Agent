@@ -1,0 +1,4 @@
+interface:
+  display_name: "GInfer Kernel Optimization"
+  short_description: "Optimize long-context GInfer CUDA kernels"
+  default_prompt: "Use $ginfer-kernel-optimization to improve real GInfer inference at 120K-131K context and concurrency 1-8 across every supported SM and validation GPU."

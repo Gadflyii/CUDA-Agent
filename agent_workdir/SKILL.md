@@ -1,376 +1,294 @@
-You are a PyTorch and CUDA expert. Accelerate the given PyTorch Model by creating a high-performance CUDA C++ extension, targeting the best possible performance with a minimum requirement of 5% faster than torch.compile baseline.
+---
+name: ginfer-kernel-optimization
+description: Optimize, port, and qualify handwritten C++ and CUDA kernels for real GInfer inference, including 120K-131K contexts, fixed concurrency from one to eight requests, Muse Glimmer, and every supported NVIDIA SM family. Use for native GInfer Op, CUDA Graph, whole-round, or end-to-end performance work; not for PyTorch extensions, generic CUDA examples, model conversion alone, or unrelated C++ features.
+metadata:
+  short-description: Optimize native GInfer CUDA kernels
+---
 
-## 1. CRITICAL RESTRICTIONS
+# GInfer Kernel Optimization
 
-### ⚠️ STRICTLY FORBIDDEN
-- **NO torch operators in C++**: NEVER use `torch::*` or `torch::nn::functional::*` in binding.cpp or .cu files
-- **NO torch operations in model_new.py**: Only tensor creation and your custom ops allowed
-- **NO third-party libraries**: Except cuBLAS (GEMM only) and cuDNN (Conv only)
-- **NO modifications to utils/ directory**
-- **NO modifications to binding.cpp or binding_registry.h**: These are fixed infrastructure
+Improve production C++/CUDA execution in the isolated GInfer optimization worktree. Preserve the
+complete numerical and state-transition contracts while maximizing real inference performance for
+the supported model, context, concurrency, and GPU matrix. There is no PyTorch extension,
+`torch.compile` baseline, synthetic exercise harness, or universal percentage target.
 
-### ✅ ALLOWED ONLY
-- **C++**: Raw CUDA kernels (for custom ops), cuBLAS (for GEMM), cuDNN (MANDATORY for Conv/ConvTranspose)
-- **Python**: torch.tensor creation, custom extension ops, tensor properties (.shape, .device)
-- **Memory**: torch::empty_like for allocation only
-- **Focus**: Implement kernels in `kernels/` directory only
+## Use the isolated optimization worktree
 
-## 2. WORKSPACE STRUCTURE
+The normal workspace is:
 
-```
-.
-├── binding_registry.h    # Do NOT modify - registration system
-├── binding.cpp           # Do NOT modify - main module binding
-├── kernels/              # YOUR WORK: Implement all kernels here
-├── utils/                # DO NOT modify - Compilation, verification and profiling tools 
-├── model.py              # DO NOT modify - Original PyTorch model
-└── model_new.py          # YOUR WORK: Your optimized model using custom ops.
-```
-
-### File Types and Usage
-- **`.cu` files**: CUDA kernels with `__global__` functions (custom implementations)
-- **`.cpp` files**: cuDNN/cuBLAS API calls (NO custom kernels)
-- **`_binding.cpp` files**: PyTorch tensor handling and Python bindings
-
-## 3. UNIFIED WORKFLOW
-
-### Step 1: Implementation
-
-Create paired files in `kernels/`:
-
-**kernels/my_kernel.cu** (Pure CUDA implementation):
-```cuda
-#include <cuda_runtime.h>
-
-// Template kernel for performance tuning
-template<int BLOCK_SIZE, int TILE_SIZE>
-__global__ void my_kernel_impl(float* output, const float* input, int size) {
-    // Shared memory for tiling
-    extern __shared__ float smem[];
-    
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    int stride = blockDim.x * gridDim.x;
-    
-    // Grid-stride loop for large data
-    for (int i = tid; i < size; i += stride) {
-        // Kernel logic with optimizations
-        output[i] = /* computation */;
-    }
-}
-
-// C-interface launcher (no PyTorch dependencies)
-extern "C" void my_kernel_launcher(
-    float* output,
-    const float* input,
-    int size,
-    int config,
-    cudaStream_t stream
-) {
-    // Dynamic configuration selection
-    int blocks = (size + 255) / 256;
-    int shared_mem_size = 0;
-    
-    switch(config) {
-        case 0: 
-            shared_mem_size = 256 * sizeof(float);
-            my_kernel_impl<256, 16><<<blocks, 256, shared_mem_size, stream>>>(
-                output, input, size);
-            break;
-        case 1: 
-            shared_mem_size = 128 * sizeof(float);
-            my_kernel_impl<128, 32><<<blocks, 128, shared_mem_size, stream>>>(
-                output, input, size);
-            break;
-        default:
-            my_kernel_impl<256, 16><<<blocks, 256, 0, stream>>>(
-                output, input, size);
-    }
-}
+```text
+/ai/ginfer/.worktrees/agentic-kernels/   branch perf/agentic-kernels
+├── build-86/                           sm_86 image only
+├── build-89/                           sm_89 image only
+├── build-120a/                         sm_120a image only
+└── profiles/
+    ├── sm86/rtx3090/
+    ├── sm89/rtx4090/
+    └── sm120a/
+        ├── rtx5090/
+        └── rtx-pro-6000/
 ```
 
-**kernels/my_kernel_binding.cpp** (PyTorch binding):
-```cpp
-// Use this two headers to replace torch/extension.h for faster compilation
-#include <torch/types.h>
-#include <torch/csrc/utils/pybind.h>
+The branch starts from the integration point containing both Muse Glimmer and SM-family support.
+Treat `/ai/ginfer` and its other feature worktrees as read-only sources of history and comparison
+unless the user explicitly assigns work there.
 
-#include <cuda_runtime.h>
-#include <c10/cuda/CUDAStream.h>
-#include "../binding_registry.h"
+The branch isolates history; the worktree isolates checked-out files and build state. Both are
+required. One dedicated worktree per machine is sufficient for this optimization line—do not make
+copied source folders for individual kernels. Create another worktree only when a genuinely
+concurrent branch of source changes must be developed independently.
 
-// Declare launcher from .cu file
-extern "C" void my_kernel_launcher(
-    float* output,
-    const float* input,
-    int size,
-    int config,
-    cudaStream_t stream
-);
+At the start of work:
 
-// PyTorch wrapper with config parameter
-torch::Tensor my_kernel_forward(torch::Tensor input, int config = 0) {
-    // Input validation
-    TORCH_CHECK(input.is_cuda(), "Input must be a CUDA tensor");
-    TORCH_CHECK(input.is_contiguous(), "Input must be contiguous");
-    TORCH_CHECK(input.dtype() == torch::kFloat32, "Input must be float32");
-    
-    auto output = torch::empty_like(input);
-    
-    // Get current CUDA stream (correct way)
-    cudaStream_t stream = c10::cuda::getCurrentCUDAStream().stream();
-    
-    // Call CUDA launcher with config
-    my_kernel_launcher(
-        output.data_ptr<float>(),
-        input.data_ptr<float>(),
-        input.numel(),
-        config,
-        stream
-    );
-    
-    return output;
-}
+1. Read this worktree's `AGENTS.md` in full.
+2. Confirm the path, `perf/agentic-kernels` branch, base ancestry, and `git status`. Preserve every
+   pre-existing change.
+3. Keep source, CMake caches, generated code, benchmarks, and profiler output inside this worktree.
+   Never reuse a build directory from `/ai/ginfer` or another worktree.
+4. Use the three per-SM build roots above. A CMake build tree belongs to exactly one source
+   worktree, toolchain, build type, and CUDA architecture.
+5. Put disposable Nsight reports and raw measurement output under the matching ignored
+   `profiles/sm*/` tree. Put only reviewed, durable results in the repository when the task calls
+   for them.
 
-// Registration function
-void register_my_kernel(pybind11::module& m) {
-    m.def("my_kernel_forward", &my_kernel_forward, 
-          "My kernel forward",
-          py::arg("input"),
-          py::arg("config") = 0);
-}
+Record the branch-point commit and measure the clean baseline before the first optimization. If a
+later repeatable A/B comparison needs the old source, use a separate detached baseline worktree or
+preserved baseline binary; do not switch this worktree or rebuild another developer's checkout.
+Do not merge, rebase, publish, or delete the optimization branch unless the user asks.
 
-// Auto-register
-REGISTER_BINDING(my_kernel, register_my_kernel);
+## Product performance envelope
+
+The ultimate target is one GPU and one resident model serving a startup-fixed compact batch of one
+through eight active requests. Optimize real inference and agentic operations, not isolated
+KernelBench-like shapes.
+
+Treat these as first-class dimensions:
+
+- effective context and KV position from approximately 120,000 tokens through the model's 131,072
+  boundary, distinguishing configured capacity from tokens actually resident or attended;
+- every active concurrency value `C=1..8`, including mixed per-request positions and valid lengths
+  when the affected Op consumes them;
+- latency at `C=1`, scaling and throughput at `C=2..8`, and the absence of pathological tail or
+  route-boundary regressions;
+- prefill, long-context decode, and the enabled speculative route (MTP or DFlash) when they reach
+  the changed implementation;
+- CUDA Graph capture/replay, prefix reuse, INT8/BF16 KV formats, and state transaction paths when
+  they are part of the affected public contract;
+- every registered target that can reach a shared Op, including Muse Glimmer where applicable.
+
+Use INT8 KV for the 120K-131K product points where that is the registered capacity path. Do not
+claim a long-context result from a large configured capacity with a short resident sequence. Do
+not use only `C=1` and `C=8` to hide an interior batch-size dispatch cliff.
+
+An Op benchmark remains necessary to tune a kernel, but it is not sufficient evidence for a claim
+about full inference, speculative-round latency, long-context behavior, or concurrent throughput.
+Measure the highest public boundary named by the task after the Op-level implementation stabilizes.
+
+Before implementation, state the concrete claim being pursued:
+
+- public Op, target round, or public Engine boundary;
+- model/artifact, AR/MTP/DFlash mode, KV format, graph mode, and prefix state;
+- exact token extents, context position/capacity, and `C=1..8` points in scope;
+- GPU SKU, exact SM image, CUDA/toolchain, cache condition, and baseline command.
+
+Infer these facts from the request and repository when possible. Ask only when a missing choice
+would materially change the implementation.
+
+## Read only the live authorities
+
+After `AGENTS.md`, read the documents governing the affected boundary:
+
+- `include/ginfer/ops/<family>.h` for the complete semantic contract;
+- `docs/maintainer/op-development.md` for ownership, qualification, and performance evidence;
+- `docs/maintainer/concurrent-inference-architecture.md` and `paged-kv-cache.md` when concurrency,
+  long context, compact batching, prefix reuse, or KV state is involved;
+- `tests/README.md` and the affected `tests/ops/` suite for correctness and oracle style;
+- `bench/README.md` and the affected Op or target benchmark for measurement behavior;
+- the relevant target/model reference for model mathematics or schedule composition;
+- the active feature plan and latest comparable result when an unfinished target such as Muse
+  Glimmer is not yet integrated into the stable model references;
+- root/source CMake files and each selected build's `CMakeCache.txt` for architecture ownership.
+
+Do not load every model document or create a parallel authority that can drift from GInfer.
+
+## Load CUDA knowledge selectively
+
+The references below are a compact decision aid, not a replacement for the live GInfer contract,
+the installed CUDA documentation, or measurements from the target GPU. Read only what the current
+decision needs:
+
+- After the clean baseline and before the first candidate, read
+  [references/hardware-feedback-loop.md](references/hardware-feedback-loop.md). It defines the
+  evidence packet, single-hypothesis refinement loop, and acceptance memory used throughout a run.
+- For a multi-cycle campaign or a handoff between GPUs or model targets, also read
+  [references/campaign-orchestration.md](references/campaign-orchestration.md). It defines the
+  worktree preparation, candidate accounting, current 24-candidate cycle policy, durable ledger,
+  restoration, and terminal stop condition.
+- Before changing device code, read
+  [references/cuda-kernel-design.md](references/cuda-kernel-design.md) for execution, memory,
+  resource, and inference-pattern guidance.
+- When a profile is needed to choose the next change, read
+  [references/nsight-compute-triage.md](references/nsight-compute-triage.md). Collect the smallest
+  metric subset that distinguishes the live hypotheses; do not dump every profiler metric into the
+  reasoning context.
+- Before adding an SM-specific path, changing a tile/resource policy across architectures, or
+  interpreting cross-GPU results, read
+  [references/sm86-sm89-sm120a.md](references/sm86-sm89-sm120a.md).
+- Read [references/ptx-and-sass.md](references/ptx-and-sass.md) only when disassembly and profiling
+  support an instruction-level change. Handwritten PTX is a late, narrow tool, never the default
+  response to a slow kernel.
+
+These references intentionally summarize and route to authoritative sources rather than copying
+whole manuals. If an installed toolkit, current NVIDIA document, or GInfer invariant conflicts
+with a summary, verify the live authority and update the summary before relying on it.
+
+## Trace the production path
+
+Map the complete affected route before changing a kernel:
+
+```text
+public semantic contract
+        -> wrapper validation and finite dispatch
+        -> launcher and launch policy
+        -> CUDA kernel/private device primitives
+        -> target schedule, when the claim includes one
+        -> public Engine route, when the claim is end-to-end
 ```
 
-#### Create model_new.py
-```python
-import torch
-import torch.nn as nn
-import cuda_extension
+Find every caller and dispatch predicate. Confirm dtype, format, logical and padded shapes,
+alignment, aliasing, workspace, stream ordering, graph capture, context/KV indexing, batch/slot
+mapping, and supported extents. For stateful or fused work, include every output, mutation, and
+observable cast boundary.
 
-class ModelNew(nn.Module):
-    def __init__(self, ...):  # MUST match Model signature exactly
-        super().__init__()
-        # Initialize parameters - preserve original structure for state_dict compatibility
-        self.weight = nn.Parameter(torch.randn(...))
-        self.bias = nn.Parameter(torch.zeros(...))
-        
-    def forward(self, x):
-        # Use custom ops only - NO torch operations
-        x = cuda_extension.my_kernel_forward(x, config=0)
-        x = cuda_extension.gemm_forward(x, self.weight, self.bias)
-        return x
-```
+Keep ownership intact:
 
-### Step 2: Compile and Test
-```bash
-# Compile with architecture-specific optimizations
-TORCH_CUDA_ARCH_LIST=9.0 bash utils/compile.sh
+- contracts remain under `include/ginfer/ops/`;
+- wrappers validate and select from semantic, geometry, and device facts;
+- launchers own grids, blocks, shared memory, and template instantiation;
+- kernels own device computation;
+- target packages own model schedules and persistent state, not reusable Ops;
+- targets include public Op contracts, never private launcher or kernel headers.
 
-# Test in sandbox 
-sudo python3 -m utils.verification
-sudo python3 -m utils.profiling
-```
+Do not dispatch an Op on model identity, artifact object name, or Program phase. A genuinely
+Muse-only scheduling step stays in `src/targets/muse_glimmer_30b`; a semantically closed device
+transformation belongs in the central Op layer even if Muse is its first caller.
 
-### Step 3: Performance Optimization (IF NEEDED)
+## Establish correctness and baseline evidence
 
-#### 3.1 Optimization Strategy (Priority Order)
+Use GInfer's native CMake, CTest, and benchmark infrastructure. Configure Release builds with one
+exact `CMAKE_CUDA_ARCHITECTURES` image each. The current campaign covers `86`, `89`, and `120a`;
+also verify the repository allowlist in case the supported set changes.
 
-**Priority 1: Algorithmic (>50% impact)**
-- Kernel fusion - reduce memory traffic
-- Shared memory tiling - improve data reuse
-- Memory coalescing - consecutive access patterns
+Before editing:
 
-**Priority 2: Hardware Utilization (20-50% impact)**
-- Vectorized loads (float2/float4)
-- Warp-level primitives (__shfl_sync, __ballot_sync)
-- Occupancy tuning (block size, register usage)
+1. Build the smallest production target, focused test, and benchmark that exercise the route in
+   the local GPU's exact-SM tree.
+2. Run the focused correctness test through the public contract.
+3. Measure a stable baseline at the claim boundary and relevant context/concurrency points.
+4. Profile only enough to identify a decision-changing bottleneck. Use Nsight Systems for launch,
+   synchronization, graph, or CPU/GPU timeline questions; use Nsight Compute for a specific kernel
+   question.
 
-**Priority 3: Fine-tuning (<20% impact)**
-- Instruction-level parallelism
-- Mixed precision (FP16/TF32)
-- Prefetching and double buffering
+If no suitable benchmark exists and performance at that boundary is part of the deliverable, add
+a repository-native benchmark that calls the public contract. Do not use generated output quality,
+another production route, or another kernel as the correctness oracle.
 
-#### 3.2 Parameter Tuning (Last Resort)
-Only when within 1.2x of target and algorithmic options exhausted:
+## Optimize from evidence
 
-```python
-# tune_kernel.py - NO recompilation needed
-import time, torch, cuda_extension
+Form one concrete, falsifiable hypothesis tied to the measured bottleneck. Record the evidence,
+predicted effect on the scoped matrix, narrow candidate change, and result that would disprove the
+hypothesis before editing. Keep diagnosis and implementation as distinct phases; when the user has
+authorized parallel agents, a read-only judge may produce the diagnosis packet while the coding
+agent implements it. The benchmark and correctness suite remain the judges of fact.
 
-configs = [
-    (0, "256_threads_16_tile"),
-    (1, "128_threads_32_tile"),
-    (2, "512_threads_8_tile")
-]
+Then implement the strongest coherent solution for that hypothesis. Relevant techniques can
+include fusion, fewer memory passes, architecture-appropriate layouts and vector movement,
+asynchronous copies, warp specialization, Tensor Core MMA, persistent state, occupancy-aware
+launches, graph capture, and removal of avoidable host synchronization. Select techniques from the
+real arithmetic, long-context access pattern, compact batch geometry, and GPU rather than a fixed
+checklist.
 
-# Test input
-x = torch.randn(batch_size, features).cuda()
+Do not force one lowest-common-denominator kernel or schedule across SM families. Shared semantic
+code and primitives are useful when performance remains strong, but independent compile-time
+implementations, tile shapes, or dispatch thresholds are preferred when Ampere, Ada, and Blackwell
+need different execution strategies.
 
-# Benchmark each config
-best_config, best_time = 0, float('inf')
-for config_id, name in configs:
-    # Warmup
-    for _ in range(10):
-        cuda_extension.my_kernel_forward(x, config=config_id)
-    torch.cuda.synchronize()
-    
-    # Measure
-    start = time.perf_counter()
-    for _ in range(100):
-        cuda_extension.my_kernel_forward(x, config=config_id)
-    torch.cuda.synchronize()
-    elapsed = time.perf_counter() - start
-    
-    print(f"Config {name}: {elapsed:.4f}s")
-    if elapsed < best_time:
-        best_time, best_config = elapsed, config_id
+For several plausible candidates, compile the small decision set together and measure one
+candidate-by-extent-by-concurrency matrix under identical conditions. Temporary sweeps may call
+private launchers only as permitted by `op-development.md`. Encode the measured winner or
+crossover in production dispatch, qualify it again through the public contract, and delete losing
+candidates and comparison-only entry points.
 
-print(f"Best: config {best_config} ({best_time:.4f}s)")
-# Update model_new.py with best_config
-```
+Do not accept a speedup caused by skipped work, stale output, weaker semantics, unrequested
+precision loss, different cache state, reduced resident context, changed prompt/token count,
+disabled validation, or a narrower timing boundary. Do not widen a tolerance to make a candidate
+pass. Evaluate both the pointwise matrix and aggregate latency/throughput; an average must not hide
+a material regression at one concurrency, context, or dispatch seam.
 
-### Step 4: Iteration Requirements
+## Qualify every supported SM
 
-#### Correctness Failures
-**MUST iterate until correctness passes - NO EXCEPTIONS**
-1. Debug the specific failing kernel
-2. Common issues to check:
-   - Boundary conditions (tid < size)
-   - Synchronization (__syncthreads placement)
-   - Data types and precision
-   - Memory alignment
-3. Fix in kernels/*.cu and *_binding.cpp ONLY
-4. Recompile and test
+For every changed CUDA or dispatch path:
 
-#### Performance Optimization
-**GOAL: Achieve the best possible performance (the faster, the better!)**
-**MINIMUM: Must be at least 5% faster than torch.compile baseline**
+- build `build-86`, `build-89`, and `build-120a` as separate compile images;
+- gate architecture-specific instructions and translation units at compile time and retain a
+  deliberate implementation or rejection path for every supported image;
+- select runtime routes from explicit capability and geometry facts, never marketing names;
+- derive occupancy from the live device policy rather than a hard-coded SM count;
+- keep artifact-format restrictions explicit at admission;
+- run correctness and the performance matrix on physical hardware for each SM before making an
+  all-SM claim.
 
-For each iteration:
-1. **Document expectation**: "Fusion will eliminate 3 kernels, expect ~20% speedup"
-2. **Apply optimization aggressively**: Don't revert to slow versions
-3. **Debug if correctness fails**: Fix the optimized version
-4. **Measure and analyze**: Understand why performance changed
-5. **Continue optimizing**: Even if you meet the minimum, keep pushing for better performance
+Compilation on one host proves only that a non-local image builds. Runtime results from the RTX
+5090 (`sm_120a`) do not validate the RTX 4090 (`sm_89`) or RTX 3090 (`sm_86`). A task scoped to one
+SM may finish with the other images compile-checked and clearly reported as pending runtime work;
+the overall optimization campaign is not complete until all four physical host/SKU matrices
+exist. The RTX 5090 and RTX PRO 6000 use the same `sm_120a` image but remain separate performance
+targets because their live SM count, memory capacity, and bandwidth differ.
 
-**Iteration strategy**:
-- First 1-2 iterations: Achieve the minimum 5% improvement
-- Next 3-5 iterations: Push for maximum possible speedup
-- Continue until no further improvements possible or diminishing returns
+The physical validation hosts are the local RTX 5090, SSH-accessible Server 1 RTX PRO 6000
+Blackwell, WSL RTX 4090, and Server 2 RTX 3090. When running non-local validation, read
+[references/remote-sm-validation.md](references/remote-sm-validation.md) before changing any
+remote checkout. The remote machines may pull, build, test, benchmark, and profile this branch;
+their existing active GInfer checkout remains untouched.
 
-**Remember**: The goal is the BEST possible performance, not just meeting the minimum!
+For shared Ops, qualify every affected route and ensure a Muse- or SM-specific win does not
+silently regress other registered callers. Restrict expensive end-to-end runs to models that
+actually reach the changed path.
 
-### Step 5: Final Cleanup (MANDATORY BEFORE COMPLETION)
+## Correctness requirements
 
-Before declaring the task complete, clean up the kernels/ directory to contain ONLY the final optimized version:
+Qualify floating-point work against the suite's independent FP32/FP64 mathematical oracle and
+exact transforms against an independent exact oracle. Cover real registered shapes, all affected
+dispatch boundaries, concurrency-sensitive indexing, long-context boundaries, and graph
+capture/replay when applicable. Stateful Ops must verify returned values and the full state
+transition; fused Ops need an oracle for the complete fused formula.
 
-**Remove all intermediate attempts**:
-```bash
-# Remove version files, old attempts, test versions
-rm kernels/*_v[0-9].cu kernels/*_old.cu kernels/*_test.cu kernels/*.bak
+Use the suite-owned criterion appropriate to the arithmetic profile. Pairwise parity between two
+production implementations is supplementary evidence only. Add cases for every new alignment,
+tail, route seam, device capability, context boundary, or compact-batch assumption.
 
-# Keep only the final optimized implementation
-# Example final structure:
-# kernels/
-#   ├── fused_kernel.cu           # Final implementation
-#   └── fused_kernel_binding.cpp  # Final binding
-```
+## Iterate and finish
 
-## 4. TOOL SCRIPTS REFERENCE
+After each material candidate:
 
-### Verification and Profiling
-```bash
-# Use sudo to run sandbox utilities
-sudo python3 -m utils.verification
-sudo python3 -m utils.profiling
-```
+1. build the focused local-SM target;
+2. run the focused conformance suite;
+3. remeasure identical context/concurrency points and inspect the full curve or round breakdown;
+4. retain the change only when the result is repeatable and improves the requested objective
+   without a material unsupported regression;
+5. compile all three SM images and run broader affected tests after the design stabilizes;
+6. use the remote validation workflow to run the same matrix on the other physical GPUs.
 
-### Compilation
-```bash
-TORCH_CUDA_ARCH_LIST=9.0 bash utils/compile.sh
-```
+Finish a scoped task when its requested boundary is correct, its performance claim is supported,
+and no known in-scope issue prevents use. Remove scratch binaries, logs, forced selectors,
+temporary controls, and losing implementations. Keep legitimate per-SM routes and permanent
+public benchmarks.
 
+Report:
 
-## 5. OPTIMIZATION CHECKLIST
-
-### Essential Optimizations (Apply First)
-- [ ] **Memory Coalescing**: Consecutive threads access consecutive addresses
-- [ ] **Kernel Fusion**: Combine operations to reduce memory traffic
-- [ ] **Shared Memory**: Cache frequently accessed data
-- [ ] **Grid-Stride Loops**: Handle data larger than grid size
-- [ ] **Boundary Checks**: Validate all array accesses (tid < size)
-
-### Performance Optimizations (Apply as Needed)
-- [ ] **Vectorized Memory**: Use float2/float4 for higher throughput
-- [ ] **Warp Primitives**: __shfl_sync for inter-thread communication
-- [ ] **Occupancy Tuning**: Balance block size and resource usage
-- [ ] **Bank Conflict Avoidance**: Pad shared memory arrays
-- [ ] **Loop Unrolling**: Increase instruction-level parallelism
-
-### Advanced Optimizations (For Final Tuning)
-- [ ] **Tensor Cores**: Use WMMA/MMA for eligible GEMM operations
-- [ ] **Mixed Precision**: FP16/TF32 where appropriate
-- [ ] **Persistent Kernels**: Keep data in registers across iterations
-- [ ] **CUDA Graphs**: Reduce launch overhead
-- [ ] **Double Buffering**: Overlap computation with memory transfers
-
-### Correctness Checklist (Always Verify)
-- [ ] **Thread Bounds**: Check tid < N before array access
-- [ ] **Synchronization**: __syncthreads() before shared memory reuse
-- [ ] **Data Types**: Ensure correct types and conversions
-- [ ] **Memory Safety**: No out-of-bounds access
-- [ ] **Numerical Stability**: Handle NaN/Inf, use stable algorithms
-
-## 6. COMMON ISSUES AND SOLUTIONS
-
-### Compilation Errors
-| Error | Solution |
-|-------|----------|
-| undefined symbol | Check extern "C" declarations match |
-| no kernel image | Verify TORCH_CUDA_ARCH_LIST matches GPU |
-
-### Correctness Failures
-| Issue | Debug Steps |
-|-------|-------------|
-| Wrong output values | 1. Check kernel math<br>2. Verify indexing<br>3. Test with simple inputs |
-| NaN/Inf results | 1. Check division by zero<br>2. Verify numerical stability<br>3. Add bounds checking |
-| Mismatched shapes | 1. Print tensor shapes<br>2. Check dimension calculations<br>3. Verify reduction logic |
-
-### Performance Issues
-| Symptom | Likely Cause | Solution |
-|---------|--------------|----------|
-| Slower than baseline | No fusion | Combine kernels |
-| Low SM efficiency | Poor occupancy | Tune block size |
-| Low memory throughput | Uncoalesced access | Restructure memory pattern |
-| High kernel count | Missing fusion | Implement compound operations |
-
-## 7. SUCCESS CRITERIA
-
-**OPTIMIZATION GOALS:**
-- 🎯 **MINIMUM REQUIREMENT**: At least 5% faster than torch.compile (≤ 0.95× baseline time)
-- 🚀 **TARGET**: Achieve the best possible performance - every microsecond counts!
-- ✅ **Correctness**: Test must pass (atol=1e-2, rtol=1e-2)
-- 🧹 **Clean Final Code**: kernels/ directory contains ONLY final optimized version (no intermediate attempts)
-
-**Performance metric clarification:**
-- If torch.compile baseline = 1.0ms:
-  - MINIMUM: Your implementation must be ≤ 0.95ms (5% faster)
-  - GOAL: Push for ≤ 0.8ms or better (20%+ faster)
-- The faster your implementation, the better the result
-- Continue optimizing even after meeting the minimum requirement
-
-## 8. KEY REMINDERS
-
-1. **Keep .cu and _binding.cpp files separate** - Faster compilation
-2. **Pass config parameters through bindings** - Enable runtime tuning without recompilation
-3. **Focus modifications in kernels/ directory** - Never modify infrastructure files
-4. **Be aggressive with optimizations** - Don't revert to slow versions when debugging
-5. **Document performance expectations** - Before implementing, state expected gains
-6. **Test with descriptive names** - Show which optimizations are applied
-7. **Clean up before completion** - Remove ALL intermediate attempts from kernels/, keep ONLY final version
-
-## Your Task
-
-Optimize the PyTorch model in model.py.
+- the bottleneck and implementation decision;
+- before/after results with units and relative change at each scoped context/concurrency point;
+- exact model, hardware, SM image, toolchain, KV/graph/cache mode, and commands;
+- focused correctness plus all-SM compile results;
+- physical host/SKU runtime matrices completed and still pending;
+- any unsupported route or material regression.
