@@ -1,2 +1,1 @@
 {"id":"ginfer-sm120a-muse-nvfp4-retest-integrity","reason":["Repository log/result provenance is not yet attached.","Acceptance repeat is accounting evidence, not an independent numerical oracle."],"review_status":"quarantined","source_ids":["external-rtx5090-muse-nvfp4-q4-k4-corrected-retest-20260821"]}
-{"id":"ginfer-sm120a-muse-small-t-implementation","reason":["Active ledger intentionally excluded."],"review_status":"quarantined","source_ids":["ginfer-sm120a-accepted-363fdeb9","ginfer-sm120a-rtx5090-active-ledger"]}

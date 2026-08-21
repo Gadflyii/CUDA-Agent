@@ -250,28 +250,30 @@
       "workload": {"token_extent": "17..24"}
     },
     "provenance": {
-      "source_ids": ["ginfer-sm120a-accepted-363fdeb9", "ginfer-sm120a-rtx5090-active-ledger"],
-      "snapshot_refs": ["latest:ginfer-sm120a-accepted-363fdeb9"],
+      "source_ids": ["ginfer-sm120a-accepted-363fdeb9", "ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d", "ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d", "ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d"],
+      "snapshot_refs": ["latest:ginfer-sm120a-accepted-363fdeb9", "latest:ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d", "latest:ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d", "latest:ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d"],
       "license_status": "internal",
-      "evidence_cutoff": "2026-08-21T08:48:29-05:00"
+      "evidence_cutoff": "2026-08-21T11:52:33-05:00"
     },
     "split_group": {
       "group_id": "sm120a-muse-small-t-t24",
       "lineage_id": "363fdeb9f14acca8db484949b36710cfa9b06e25",
-      "campaign_id": "sm120a-muse-20260821",
+      "campaign_id": "sm120a-muse-rtx5090-20260821",
       "mechanism_cluster": "extend-small-t-mma-to-t24",
-      "assigned_split": "quarantine",
-      "evaluation_tier": "quarantine"
+      "assigned_split": "test",
+      "evaluation_tier": "real_hardware"
     },
     "events": [
       {"event_id": "e000", "sequence": 0, "actor": "user", "event_type": "instruction", "information_class": "task_context", "payload": "Extend a proven Muse small-T MMA dispatch on sm_120a only where its launcher contract already supports the exact problem.", "evidence_refs": ["ginfer-sm120a-accepted-363fdeb9#parent"]},
       {"event_id": "e001", "sequence": 1, "actor": "tool", "event_type": "observation", "information_class": "pre_candidate_evidence", "payload": "The sm_120a dispatch and launcher cap the Muse small-T MMA route at T<=16 while the SM89 branch admits T<=24.", "evidence_refs": ["ginfer-sm120a-accepted-363fdeb9#363fdeb9f14acca8db484949b36710cfa9b06e25"]},
       {"event_id": "e002", "sequence": 2, "actor": "assistant", "event_type": "patch", "information_class": "candidate_artifact", "payload": "Change the four sm_120a Muse exact-shape dispatch branches and the launcher-side last-T constant from 16 to 24; leave the T<=4 SIMT seam and other architecture branches intact.", "evidence_refs": ["ginfer-sm120a-accepted-363fdeb9#363fdeb9f14acca8db484949b36710cfa9b06e25"]},
-      {"event_id": "e003", "sequence": 3, "actor": "evaluator", "event_type": "validation", "information_class": "post_candidate_result", "payload": "The following campaign ledger is active and was not ingested. Compile, oracle, public-Op, and Program evidence are therefore pending in this dataset snapshot.", "evidence_refs": ["ginfer-sm120a-rtx5090-active-ledger"]}
+      {"event_id": "e003", "sequence": 3, "actor": "tool", "event_type": "validation", "information_class": "post_candidate_result", "payload": "The decoded-Q4 FP64 oracle, focused and real-artifact tests, complete C1-C8 and 129K matrix, and both Engine retrieval sentinels passed.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d#candidate-1"]},
+      {"event_id": "e004", "sequence": 4, "actor": "tool", "event_type": "measurement", "information_class": "post_candidate_result", "payload": "At the affected C4/8K boundary, the Q4 kernel aggregate fell 47.37%; repeated Program rounds fell from 53.9314 to 38.6934 and 38.7767 ms, improvements of 28.2544% and 28.1000%.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d#candidate-1"], "measurements": [{"name": "program_c4_rep1_delta", "value": -28.2544, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c4-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}, {"name": "program_c4_rep2_delta", "value": -28.1000, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c4-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}]},
+      {"event_id": "e005", "sequence": 5, "actor": "assistant", "event_type": "decision", "information_class": "disposition_label", "payload": "Accept. Both real-boundary repetitions greatly exceed the 2% gate and every correctness, matrix, real-artifact, and Engine-sentinel gate passes.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d#retained-implementation"]}
     ],
-    "view": {"candidate_generation": true, "input_event_ids": ["e000", "e001"], "target_event_ids": ["e002"], "withheld_event_ids": ["e003"], "result_label_visible": false},
-    "outcome": {"disposition": "not_observed", "candidate_commit": "363fdeb9f14acca8db484949b36710cfa9b06e25", "restoration_commit": null, "correctness": "not_observed", "performance_claim": "No result is promoted until closed-cycle evidence is imported.", "limitations": ["Active ledger intentionally excluded."]},
-    "quality": {"review_status": "quarantined", "hard_negative": false, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|q4-small-t|t24", "notes": ["Committed diff is stable; outcome evidence is not yet closed."]}
+    "view": {"candidate_generation": true, "input_event_ids": ["e000", "e001"], "target_event_ids": ["e002"], "withheld_event_ids": ["e003", "e004", "e005"], "result_label_visible": false},
+    "outcome": {"disposition": "accepted", "candidate_commit": "363fdeb9f14acca8db484949b36710cfa9b06e25", "restoration_commit": null, "correctness": "passed", "performance_claim": "C4 Program latency improved 28.2544% and 28.1000% in two repetitions; the affected Q4 kernel aggregate improved 47.37%.", "limitations": ["Measured on the campaign RTX 5090 with DFlash2 k4 and INT8-G64 KV."]},
+    "quality": {"review_status": "seed_reviewed", "hard_negative": false, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|q4-small-t|t24", "notes": ["Outcome promoted only after the complete immutable campaign ledger and terminal report were collected."]}
   },
   {
     "schema_version": "1.0.0",
@@ -350,5 +352,167 @@
     "view": {"candidate_generation": true, "input_event_ids": ["e000", "e001"], "target_event_ids": ["e002"], "withheld_event_ids": ["e003", "e004"], "result_label_visible": false},
     "outcome": {"disposition": "accepted", "candidate_commit": "1bcc89a96f1bcd28315de4f5d995804cd8b677c2", "restoration_commit": null, "correctness": "passed", "performance_claim": "Public matrix -18.10% to -40.32%; C8 Program -16.57%/-16.73%.", "limitations": ["Measured on the campaign RTX 4090 only."]},
     "quality": {"review_status": "seed_reviewed", "hard_negative": false, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm89|muse|q4|r32c40-bk128|diagnosis", "notes": ["Outcome events are explicitly withheld from the diagnosis view."]}
+  },
+  {
+    "schema_version": "1.0.0",
+    "episode_id": "ginfer-sm120a-muse-c7-c24-judgment",
+    "family_id": "family-sm120a-muse-c40-w8-head",
+    "task_view": "judgment",
+    "scope": {
+      "repository": "GInfer",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "W8 vocabulary-head Op followed by Muse Program round",
+      "op_family": "w8_linear",
+      "architectures": ["sm_120a"],
+      "hardware_skus": ["NVIDIA GeForce RTX 5090"],
+      "workload": {"mode": "DFlash2", "draft_width": 4, "kv": "INT8-G64", "concurrency": 8, "resident_tokens_per_request": 8192}
+    },
+    "provenance": {
+      "source_ids": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d", "ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d", "ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d"],
+      "snapshot_refs": ["latest:ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d", "latest:ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d", "latest:ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d"],
+      "license_status": "internal",
+      "evidence_cutoff": "2026-08-21T11:52:33-05:00"
+    },
+    "split_group": {
+      "group_id": "sm120a-muse-c7-w8-r32c40",
+      "lineage_id": "44904d46f637e38a6e67cb6d2ca854520dbf1bb2+e8fad34136c4396f36b86fcaa0c8097a93e06e2b",
+      "campaign_id": "sm120a-muse-rtx5090-20260821",
+      "mechanism_cluster": "w8-r32c40-bk128-vocabulary-head",
+      "assigned_split": "test",
+      "evaluation_tier": "real_hardware"
+    },
+    "events": [
+      {"event_id": "e000", "sequence": 0, "actor": "system", "event_type": "instruction", "information_class": "task_context", "payload": "Require the independent W8 oracle and two real C8 Program repetitions each at least 2% faster. Do not round a near-threshold repetition into acceptance.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d#method"]},
+      {"event_id": "e001", "sequence": 1, "actor": "assistant", "event_type": "patch", "information_class": "candidate_artifact", "payload": "Candidate 44904d46 adds an sm120a R32/C40/BK128 schedule for the Muse W8 vocabulary head at T17 through T40.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d#44904d46f637e38a6e67cb6d2ca854520dbf1bb2"]},
+      {"event_id": "e002", "sequence": 2, "actor": "tool", "event_type": "validation", "information_class": "post_candidate_result", "payload": "The independent decoded-W8 oracle passed and covered the vocabulary head plus T16, T17, T40, and T41 seams.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d#candidate-24"]},
+      {"event_id": "e003", "sequence": 3, "actor": "tool", "event_type": "measurement", "information_class": "post_candidate_result", "payload": "The isolated head improved from 1434.912 to 1003.520 us (-30.06%). Real C8 Program repetitions improved 1.9643% and 3.0023% from the 42.0805 ms baseline; the first missed the gate by 0.0357 percentage point.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d#candidate-24"], "measurements": [{"name": "w8_head_delta", "value": -30.06, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "w8-vocab-n202048-k6656-t40", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}, {"name": "program_c8_rep1_delta", "value": -1.9643, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}, {"name": "program_c8_rep2_delta", "value": -3.0023, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}]},
+      {"event_id": "e004", "sequence": 4, "actor": "assistant", "event_type": "decision", "information_class": "disposition_label", "payload": "Reject. The Op gain is large, but both repeated real-boundary results must independently clear 2%; 1.9643% is below the frozen gate.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d#candidate-24"]},
+      {"event_id": "e005", "sequence": 5, "actor": "tool", "event_type": "restoration", "information_class": "restoration", "payload": "Restored the accepted source with commit e8fad341.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d#e8fad34136c4396f36b86fcaa0c8097a93e06e2b"]}
+    ],
+    "view": {"candidate_generation": false, "input_event_ids": ["e000", "e001", "e002", "e003"], "target_event_ids": ["e004"], "withheld_event_ids": ["e004", "e005"], "result_label_visible": false},
+    "outcome": {"disposition": "rejected", "candidate_commit": "44904d46f637e38a6e67cb6d2ca854520dbf1bb2", "restoration_commit": "e8fad34136c4396f36b86fcaa0c8097a93e06e2b", "correctness": "passed", "performance_claim": "W8 Op -30.06%; Program -1.9643%/-3.0023%, with one repetition below the 2% gate.", "limitations": []},
+    "preference": {"chosen_event_ids": ["e004"], "rejected_response": "Accept the kernel because the isolated head is 30.06% faster and one Program repetition clears 3%; the 1.9643% repetition is close enough to round to 2%.", "failure_mode": "subthreshold_gain"},
+    "quality": {"review_status": "seed_reviewed", "hard_negative": true, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|w8|r32c40|repeated-gate-near-miss", "notes": ["Preserves the closest terminal candidate as a strict-gate hard negative."]}
+  },
+  {
+    "schema_version": "1.0.0",
+    "episode_id": "ginfer-sm120a-muse-cycle7-stop-orchestration",
+    "family_id": "family-sm120a-muse-terminal-cycle",
+    "task_view": "orchestration_reporting",
+    "scope": {
+      "repository": "GInfer",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "kernel campaign closure",
+      "op_family": "campaign_orchestration",
+      "architectures": ["sm_120a"],
+      "hardware_skus": ["NVIDIA GeForce RTX 5090"],
+      "workload": {"candidate_budget_per_cycle": 24, "terminal_no_win_cycles": 1, "total_candidates": 39}
+    },
+    "provenance": {
+      "source_ids": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d", "ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d", "ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d"],
+      "snapshot_refs": ["latest:ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d", "latest:ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d", "latest:ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d"],
+      "license_status": "internal",
+      "evidence_cutoff": "2026-08-21T11:52:33-05:00"
+    },
+    "split_group": {
+      "group_id": "sm120a-muse-cycle7-terminal",
+      "lineage_id": "dc688b12dfe8edf8c1ed50062f95b59fd648e262..99d1634d66224e7c675ab100a6c2f5cd2bd3c4e2",
+      "campaign_id": "sm120a-muse-rtx5090-20260821",
+      "mechanism_cluster": "terminal-no-win-cycle",
+      "assigned_split": "test",
+      "evaluation_tier": "real_hardware"
+    },
+    "events": [
+      {"event_id": "e000", "sequence": 0, "actor": "system", "event_type": "instruction", "information_class": "task_context", "payload": "Close the campaign after one complete 24-candidate cycle produces no accepted result. Every rejected committed candidate must have a linked restoration.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d#method"]},
+      {"event_id": "e001", "sequence": 1, "actor": "tool", "event_type": "report", "information_class": "post_candidate_result", "payload": "The campaign evaluated 39 candidates, accepted six, and rejected 33. Cycle 7 consumed all 24 slots with zero accepts; every candidate and restoration is present in immutable Git evidence.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d#terminal-cycle", "ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d#history"]},
+      {"event_id": "e002", "sequence": 2, "actor": "tool", "event_type": "measurement", "information_class": "post_candidate_result", "payload": "Across the campaign, retained C8 Program latency fell from 57.2176 to 42.0805 ms (-26.46%) and synthetic aggregate throughput rose from 626.371 to 851.388 tok/s (+35.92%).", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d#campaign-result"], "measurements": [{"name": "program_c8_delta", "value": -26.46, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}, {"name": "aggregate_throughput_delta", "value": 35.92, "unit": "percent", "direction": "higher_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k-synthetic-acceptance", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}]},
+      {"event_id": "e003", "sequence": 3, "actor": "assistant", "event_type": "decision", "information_class": "disposition_label", "payload": "Close the no-win cycle and stop the single-mechanism campaign. Keep all 39 rows and restoration links; do not extend the budget merely because candidate 24 was near the threshold.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d#terminal-no-win-cycle-and-dataset"]}
+    ],
+    "view": {"candidate_generation": false, "input_event_ids": ["e000", "e001", "e002"], "target_event_ids": ["e003"], "withheld_event_ids": ["e003"], "result_label_visible": false},
+    "outcome": {"disposition": "report_only", "candidate_commit": null, "restoration_commit": "e8fad34136c4396f36b86fcaa0c8097a93e06e2b", "correctness": "passed", "performance_claim": "Terminal cycle closed after 24 rejections; the full campaign retained six of 39 candidates and reduced C8 latency 26.46%.", "limitations": ["Performance applies only to the named RTX 5090, artifact, DFlash2 k4, and INT8-G64 workload."]},
+    "quality": {"review_status": "seed_reviewed", "hard_negative": false, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|cycle7|terminal", "notes": ["The complete immutable ledger remains raw evidence even when only representative candidates are normalized."]}
+  },
+  {
+    "schema_version": "1.0.0",
+    "episode_id": "ginfer-sm120a-muse-consolidation-c1-c2-judgment",
+    "family_id": "family-sm120a-muse-w8-q4-consolidation",
+    "task_view": "judgment",
+    "scope": {
+      "repository": "GInfer",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "combined W8 and Q4 Ops followed by Muse Program round",
+      "op_family": "cross_kernel_consolidation",
+      "architectures": ["sm_120a"],
+      "hardware_skus": ["NVIDIA GeForce RTX 5090"],
+      "workload": {"mode": "DFlash2", "draft_width": 4, "kv": "INT8-G64", "concurrency": 8, "resident_tokens_per_request": 8192}
+    },
+    "provenance": {
+      "source_ids": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052", "ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052", "ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052", "ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d"],
+      "snapshot_refs": ["latest:ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052", "latest:ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052", "latest:ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052", "latest:ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d"],
+      "license_status": "internal",
+      "evidence_cutoff": "2026-08-21T13:03:42-05:00"
+    },
+    "split_group": {
+      "group_id": "sm120a-muse-consolidation-c1-c2",
+      "lineage_id": "a095b46a5acf23ecb5379d40aebfe3df779254fa+d203323918d57a735769528fdf47cb6badabfd4e",
+      "campaign_id": "sm120a-muse-consolidation-rtx5090-20260821",
+      "mechanism_cluster": "w8-r32c40-plus-q4-activation-l1",
+      "assigned_split": "test",
+      "evaluation_tier": "real_hardware"
+    },
+    "events": [
+      {"event_id": "e000", "sequence": 0, "actor": "system", "event_type": "instruction", "information_class": "task_context", "payload": "Evaluate combined packages at the real warm Program boundary. Separately measured Op gains are only an optimistic ceiling; both Program repetitions must improve at least 2%.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052#frozen-contract"]},
+      {"event_id": "e001", "sequence": 1, "actor": "tool", "event_type": "observation", "information_class": "pre_candidate_evidence", "payload": "Original candidate c7-24 supplied the fastest rejected W8 head, while c7-06 supplied a strong but sub-threshold N19968 Q4 activation-L1 result. The launches are dispatch-disjoint but can interact through cache state.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d#candidate-24", "ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052#cycle-1-result"]},
+      {"event_id": "e002", "sequence": 2, "actor": "assistant", "event_type": "patch", "information_class": "candidate_artifact", "payload": "Candidate a095b46a combines the R32/C40 W8 vocabulary head with N19968 Q4 activation-L1 admission, without merging their semantic or dispatch domains.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052#a095b46a5acf23ecb5379d40aebfe3df779254fa"]},
+      {"event_id": "e003", "sequence": 3, "actor": "tool", "event_type": "validation", "information_class": "post_candidate_result", "payload": "Independent decoded-Q4 and decoded-W8 oracles passed. The Q4 Op improved 41.79% and the W8 Op improved 29.97%.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052#candidate-2"]},
+      {"event_id": "e004", "sequence": 4, "actor": "tool", "event_type": "measurement", "information_class": "post_candidate_result", "payload": "Against the conservative 42.3995 ms C8 baseline, Program repetitions were 41.5257 ms (-2.0609%) and 41.6789 ms (-1.6995%). The second missed the gate by 0.3005 percentage point.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052#candidate-2"], "measurements": [{"name": "program_c8_rep1_delta", "value": -2.0609, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}, {"name": "program_c8_rep2_delta", "value": -1.6995, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}]},
+      {"event_id": "e005", "sequence": 5, "actor": "assistant", "event_type": "decision", "information_class": "disposition_label", "payload": "Reject. Large independent Op gains did not produce two repeatable 2% whole-round gains; cache and warm-boundary interaction invalidate simple addition.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052#candidate-2"]},
+      {"event_id": "e006", "sequence": 6, "actor": "tool", "event_type": "restoration", "information_class": "restoration", "payload": "Restored the accepted baseline with commit d2033239.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052#d203323918d57a735769528fdf47cb6badabfd4e"]}
+    ],
+    "view": {"candidate_generation": false, "input_event_ids": ["e000", "e001", "e002", "e003", "e004"], "target_event_ids": ["e005"], "withheld_event_ids": ["e005", "e006"], "result_label_visible": false},
+    "outcome": {"disposition": "rejected", "candidate_commit": "a095b46a5acf23ecb5379d40aebfe3df779254fa", "restoration_commit": "d203323918d57a735769528fdf47cb6badabfd4e", "correctness": "passed", "performance_claim": "Program -2.0609%/-1.6995%; one repetition failed the 2% gate despite 41.79% and 29.97% Op gains.", "limitations": []},
+    "preference": {"chosen_event_ids": ["e005"], "rejected_response": "Accept the package because both component Ops improved about 30-42% and the average of the two Program repetitions exceeds 2%.", "failure_mode": "microbenchmark_overclaim"},
+    "quality": {"review_status": "seed_reviewed", "hard_negative": true, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|consolidation|w8-q4-l1|nonadditive", "notes": ["Captures cross-kernel non-additivity and a repeated-gate near miss."]}
+  },
+  {
+    "schema_version": "1.0.0",
+    "episode_id": "ginfer-sm120a-muse-consolidation-c1-c5-implementation",
+    "family_id": "family-sm120a-muse-w8-q4-consolidation",
+    "task_view": "implementation",
+    "scope": {
+      "repository": "GInfer",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "combined W8 and Q4 Ops through full Muse Engine qualification",
+      "op_family": "cross_kernel_consolidation",
+      "architectures": ["sm_120a"],
+      "hardware_skus": ["NVIDIA GeForce RTX 5090"],
+      "workload": {"mode": "DFlash2", "draft_width": 4, "kv": "INT8-G64", "concurrency": 8, "resident_tokens_per_request": 8192, "capacity": 131072}
+    },
+    "provenance": {
+      "source_ids": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052", "ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052", "ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052", "ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d"],
+      "snapshot_refs": ["latest:ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052", "latest:ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052", "latest:ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052", "latest:ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d"],
+      "license_status": "internal",
+      "evidence_cutoff": "2026-08-21T13:03:42-05:00"
+    },
+    "split_group": {
+      "group_id": "sm120a-muse-consolidation-c1-c5",
+      "lineage_id": "a1d20707c9d5d8833fbd5b3e8e9cba36701f5677+196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0",
+      "campaign_id": "sm120a-muse-consolidation-rtx5090-20260821",
+      "mechanism_cluster": "w8-r32c40-plus-selective-q4-cache-and-small-output",
+      "assigned_split": "test",
+      "evaluation_tier": "real_hardware"
+    },
+    "events": [
+      {"event_id": "e000", "sequence": 0, "actor": "system", "event_type": "instruction", "information_class": "task_context", "payload": "Build one coherent package from explicitly named rejected rows. Require each affected Op and independent oracle, two C8 repetitions at least 2% faster, the full C1-C8 and 129K matrix, real-artifact tests, and short and long Engine sentinels.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052#frozen-contract"]},
+      {"event_id": "e001", "sequence": 1, "actor": "tool", "event_type": "observation", "information_class": "pre_candidate_evidence", "payload": "Candidate 2 missed only its second repetition by 0.3005 percentage point; candidate 3 missed its first by 0.0691 point. The selective N1024/N1664 R16 route is dispatch-disjoint from the W8 head and N19968 Q4 route and can supply the missing whole-round margin.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052#candidate-2", "ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052#candidate-3"]},
+      {"event_id": "e002", "sequence": 2, "actor": "assistant", "event_type": "technical_rationale", "information_class": "candidate_artifact", "payload": "Combine c7-24's R32/C40 W8 head, c7-06's N19968 activation-L1 policy, and c7-11's selective R16 Q4 schedules for only N1024 and N1664. Keep the three dispatch domains explicit and contain the new W8 selection to sm120a.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052#candidate-5"]},
+      {"event_id": "e003", "sequence": 3, "actor": "assistant", "event_type": "patch", "information_class": "candidate_artifact", "payload": "Candidate a1d20707 implements the three-part package; follow-up 19687307 narrows the C40 W8 dispatch to the qualified sm120a image while preserving sm86 and sm89 fallback compilation.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052#a1d20707c9d5d8833fbd5b3e8e9cba36701f5677", "ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052#196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0"]},
+      {"event_id": "e004", "sequence": 4, "actor": "tool", "event_type": "validation", "information_class": "post_candidate_result", "payload": "Decoded-Q4 and decoded-W8 independent oracles, grouped dynamic convolution, Muse GQA, DFlash2 selection, load-plan, real-artifact, full C1-C8 and 129K matrix, and both Engine retrieval sentinels passed. The source also cross-compiled for sm86 and sm89 without selecting the sm120a W8 route.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052#candidate-5"]},
+      {"event_id": "e005", "sequence": 5, "actor": "tool", "event_type": "measurement", "information_class": "post_candidate_result", "payload": "Against 42.3995 ms, repeated C8 Program rounds were 41.5275 and 41.3232 ms, improvements of 2.0566% and 2.5385%. The full matrix was neutral or faster; Engine sentinels measured 2873.30/125.51 prompt/decode tok/s at 8K and 2124.54/114.76 at 129041 tokens.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052#candidate-5"], "measurements": [{"name": "program_c8_rep1_delta", "value": -2.0566, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}, {"name": "program_c8_rep2_delta", "value": -2.5385, "unit": "percent", "direction": "lower_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c8-8k", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}, {"name": "engine_129k_decode", "value": 114.76, "unit": "tokens_per_second", "direction": "higher_is_better", "fact_class": "device_measured", "workload_key": "muse-dflash2-k4-c1-129041", "hardware_key": "rtx5090-sm120a", "toolchain_key": "cuda13.3"}]},
+      {"event_id": "e006", "sequence": 6, "actor": "assistant", "event_type": "decision", "information_class": "disposition_label", "payload": "Accept and close consolidation cycle 1. Both Program repetitions clear the frozen gate and every correctness, matrix, architecture-containment, real-artifact, and Engine-sentinel check passes.", "evidence_refs": ["ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052#cycle-1-result"]}
+    ],
+    "view": {"candidate_generation": true, "input_event_ids": ["e000", "e001"], "target_event_ids": ["e002", "e003"], "withheld_event_ids": ["e004", "e005", "e006"], "result_label_visible": false},
+    "outcome": {"disposition": "accepted", "candidate_commit": "196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0", "restoration_commit": null, "correctness": "passed", "performance_claim": "Combined package improved C8 Program latency 2.0566% and 2.5385% in two repetitions with the full matrix and Engine sentinels passing.", "limitations": ["Runtime performance is qualified only on the campaign RTX 5090; sm86 and sm89 evidence is compile-only."]},
+    "quality": {"review_status": "seed_reviewed", "hard_negative": false, "contains_hidden_chain_of_thought": false, "secret_scan": "not_run", "dedup_key": "sm120a|muse|consolidation|w8-q4-selective|accepted", "notes": ["The final containment commit is the outcome revision; the source package began at a1d20707."]}
   }
 ]

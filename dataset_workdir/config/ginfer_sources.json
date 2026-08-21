@@ -104,17 +104,77 @@
       "title": "Committed SM120a Muse small-T accepted change",
       "mime_type": "application/x-ndjson",
       "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "99d1634d66224e7c675ab100a6c2f5cd2bd3c4e2",
+      "path": "docs/results/2026-08-21-sm120a-muse-kernel-campaign.md",
+      "title": "Terminal SM120a RTX 5090 Muse Groupwise-Q4 kernel campaign report",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "99d1634d66224e7c675ab100a6c2f5cd2bd3c4e2",
+      "path": "docs/results/2026-08-21-sm120a-muse-kernel-campaign-ledger.csv",
+      "title": "Terminal SM120a RTX 5090 Muse 39-candidate ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d",
+      "kind": "git_range",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision_start_exclusive": "dc688b12dfe8edf8c1ed50062f95b59fd648e262",
+      "revision_end_inclusive": "99d1634d66224e7c675ab100a6c2f5cd2bd3c4e2",
+      "title": "SM120a RTX 5090 Muse candidate, acceptance, restoration, and terminal history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "e5036052883adeed229b7449d19351875fa764db",
+      "path": "docs/results/2026-08-21-sm120a-muse-consolidation-campaign.md",
+      "title": "Closed SM120a RTX 5090 Muse consolidation cycle 1 report",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "e5036052883adeed229b7449d19351875fa764db",
+      "path": "docs/results/2026-08-21-sm120a-muse-consolidation-ledger.csv",
+      "title": "Closed SM120a RTX 5090 Muse consolidation cycle 1 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052",
+      "kind": "git_range",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision_start_exclusive": "99d1634d66224e7c675ab100a6c2f5cd2bd3c4e2",
+      "revision_end_inclusive": "e5036052883adeed229b7449d19351875fa764db",
+      "title": "SM120a RTX 5090 Muse consolidation cycle 1 candidate and restoration history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_120a"]
     }
   ],
   "live_references": [
     {
       "source_id": "ginfer-sm120a-rtx5090-active-ledger",
-      "title": "Active local RTX 5090 SM120a Muse candidate ledger",
+      "title": "Active local RTX 5090 SM120a Muse consolidation ledger after closed cycle 1",
       "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
-      "path": "docs/results/2026-08-21-sm120a-muse-kernel-campaign-ledger.csv",
-      "observed_revision": "ee76d352ed06ad7dd93fdde9931cc58a0f86371b",
+      "path": "docs/results/2026-08-21-sm120a-muse-consolidation-ledger.csv",
+      "observed_revision": "e5036052883adeed229b7449d19351875fa764db",
       "sm_applicability": ["sm_120a"],
-      "note": "Registered only. The header-only committed ledger and active profile tree are not ingested until the campaign owner closes a cycle."
+      "note": "Registered only. Consolidation cycle 1 is ingested through its immutable commit; cycle 2 and later active content remain excluded until each cycle owner closes the boundary."
     },
     {
       "source_id": "ginfer-sm86-server2-live-campaign",

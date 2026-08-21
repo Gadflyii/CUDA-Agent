@@ -1,7 +1,47 @@
 {
   "architecture_id": "sm_120a",
-  "compiler_observations": [],
-  "device_measurements": [],
+  "compiler_observations": [
+    {
+      "applicability": "GInfer Muse consolidation source 196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0; cross-build statements are compile evidence only",
+      "build_revision": "196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0",
+      "claim": "The accepted Muse consolidation source passed the native sm_120a Release build and focused real-artifact and numerical tests; the same source cross-compiled its retained CLI, Program, Q4, and W8 targets for sm_86 and sm_89 without selecting the sm_120a-only W8 route.",
+      "fact_id": "sm120a-muse-consolidation-build-19687307",
+      "hardware_sku": null,
+      "source_refs": [
+        "ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052"
+      ],
+      "toolchain": "CUDA 13.3.73",
+      "workload_key": null
+    }
+  ],
+  "device_measurements": [
+    {
+      "applicability": "that physical RTX 5090 campaign run only",
+      "build_revision": "ac1cbf9cb72cbfe146a7e016e1c5dd80b45d2186",
+      "claim": "On the campaign RTX 5090, retained Muse DFlash2 k4 C8 Program latency at 8K/request fell from 57.2176 to 42.0805 ms across the six accepted single-mechanism changes, a 26.46% reduction.",
+      "fact_id": "sm120a-muse-c8-terminal-campaign",
+      "hardware_sku": "NVIDIA GeForce RTX 5090",
+      "source_refs": [
+        "ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d",
+        "ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d"
+      ],
+      "toolchain": "CUDA 13.3.73",
+      "workload_key": "muse-dflash2-draft4-int8g64-c8-8k"
+    },
+    {
+      "applicability": "that physical RTX 5090 consolidation run only",
+      "build_revision": "196873072461d218e0f2ba5cf4a7c7c0a7b2ebd0",
+      "claim": "On the campaign RTX 5090, the accepted consolidation package measured 41.5275 and 41.3232 ms against a conservative 42.3995 ms C8 control, improvements of 2.0566% and 2.5385%.",
+      "fact_id": "sm120a-muse-c8-consolidation-cycle1",
+      "hardware_sku": "NVIDIA GeForce RTX 5090",
+      "source_refs": [
+        "ginfer-sm120a-rtx5090-muse-consolidation-c1-report-e5036052",
+        "ginfer-sm120a-rtx5090-muse-consolidation-c1-ledger-e5036052"
+      ],
+      "toolchain": "CUDA 13.3.73",
+      "workload_key": "muse-dflash2-draft4-int8g64-c8-8k-consolidation"
+    }
+  ],
   "fact_policy": "The architecture-specific suffix is retained explicitly. Compiler observations require an exact sm_120a toolchain/build; RTX 5090 and RTX PRO 6000 measurements remain separate.",
   "immutable_facts": [
     {
