@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ginfer.local/schemas/architecture_card.schema.json",
+  "title": "Architecture evidence card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "architecture_id", "marketing_family", "fact_policy", "immutable_facts", "compiler_observations", "device_measurements"],
+  "$defs": {
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact_id", "claim", "source_refs", "applicability"],
+      "properties": {
+        "fact_id": {"type": "string"},
+        "claim": {"type": "string"},
+        "source_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "applicability": {"type": "string"},
+        "toolchain": {"type": ["string", "null"]},
+        "build_revision": {"type": ["string", "null"]},
+        "hardware_sku": {"type": ["string", "null"]},
+        "workload_key": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "architecture_id": {"enum": ["sm_86", "sm_89", "sm_120a"]},
+    "marketing_family": {"enum": ["Ampere", "Ada", "Blackwell"]},
+    "fact_policy": {"type": "string"},
+    "immutable_facts": {"type": "array", "items": {"$ref": "#/$defs/fact"}},
+    "compiler_observations": {"type": "array", "items": {"$ref": "#/$defs/fact"}},
+    "device_measurements": {"type": "array", "items": {"$ref": "#/$defs/fact"}}
+  }
+}

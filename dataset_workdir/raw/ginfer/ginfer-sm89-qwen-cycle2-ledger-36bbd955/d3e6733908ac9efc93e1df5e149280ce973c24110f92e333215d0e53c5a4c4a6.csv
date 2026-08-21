@@ -1,0 +1,25 @@
+candidate,scope,hypothesis,result,decision
+c2_01,q5_linear_add,fragment ping-pong hides fragment-load latency,no measurable T32 change,reject
+c2_02,q5_linear_add,scalar FP16 scale loads reduce staging,warm T32 regressed about 12%,reject
+c2_03,q5_linear_add,cache-all Q5 codes for reuse,warm T32 regressed 8-10%,reject
+c2_04,q5_linear_add,cache-all activation tiles for reuse,warm T32 regressed 1-2%,reject
+c2_05,q5_linear_add,cache-all codes and activations for reuse,warm T32 regressed 9-11%,reject
+c2_06,q5_linear_add,four async stages hide long K latency,warm T32 regressed 18-30%,reject
+c2_07,q5_linear_add,three stages with two-block launch bound improve overlap,"K17408 improved but K6144 regressed; aggregate neutral",reject
+c2_08,q5_linear_add,three stages with one-block launch bound free registers,same mixed result as c2_07,reject
+c2_09,q5_linear_add,one-block bound raises ILP on the two-stage kernel,"both seams improved only 1.6-1.9%; round share caps gain below 2%",reject
+c2_10,q5_linear_add,two-block bound raises ILP without losing occupancy,same sub-threshold result as c2_09,reject
+c2_11,q5_linear_add,four-block bound increases resident work,no measurable T32 change,reject
+c2_12,q5_linear_add,eight-column tiles raise CTA residency,T32 regressed 17-20%,reject
+c2_13,q5_linear_add,24-column tiles reduce duplicated weights,T32 regressed 15-21%,reject
+c2_14,q5_linear_add,32-column tile with 16-column warp halves launches,aggregate Q5 gain below 1%,reject
+c2_15,q5_linear_add,32-column tile with 8-column warp increases warp parallelism,K17408 regressed and aggregate worsened,reject
+c2_16,q5_linear_add,64-column partial tile amortizes weights,T32 regressed 58-64%,reject
+c2_17,q5_linear_add,128-column partial tile maximizes reuse,T32 regressed 68-76%,reject
+c2_18,gdn_input_proj,32-column exact tile removes partial-column work,"T32 Op improved but live T128 C8 improved only 0.6%",reject
+c2_19,gdn_input_proj,32-row warp tile doubles warps at full T128,warm T128 regressed about 23%,reject
+c2_20,gdn_input_proj,32-column warp tile reduces block threads,warm T128 regressed about 2%,reject
+c2_21,gdn_input_proj,32x32 warp tile balances row and column work,warm T128 regressed about 3%,reject
+c2_22,gdn_input_proj,two-block launch bound improves residency,warm T128 regressed about 5%,reject
+c2_23,gdn_input_proj,cache-all loads exploit repeated full-T128 data,warm T128 regressed about 1%,reject
+c2_24,gdn_input_proj,scalar scale loads reduce shared footprint,warm T128 regressed about 3%,reject

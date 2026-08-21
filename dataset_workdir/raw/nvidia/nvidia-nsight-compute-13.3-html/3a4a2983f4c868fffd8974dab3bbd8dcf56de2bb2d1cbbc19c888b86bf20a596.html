@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nsight Compute Documentation &mdash; NsightCompute 13.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" type="text/css" />
+      <link rel="stylesheet" href="_static/omni-style.css" type="text/css" />
+      <link rel="stylesheet" href="_static/api-styles.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/nsight-compute.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/mermaid-init.js"></script>
+        <script src="_static/design-tabs.js"></script>
+        <script src="_static/version.js"></script>
+        <script src="_static/social-media.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Release Notes" href="ReleaseNotes/index.html" />
+ 
+
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+<a href="#">
+  <img src="_static/nsight-compute.png" class="logo" alt="Logo"/>
+</a>
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Nsight Compute</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ReleaseNotes/index.html">1. Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ProfilingGuide/index.html">2. Profiling Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NsightCompute/index.html">3. Nsight Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NsightComputeCli/index.html">4. Nsight Compute CLI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Interfaces</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CustomizationGuide/index.html">1. Customization Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PythonReportInterface/index.html">2. Python Report Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NvRulesAPI/index.html">3. NvRules API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="OccupancyCalculatorPythonInterface/index.html">4. Occupancy Calculator Python Interface</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Training/index.html">Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Release Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Archives/index.html">Archives</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Copyright and Licenses</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CopyrightAndLicenses/index.html">Copyright and Licenses</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">NsightCompute</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+
+
+<li><a href="#" class="icon icon-home"></a> &raquo;</li>
+  
+<li>Nsight Compute Documentation</li>
+
+      <li class="wy-breadcrumbs-aside">
+      </li>
+<li class="wy-breadcrumbs-aside">
+
+
+  <span>v2026.2.1 |</span>
+
+
+
+  <a href="https://developer.nvidia.com/nsight-compute-history" class="reference external">Archive</a>
+
+
+  <span>&nbsp;</span>
+</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nsight-compute-documentation">
+<h1>Nsight Compute Documentation<a class="headerlink" href="#nsight-compute-documentation" title="Permalink to this headline"></a></h1>
+<section id="nsight-compute">
+<h2>Nsight Compute<a class="headerlink" href="#nsight-compute" title="Permalink to this headline"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="ReleaseNotes/index.html"><span class="doc">Release Notes</span></a></dt><dd><p>Release notes, including new features and important bug fixes. Supported platforms and GPUs. List of known issues for the current release.</p>
+</dd>
+<dt><a class="reference internal" href="ProfilingGuide/index.html"><span class="doc">Profiling Guide</span></a></dt><dd><p>Profiling Guide with metric types and meaning, data collection modes and FAQ for common problems.</p>
+</dd>
+<dt><a class="reference internal" href="NsightCompute/index.html"><span class="doc">Nsight Compute</span></a></dt><dd><p>NVIDIA Nsight Compute User Interface (UI) manual. Information on all views, controls and workflows within the tool UI.</p>
+</dd>
+<dt><a class="reference internal" href="NsightComputeCli/index.html"><span class="doc">Nsight Compute CLI</span></a></dt><dd><p>NVIDIA Nsight Compute Command Line Interface (CLI) manual. Information on workflows and options for the command line, including multi-process profiling and NVTX filtering.</p>
+</dd>
+</dl>
+</section>
+<hr class="docutils" />
+<section id="developer-interfaces">
+<h2>Developer Interfaces<a class="headerlink" href="#developer-interfaces" title="Permalink to this headline"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="CustomizationGuide/index.html"><span class="doc">Customization Guide</span></a></dt><dd><p>User manual on customizing NVIDIA Nsight Compute tools or integrating them with custom workflows. Information on writing section files, rules for automatic result analysis and scripting access to report files.</p>
+</dd>
+<dt><a class="reference internal" href="PythonReportInterface/index.html"><span class="doc">Python Report Interface</span></a></dt><dd><p>Python-based interface to interact with exported report files.</p>
+</dd>
+<dt><a class="reference internal" href="NvRulesAPI/index.html"><span class="doc">NvRules API</span></a></dt><dd><p>Reference manual for NvRules API used in NVIDIA Nsight Compute’s Python rules and Python Report Interface.</p>
+</dd>
+<dt><a class="reference internal" href="OccupancyCalculatorPythonInterface/index.html"><span class="doc">Occupancy Calculator Python Interface</span></a></dt><dd><p>Python-based interface for performing occupancy calculations and analysis for kernels on NVIDIA GPUs.</p>
+</dd>
+</dl>
+</section>
+<hr class="docutils" />
+<section id="training">
+<h2>Training<a class="headerlink" href="#training" title="Permalink to this headline"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="Training/index.html"><span class="doc">Training</span></a></dt><dd><p>NVIDIA Nsight Compute Training resources.</p>
+</dd>
+</dl>
+</section>
+<hr class="docutils" />
+<section id="release-information">
+<h2>Release Information<a class="headerlink" href="#release-information" title="Permalink to this headline"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="Archives/index.html"><span class="doc">Archives</span></a></dt><dd><p>Find documentation for previous versions of NVIDIA Nsight Compute.</p>
+</dd>
+</dl>
+</section>
+<section id="copyright-and-licenses">
+<h2>Copyright And Licenses<a class="headerlink" href="#copyright-and-licenses" title="Permalink to this headline"></a></h2>
+<dl class="simple">
+<dt><a class="reference internal" href="CopyrightAndLicenses/index.html"><span class="doc">Copyright and Licenses</span></a></dt><dd><p>Information on the NVIDIA Software License Agreement as well as third party software and tools used by Nsight Compute.</p>
+</dd>
+</dl>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+<img src="_static/NVIDIA-LogoBlack.svg" class="only-light"/>
+<img src="_static/NVIDIA-LogoWhite.svg" class="only-dark"/>
+
+<p class="notices">
+<a href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/" target="_blank">Privacy Policy</a>
+|
+<a href="https://www.nvidia.com/en-us/about-nvidia/privacy-center/" target="_blank">Manage My Privacy</a>
+|
+<a href="https://www.nvidia.com/en-us/preferences/start/" target="_blank">Do Not Sell or Share My Data</a>
+|
+<a href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/" target="_blank">Terms of Service</a>
+|
+<a href="https://www.nvidia.com/en-us/about-nvidia/accessibility/" target="_blank">Accessibility</a>
+|
+<a href="https://www.nvidia.com/en-us/about-nvidia/company-policies/" target="_blank">Corporate Policies</a>
+|
+<a href="https://www.nvidia.com/en-us/product-security/" target="_blank">Product Security</a>
+|
+<a href="https://www.nvidia.com/en-us/contact/" target="_blank">Contact</a>
+</p>
+
+<p>
+  Copyright &#169; 2018-2026, NVIDIA Corporation &amp; Affiliates. All rights reserved.
+</p>
+
+    <p>
+      <span class="lastupdated">Last updated on Jun 12, 2026.
+      </span></p>
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+ 
+
+
+
+</body>
+</html>

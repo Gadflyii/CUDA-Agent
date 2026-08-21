@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0.0",
+  "retrieval_date": "2026-08-21",
+  "sources": [
+    {
+      "source_id": "nvidia-cuda-advanced-kernel-programming-current",
+      "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/03-advanced/advanced-kernel-programming.html",
+      "title": "Advanced Kernel Programming — CUDA Programming Guide",
+      "version": "CUDA Programming Guide Release 13.2",
+      "source_date": "2026-05-27",
+      "mime_type": "text/html",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["PTX", "thread scopes", "asynchronous execution", "synchronization", "TMA"]
+    },
+    {
+      "source_id": "nvidia-blog-handwritten-ptx-2025-07-02",
+      "url": "https://developer.nvidia.com/blog/advanced-nvidia-cuda-kernel-optimization-techniques-handwritten-ptx/",
+      "title": "Advanced NVIDIA CUDA Kernel Optimization Techniques: Handwritten PTX",
+      "version": null,
+      "source_date": "2025-07-02",
+      "mime_type": "text/html",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["inline PTX", "CUTLASS", "optimization tradeoffs"]
+    },
+    {
+      "source_id": "nvidia-cuda-best-practices-current-pdf",
+      "url": "https://docs.nvidia.com/cuda/pdf/CUDA_C_Best_Practices_Guide.pdf",
+      "title": "CUDA C++ Best Practices Guide",
+      "version": "CUDA 13.3 online edition",
+      "source_date": null,
+      "mime_type": "application/pdf",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["performance workflow", "memory", "occupancy", "verification"]
+    },
+    {
+      "source_id": "nvidia-sc09-cuda-optimization-pdf",
+      "url": "https://www.nvidia.com/docs/IO/116711/sc09_cuda_optimization.pdf",
+      "title": "CUDA Optimization — SC09",
+      "version": "SC09",
+      "source_date": "2009",
+      "mime_type": "application/pdf",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["optimization methodology", "memory coalescing", "occupancy"]
+    },
+    {
+      "source_id": "nvidia-cuda-programming-guide-current-pdf",
+      "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/pdf/cuda-programming-guide.pdf",
+      "title": "CUDA Programming Guide",
+      "version": "CUDA Programming Guide Release 13.2",
+      "source_date": "2026-05-27",
+      "mime_type": "application/pdf",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["programming model", "occupancy", "Tensor Cores", "asynchronous copies", "TMA", "CUDA Graphs"]
+    },
+    {
+      "source_id": "nvidia-ptx-isa-current-pdf",
+      "url": "https://docs.nvidia.com/cuda/pdf/ptx_isa_9.3.pdf",
+      "title": "Parallel Thread Execution ISA",
+      "version": "PTX ISA 9.3",
+      "source_date": null,
+      "mime_type": "application/pdf",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["PTX ISA", "target features", "memory operations", "MMA"]
+    },
+    {
+      "source_id": "nvidia-ampere-tuning-guide-current-pdf",
+      "url": "https://docs.nvidia.com/cuda/ampere-tuning-guide/index.html",
+      "title": "NVIDIA Ampere GPU Architecture Tuning Guide",
+      "version": "CUDA 13.3 documentation; guide revision 1.1",
+      "source_date": null,
+      "mime_type": "text/html",
+      "sm_applicability": ["sm_86"],
+      "topics": ["Ampere", "occupancy", "Tensor Cores", "asynchronous copy"]
+    },
+    {
+      "source_id": "nvidia-ada-tuning-guide-current-pdf",
+      "url": "https://docs.nvidia.com/cuda/pdf/Ada_Tuning_Guide.pdf",
+      "title": "NVIDIA Ada GPU Architecture Tuning Guide",
+      "version": "CUDA 13.3 documentation",
+      "source_date": null,
+      "mime_type": "application/pdf",
+      "sm_applicability": ["sm_89"],
+      "topics": ["Ada", "occupancy", "Tensor Cores", "memory"]
+    },
+    {
+      "source_id": "nvidia-blackwell-tuning-guide-current-pdf",
+      "url": "https://docs.nvidia.com/cuda/pdf/Blackwell_Tuning_Guide.pdf",
+      "title": "NVIDIA Blackwell GPU Architecture Tuning Guide",
+      "version": "CUDA 13.3 online edition",
+      "source_date": null,
+      "mime_type": "application/pdf",
+      "sm_applicability": ["sm_120a"],
+      "topics": ["Blackwell", "occupancy", "Tensor Cores", "thread-block clusters"]
+    },
+    {
+      "source_id": "nvidia-cuda-occupancy-api-current",
+      "url": "https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__OCCUPANCY.html",
+      "title": "CUDA Runtime API: Occupancy",
+      "version": "current online edition",
+      "source_date": null,
+      "mime_type": "text/html",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["occupancy API", "active blocks", "clusters"]
+    },
+    {
+      "source_id": "nvidia-cuda-pipeline-libcu-current",
+      "url": "https://nvidia.github.io/cccl/unstable/libcudacxx/extended_api/synchronization_primitives/pipeline.html",
+      "title": "libcu++ cuda::pipeline",
+      "version": "current online edition",
+      "source_date": null,
+      "mime_type": "text/html",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["asynchronous copy", "pipeline", "memory movement"]
+    },
+    {
+      "source_id": "nvidia-cuda-ptx-libcu-current",
+      "url": "https://nvidia.github.io/cccl/unstable/libcudacxx/ptx_api.html",
+      "title": "libcu++ cuda::ptx API",
+      "version": "current online edition",
+      "source_date": null,
+      "mime_type": "text/html",
+      "sm_applicability": ["cross_sm"],
+      "topics": ["typed PTX wrappers", "instruction availability"]
+    },
+    {
+      "source_id": "nvidia-cccl-tma-current",
+      "url": "https://nvidia.github.io/cccl/unstable/cccl/tma.html",
+      "title": "CUDA Core Compute Libraries: Tensor Memory Accelerator (TMA)",
+      "version": "current unstable CCCL documentation snapshot",
+      "source_date": null,
+      "mime_type": "text/html",
+      "sm_applicability": ["sm_120a", "cross_sm"],
+      "topics": ["TMA", "asynchronous copy", "alignment", "fallbacks"]
+    },
+    {
+      "source_id": "nvidia-nsight-compute-current-pdf",
+      "url": "https://docs.nvidia.com/nsight-compute/pdf/NsightCompute.pdf",
+      "title": "Nsight Compute Documentation",
+      "version": "legacy bundled PDF snapshot",
+      "source_date": "2023-10-31",
+      "mime_type": "application/pdf",
+      "sm_applicability": ["tooling"],
+      "topics": ["kernel profiling", "metrics", "occupancy", "source correlation"]
+    },
+    {
+      "source_id": "nvidia-nsight-systems-current-pdf",
+      "url": "https://docs.nvidia.com/nsight-systems/pdf/UserGuide.pdf",
+      "title": "Nsight Systems User Guide",
+      "version": "legacy bundled PDF snapshot",
+      "source_date": "2023-08-16",
+      "mime_type": "application/pdf",
+      "sm_applicability": ["tooling"],
+      "topics": ["timeline profiling", "CUDA Graphs", "launch and synchronization"]
+    },
+    {
+      "source_id": "nvidia-nsight-compute-13.3-html",
+      "url": "https://docs.nvidia.com/nsight-compute/",
+      "title": "Nsight Compute Documentation",
+      "version": "13.3",
+      "source_date": null,
+      "mime_type": "text/html",
+      "sm_applicability": ["tooling"],
+      "topics": ["kernel profiling", "metrics", "occupancy calculator", "source correlation"]
+    },
+    {
+      "source_id": "nvidia-nsight-systems-current-html",
+      "url": "https://docs.nvidia.com/nsight-systems/UserGuide/index.html",
+      "title": "Nsight Systems User Guide",
+      "version": "current online edition",
+      "source_date": null,
+      "mime_type": "text/html",
+      "sm_applicability": ["tooling"],
+      "topics": ["focused profiling", "timeline", "CUDA Graphs", "launch and synchronization"]
+    }
+  ]
+}

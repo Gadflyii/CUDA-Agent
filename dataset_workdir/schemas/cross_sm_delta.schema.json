@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ginfer.local/schemas/cross_sm_delta.schema.json",
+  "title": "Cross-SM delta record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["delta_id", "from_arch", "to_arch", "topic", "facts", "non_transfer_rules", "source_refs"],
+  "properties": {
+    "delta_id": {"type": "string"},
+    "from_arch": {"enum": ["sm_86", "sm_89", "sm_120a"]},
+    "to_arch": {"enum": ["sm_86", "sm_89", "sm_120a"]},
+    "topic": {"type": "string"},
+    "facts": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "non_transfer_rules": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "source_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+  }
+}

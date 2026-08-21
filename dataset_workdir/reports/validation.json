@@ -1,0 +1,24 @@
+{
+  "counts": {
+    "cross_sm_deltas": 3,
+    "curated_manifest": 9,
+    "episodes": 9,
+    "normalized_manifest": 5,
+    "raw_manifest": 40,
+    "schemas": 5,
+    "source_registry": 46
+  },
+  "errors": [],
+  "invariants": {
+    "candidate_generation_label_leakage_checked": true,
+    "live_sources_excluded_from_raw": true,
+    "manifest_hashes_checked": true,
+    "revert_links_checked": true,
+    "schemas_validated": true,
+    "secret_patterns_checked": true,
+    "split_lineages_checked": true
+  },
+  "status": "pass",
+  "validated_at": "2026-08-21T18:15:59Z",
+  "warnings": []
+}

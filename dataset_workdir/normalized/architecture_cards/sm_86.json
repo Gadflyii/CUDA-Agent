@@ -1,0 +1,35 @@
+{
+  "architecture_id": "sm_86",
+  "compiler_observations": [],
+  "device_measurements": [],
+  "fact_policy": "Only versioned NVIDIA documentation may populate immutable_facts. Compiler observations require an exact toolchain/build revision; device measurements require a physical SKU and workload.",
+  "immutable_facts": [
+    {
+      "applicability": "compute capability 8.6",
+      "build_revision": null,
+      "claim": "Compute capability 8.6 is an NVIDIA Ampere architecture target; architecture-specific tuning must use the Ampere guide rather than measurements from another SM.",
+      "fact_id": "sm86-family",
+      "hardware_sku": null,
+      "source_refs": [
+        "nvidia-ampere-tuning-guide-current-pdf"
+      ],
+      "toolchain": null,
+      "workload_key": null
+    },
+    {
+      "applicability": "Ampere devices subject to the documented instruction and alignment requirements",
+      "build_revision": null,
+      "claim": "Ampere exposes hardware acceleration for asynchronous global-to-shared memory copies through the documented CUDA pipeline mechanisms.",
+      "fact_id": "sm86-async-copy",
+      "hardware_sku": null,
+      "source_refs": [
+        "nvidia-ampere-tuning-guide-current-pdf",
+        "nvidia-cuda-pipeline-libcu-current"
+      ],
+      "toolchain": null,
+      "workload_key": null
+    }
+  ],
+  "marketing_family": "Ampere",
+  "schema_version": "1.0.0"
+}

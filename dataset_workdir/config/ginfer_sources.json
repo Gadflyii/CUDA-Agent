@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "repository": "/ai/ginfer/.worktrees/agentic-kernels",
+  "collections": [
+    {
+      "source_id": "ginfer-product-contract-dc688b12",
+      "kind": "git_file",
+      "revision": "dc688b12dfe8edf8c1ed50062f95b59fd648e262",
+      "path": "AGENTS.md",
+      "title": "GInfer repository product and engineering contract",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["cross_sm"]
+    },
+    {
+      "source_id": "ginfer-runbook-kernel-campaign-36bbd955",
+      "kind": "git_file",
+      "revision": "36bbd9550380a4e3d6b3d05e69483a8d9b7df390",
+      "path": "docs/maintainer/kernel-optimization-campaign.md",
+      "title": "Agentic kernel optimization campaign runbook",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["cross_sm"]
+    },
+    {
+      "source_id": "ginfer-sm89-campaign-summary-36bbd955",
+      "kind": "git_file",
+      "revision": "36bbd9550380a4e3d6b3d05e69483a8d9b7df390",
+      "path": "docs/results/2026-08-21-sm89-agentic-kernel-campaign.md",
+      "title": "SM89 agentic kernel campaign: Muse Glimmer and Qwen3.8-27B",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-muse-cycle9-ledger-36bbd955",
+      "kind": "git_file",
+      "revision": "36bbd9550380a4e3d6b3d05e69483a8d9b7df390",
+      "path": "docs/results/2026-08-21-sm89-muse-cycle9-ledger.csv",
+      "title": "SM89 Muse terminal cycle 9 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-qwen-cycle2-ledger-36bbd955",
+      "kind": "git_file",
+      "revision": "36bbd9550380a4e3d6b3d05e69483a8d9b7df390",
+      "path": "docs/results/2026-08-21-sm89-qwen-cycle2-ledger.csv",
+      "title": "SM89 Qwen3.8 terminal cycle 2 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-muse-cycle7-closed-ledger",
+      "kind": "closed_local_file",
+      "path": "/ai/ginfer/.worktrees/agentic-kernels/profiles/sm89/rtx4090/muse-glimmer-cycle7/ledger.md",
+      "closure_evidence_revision": "36bbd9550380a4e3d6b3d05e69483a8d9b7df390",
+      "expected_sha256": "b41b26dc32ef3d98016bfa04935281e82bf18b76ea5c9a6d34e446a5f686fdf4",
+      "title": "SM89 Muse Glimmer optimization cycle 7 closed ledger",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-muse-cycle8-closed-ledger",
+      "kind": "closed_local_file",
+      "path": "/ai/ginfer/.worktrees/agentic-kernels/profiles/sm89/rtx4090/muse-glimmer-cycle8/ledger.md",
+      "closure_evidence_revision": "36bbd9550380a4e3d6b3d05e69483a8d9b7df390",
+      "expected_sha256": "89048cfe4ccffe1dba2f0c19e3c3d214bede9d506a088af369f8b113c97c98e6",
+      "title": "SM89 Muse Glimmer optimization cycle 8 closed ledger",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-muse-cycle9-closed-ledger",
+      "kind": "closed_local_file",
+      "path": "/ai/ginfer/.worktrees/agentic-kernels/profiles/sm89/rtx4090/muse-glimmer-cycle9/ledger.md",
+      "closure_evidence_revision": "36bbd9550380a4e3d6b3d05e69483a8d9b7df390",
+      "expected_sha256": "aa14a847f44025fa8968e42046f25f70b72499d5d58c88e37d571885bffdac3b",
+      "title": "SM89 Muse Glimmer optimization cycle 9 closed ledger",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-candidate-history",
+      "kind": "git_range",
+      "revision_start_exclusive": "af9bbee04ca4df56963cb8539d33aacea5c6a6d4",
+      "revision_end_inclusive": "65b3fff82721a77680a1023a250a16edf28e821b",
+      "title": "SM89 Muse and Qwen candidate/revert commit history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm86-accepted-history",
+      "kind": "git_range",
+      "revision_start_exclusive": "36bbd9550380a4e3d6b3d05e69483a8d9b7df390",
+      "revision_end_inclusive": "dc688b12dfe8edf8c1ed50062f95b59fd648e262",
+      "title": "Committed SM86 accepted Muse changes",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm120a-accepted-363fdeb9",
+      "kind": "git_range",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision_start_exclusive": "dc688b12dfe8edf8c1ed50062f95b59fd648e262",
+      "revision_end_inclusive": "363fdeb9f14acca8db484949b36710cfa9b06e25",
+      "title": "Committed SM120a Muse small-T accepted change",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_120a"]
+    }
+  ],
+  "live_references": [
+    {
+      "source_id": "ginfer-sm120a-rtx5090-active-ledger",
+      "title": "Active local RTX 5090 SM120a Muse candidate ledger",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "path": "docs/results/2026-08-21-sm120a-muse-kernel-campaign-ledger.csv",
+      "observed_revision": "ee76d352ed06ad7dd93fdde9931cc58a0f86371b",
+      "sm_applicability": ["sm_120a"],
+      "note": "Registered only. The header-only committed ledger and active profile tree are not ingested until the campaign owner closes a cycle."
+    },
+    {
+      "source_id": "ginfer-sm86-server2-live-campaign",
+      "title": "Server 2 RTX 3090 SM86 live Muse campaign evidence",
+      "host_label": "Server 2 RTX 3090",
+      "path": "<dedicated-agentic-kernels-worktree>/profiles/sm86/rtx3090/",
+      "sm_applicability": ["sm_86"],
+      "note": "Registered only. No SSH endpoint or credential is recorded and no remote probe is performed while the campaign is live."
+    },
+    {
+      "source_id": "ginfer-sm120a-pro6000-future-evidence",
+      "title": "Server 1 RTX PRO 6000 Blackwell campaign evidence",
+      "host_label": "Server 1 RTX PRO 6000 Blackwell Workstation",
+      "path": "<dedicated-agentic-kernels-worktree>/profiles/sm120a/rtx-pro-6000/",
+      "sm_applicability": ["sm_120a"],
+      "note": "Registered as a physical validation source; no endpoint was supplied to this collector."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "evidence": {
+    "architecture_image": "sm_120a",
+    "comparison_rules": [
+      "The same-model Muse NVFP4-versus-Muse Q4 comparison isolates the weight/prefill route when the remaining workload is matched.",
+      "Cross-model Qwen-versus-Muse scorecard rows are contextual and are not paired kernel comparisons.",
+      "The repeated 660/1353 acceptance trajectory supports semantic/accounting stability but is not an independent numerical kernel oracle."
+    ],
+    "contaminated_prior": {
+      "corrected_over_contaminated_ratio": 4.4,
+      "invalid_for_final_scorecard": true,
+      "prefill_tokens_per_second": 2167.0
+    },
+    "corrected_retest": {
+      "acceptance_trajectory_identical": true,
+      "mean_decode_tokens_per_second": 111.46,
+      "mean_overall_tokens_per_second": 110.22,
+      "mean_prefill_tokens_per_second": 9536.05,
+      "runs": [
+        {
+          "accepted": 660,
+          "drafted": 1353,
+          "prefill_tokens_per_second": 9559.93
+        },
+        {
+          "accepted": 660,
+          "drafted": 1353,
+          "prefill_tokens_per_second": 9512.16
+        }
+      ]
+    },
+    "hardware_sku": "NVIDIA GeForce RTX 5090",
+    "required_followup": "Attach immutable repository log/result provenance and exact artifact/workload/toolchain keys before promotion from quarantine.",
+    "route": "Muse Glimmer NVFP4 weights with Q4 DFlash2 draft, k=4",
+    "updated_scorecard": [
+      {
+        "decode_tokens_per_second": 82.58,
+        "overall_tokens_per_second": 80.55,
+        "prefill_tokens_per_second": 3154.64,
+        "route": "Qwen3.8 AR"
+      },
+      {
+        "decode_tokens_per_second": 138.26,
+        "overall_tokens_per_second": 132.51,
+        "prefill_tokens_per_second": 3115.91,
+        "route": "Qwen3.8 DFlash2 W8 k4"
+      },
+      {
+        "decode_tokens_per_second": 134.85,
+        "overall_tokens_per_second": 129.38,
+        "prefill_tokens_per_second": 3114.89,
+        "route": "Qwen3.8 DFlash2 Q4 k4"
+      },
+      {
+        "decode_tokens_per_second": 158.12,
+        "overall_tokens_per_second": 150.62,
+        "prefill_tokens_per_second": 3108.71,
+        "route": "Qwen3.8 MTP3"
+      },
+      {
+        "decode_tokens_per_second": 103.53,
+        "overall_tokens_per_second": 100.09,
+        "prefill_tokens_per_second": 3080.31,
+        "route": "Muse Q4 DFlash2 k4"
+      },
+      {
+        "decode_tokens_per_second": 75.54,
+        "overall_tokens_per_second": 73.8,
+        "prefill_tokens_per_second": 3237.42,
+        "route": "Muse AR"
+      }
+    ]
+  },
+  "provenance_status": "externally_supplied_pending_repository_log",
+  "received_at": "2026-08-21T00:00:00-05:00",
+  "schema_version": "1.0.0",
+  "source_id": "external-rtx5090-muse-nvfp4-q4-k4-corrected-retest-20260821",
+  "title": "User-confirmed RTX 5090 corrected Muse NVFP4 plus Q4 DFlash2 k4 retest"
+}

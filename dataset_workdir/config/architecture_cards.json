@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0.0",
+  "cards": [
+    {
+      "schema_version": "1.0.0",
+      "architecture_id": "sm_86",
+      "marketing_family": "Ampere",
+      "fact_policy": "Only versioned NVIDIA documentation may populate immutable_facts. Compiler observations require an exact toolchain/build revision; device measurements require a physical SKU and workload.",
+      "immutable_facts": [
+        {
+          "fact_id": "sm86-family",
+          "claim": "Compute capability 8.6 is an NVIDIA Ampere architecture target; architecture-specific tuning must use the Ampere guide rather than measurements from another SM.",
+          "source_refs": ["nvidia-ampere-tuning-guide-current-pdf"],
+          "applicability": "compute capability 8.6",
+          "toolchain": null,
+          "build_revision": null,
+          "hardware_sku": null,
+          "workload_key": null
+        },
+        {
+          "fact_id": "sm86-async-copy",
+          "claim": "Ampere exposes hardware acceleration for asynchronous global-to-shared memory copies through the documented CUDA pipeline mechanisms.",
+          "source_refs": ["nvidia-ampere-tuning-guide-current-pdf", "nvidia-cuda-pipeline-libcu-current"],
+          "applicability": "Ampere devices subject to the documented instruction and alignment requirements",
+          "toolchain": null,
+          "build_revision": null,
+          "hardware_sku": null,
+          "workload_key": null
+        }
+      ],
+      "compiler_observations": [],
+      "device_measurements": []
+    },
+    {
+      "schema_version": "1.0.0",
+      "architecture_id": "sm_89",
+      "marketing_family": "Ada",
+      "fact_policy": "Only versioned NVIDIA documentation may populate immutable_facts. Compiler observations require an exact toolchain/build revision; device measurements require a physical SKU and workload.",
+      "immutable_facts": [
+        {
+          "fact_id": "sm89-family",
+          "claim": "Compute capability 8.9 is an NVIDIA Ada architecture target with its own tuning guidance and must not inherit tile/resource choices solely from Ampere or Blackwell.",
+          "source_refs": ["nvidia-ada-tuning-guide-current-pdf"],
+          "applicability": "compute capability 8.9",
+          "toolchain": null,
+          "build_revision": null,
+          "hardware_sku": null,
+          "workload_key": null
+        }
+      ],
+      "compiler_observations": [
+        {
+          "fact_id": "sm89-ginfer-build-65b3fff8",
+          "claim": "The campaign reports a passing full native sm_89 Release build and independent oracle at the accepted Qwen endpoint.",
+          "source_refs": ["ginfer-sm89-campaign-summary-36bbd955"],
+          "applicability": "GInfer commit 65b3fff82721a77680a1023a250a16edf28e821b",
+          "toolchain": "CUDA 13.3",
+          "build_revision": "65b3fff82721a77680a1023a250a16edf28e821b",
+          "hardware_sku": null,
+          "workload_key": null
+        }
+      ],
+      "device_measurements": [
+        {
+          "fact_id": "sm89-muse-c8-final",
+          "claim": "On the campaign RTX 4090, Muse DFlash2 draft4 at C8 and 8K/request reached 52.98 ms per Program round after the retained cycle-8 change.",
+          "source_refs": ["ginfer-sm89-campaign-summary-36bbd955", "ginfer-sm89-muse-cycle8-closed-ledger"],
+          "applicability": "that physical RTX 4090 campaign run only",
+          "toolchain": "CUDA 13.3",
+          "build_revision": "1bcc89a96f1bcd28315de4f5d995804cd8b677c2",
+          "hardware_sku": "NVIDIA GeForce RTX 4090",
+          "workload_key": "muse-dflash2-draft4-int8g64-c8-8k"
+        },
+        {
+          "fact_id": "sm89-qwen-c8-final",
+          "claim": "On the campaign RTX 4090, the accepted Qwen3.8 MTP3 C8 Program round median was 61.3867 ms versus 66.6010 ms before the change.",
+          "source_refs": ["ginfer-sm89-campaign-summary-36bbd955"],
+          "applicability": "that physical RTX 4090 campaign run only",
+          "toolchain": "CUDA 13.3",
+          "build_revision": "65b3fff82721a77680a1023a250a16edf28e821b",
+          "hardware_sku": "NVIDIA GeForce RTX 4090",
+          "workload_key": "qwen38-groupwise-mtp3-int8-c8-8192-graph"
+        }
+      ]
+    },
+    {
+      "schema_version": "1.0.0",
+      "architecture_id": "sm_120a",
+      "marketing_family": "Blackwell",
+      "fact_policy": "The architecture-specific suffix is retained explicitly. Compiler observations require an exact sm_120a toolchain/build; RTX 5090 and RTX PRO 6000 measurements remain separate.",
+      "immutable_facts": [
+        {
+          "fact_id": "sm120-blackwell-occupancy",
+          "claim": "For compute capability 12.0, the Blackwell tuning guide documents 48 maximum concurrent warps per SM, a 64K 32-bit register file per SM, and up to 32 thread blocks per SM; live occupancy still depends on kernel resources.",
+          "source_refs": ["nvidia-blackwell-tuning-guide-current-pdf", "nvidia-cuda-occupancy-api-current"],
+          "applicability": "compute capability 12.0 subject to the cited guide version",
+          "toolchain": null,
+          "build_revision": null,
+          "hardware_sku": null,
+          "workload_key": null
+        },
+        {
+          "fact_id": "sm120-blackwell-shared-memory",
+          "claim": "For compute capability 12.0, the Blackwell tuning guide documents 128 KB shared memory per SM and 99 KB maximum shared memory per thread block.",
+          "source_refs": ["nvidia-blackwell-tuning-guide-current-pdf"],
+          "applicability": "compute capability 12.0 subject to the cited guide version",
+          "toolchain": null,
+          "build_revision": null,
+          "hardware_sku": null,
+          "workload_key": null
+        }
+      ],
+      "compiler_observations": [],
+      "device_measurements": []
+    }
+  ],
+  "deltas": [
+    {
+      "delta_id": "sm86-to-sm89-independent-tuning",
+      "from_arch": "sm_86",
+      "to_arch": "sm_89",
+      "topic": "ported Tensor Core and Q4 schedules",
+      "facts": [
+        "Both targets are separately compiled images with architecture-specific tuning authorities.",
+        "A GInfer SM89 Q4 specialization was later admitted on SM86 by an explicit compile-time guard change."
+      ],
+      "non_transfer_rules": [
+        "The source port does not transfer RTX 4090 latency, occupancy, or acceptance measurements to RTX 3090.",
+        "Runtime correctness and the complete performance matrix must be measured on physical SM86 hardware."
+      ],
+      "source_refs": ["nvidia-ampere-tuning-guide-current-pdf", "nvidia-ada-tuning-guide-current-pdf", "ginfer-sm86-accepted-history"]
+    },
+    {
+      "delta_id": "sm89-to-sm120a-architecture-specific",
+      "from_arch": "sm_89",
+      "to_arch": "sm_120a",
+      "topic": "resource policy, data movement, and architecture-specific features",
+      "facts": [
+        "Blackwell compute capability 12.0 has different documented occupancy and shared-memory limits from Ada.",
+        "GInfer builds sm_89 and sm_120a as separate exact images and admits architecture-specific routes explicitly."
+      ],
+      "non_transfer_rules": [
+        "Do not transplant an Ada tile, launch bound, or cache policy without compiling and measuring the Blackwell route.",
+        "Do not treat an sm_120a compile as proof that an architecture-specific instruction executes on sm_89."
+      ],
+      "source_refs": ["nvidia-ada-tuning-guide-current-pdf", "nvidia-blackwell-tuning-guide-current-pdf", "ginfer-product-contract-dc688b12"]
+    },
+    {
+      "delta_id": "sm120a-sku-separation",
+      "from_arch": "sm_120a",
+      "to_arch": "sm_120a",
+      "topic": "same image, different physical SKU",
+      "facts": [
+        "RTX 5090 and RTX PRO 6000 Blackwell execute the same GInfer sm_120a image."
+      ],
+      "non_transfer_rules": [
+        "Keep latency, bandwidth, live free memory, SM count, thermals, and qualification status separate by SKU and host.",
+        "An all-SM claim and a complete physical campaign require the named per-device runtime matrices, not one Blackwell run."
+      ],
+      "source_refs": ["ginfer-product-contract-dc688b12", "ginfer-runbook-kernel-campaign-36bbd955"]
+    }
+  ]
+}

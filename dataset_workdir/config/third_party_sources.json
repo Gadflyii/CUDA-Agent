@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "repositories": [
+    {
+      "source_id": "thirdparty-cudaforge-eaba693f",
+      "repository_url": "https://github.com/OptimAI-Lab/CudaForge.git",
+      "web_url": "https://github.com/OptimAI-Lab/CudaForge",
+      "revision": "eaba693fa01bdafc9848334cada2d789e240ce3f",
+      "title": "OptimAI-Lab/CudaForge",
+      "license_spdx": "MIT",
+      "license_status": "compatible",
+      "allowed_paths": ["LICENSE", "README.md"],
+      "sm_applicability": ["cross_sm"],
+      "note": "Initial seed collects only license and overview metadata; code requires later relevance and contamination review."
+    },
+    {
+      "source_id": "thirdparty-ninfer3090-1d038b4a",
+      "repository_url": "https://github.com/Don-Chad/ninfer-3090.git",
+      "web_url": "https://github.com/Don-Chad/ninfer-3090",
+      "revision": "1d038b4a1760653c4f8a65a0aa7bfe529cfa3aa0",
+      "title": "Don-Chad/ninfer-3090",
+      "license_spdx": "Apache-2.0",
+      "license_status": "compatible",
+      "allowed_paths": ["LICENSE", "README.md"],
+      "sm_applicability": ["sm_86"],
+      "note": "Potential ancestry/near-duplicate relation to GInfer must be checked before any code enters training."
+    },
+    {
+      "source_id": "thirdparty-qwen38-3090-79aea2cc",
+      "repository_url": "https://github.com/syv-ai/qwen38-27b-rtx3090.git",
+      "web_url": "https://github.com/syv-ai/qwen38-27b-rtx3090",
+      "revision": "79aea2cc0a28ae0405a2cac8d442b5524271ebf4",
+      "title": "syv-ai/qwen38-27b-rtx3090",
+      "license_spdx": "Apache-2.0",
+      "license_status": "compatible",
+      "allowed_paths": ["LICENSE", "README.md"],
+      "sm_applicability": ["sm_86"],
+      "note": "Serving/vLLM evidence is contextual only; it is not a GInfer kernel oracle or paired baseline."
+    }
+  ]
+}

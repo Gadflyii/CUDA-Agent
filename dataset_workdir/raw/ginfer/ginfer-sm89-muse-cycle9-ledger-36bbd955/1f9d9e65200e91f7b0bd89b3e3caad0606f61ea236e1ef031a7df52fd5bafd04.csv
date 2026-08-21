@@ -1,0 +1,25 @@
+candidate,commit,scope,result,decision,restoration
+c9_01,6425df07,R64/BK128 for N6656,"four public points regressed 12.0-17.3%",reject,70392ffc
+c9_02,2922d5ff,five-warp R32,"dominant point regressed 4.39%",reject,045d8ac2
+c9_03,8283d7db,R48/BK128 N6656,"dominant point regressed 37.3%",reject,8f107138
+c9_04,850fb06,three-stage R32/BK128,"oracle and points passed; aggregate gain 3.01% was below 5% Op gate",reject,5df85927
+c9_05,3ac87626,ping-pong R32 fragments,"dominant point neutral",reject,9ba78266
+c9_06,a9b39d95,cache-all R32 activations,"dominant point regressed 0.44%",reject,e0d32d93
+c9_07,f1e95cb4,stage BK128 scale pairs once,"oracle passed; N19968 regressed 9.22%",reject,4e325fc9
+c9_08,b6c9122c,20-warp N19968,"public gains 4.85/4.37% below 5% gate",reject,d50cf278
+c9_09,0ec14b23,ping-pong N19968 fragments,"regressed 0.49%",reject,b434c84a
+c9_10,a0a3963f,cache-all N19968 activations,"gain 0.49% below 3% gate",reject,b751819c
+c9_11,3d4ba2a6,Scalar16 N19968 scales,"regressed 4.85%",reject,2bbfb67d
+c9_12,2635aafa,combined BK128 latency package,"oracle/public weighted -3.87%; C8 only -0.33/-0.32%",reject,6c75961d
+c9_13,fc6adf03,warp-broadcast scale conversion,"oracle passed; N19968 +4.37% and down +5.78%",reject,ee25a582
+c9_14,45963e55,cache-all N19968 codes,"gain 1.94% below 3% gate",reject,3103cfda
+c9_15,34d5719c,cached 20-warp N19968,"gain 4.37% below 5% gate",reject,63feaf93
+c9_16,4418be61,two-block N19968 launch bound,"48/51 registers and zero local but neutral",reject,305d9830
+c9_17,030f3605,three-block R32 launch bound,"neutral",reject,d025d63c
+c9_18,bbb8cc62,cache-all R32 codes,"neutral",reject,296aacc8
+c9_19,c25a5905,Scalar16 R32 scales,"dominant point regressed 10.7%",reject,4d273b39
+c9_20,f300a6d3,R16/BK128 for N<=4096,"small outputs gained 19.6-21.6% but N4096 gained only 1.61%",reject,981efa8a
+c9_21,bf62a077,selective R16/BK128 for N<=1664,"oracle/public passed; C8 improved only 0.25%",reject,0ac42091
+c9_22,de376048,R48/BK128 N19968,"gain 2.90% below 5% gate",reject,09a1eb49
+c9_23,d3bb4ac6,cached R48/BK128 N19968,"gain 1.46% below 5% gate",reject,e5475e66
+c9_24,a8dde5b8,relaxed-bound R48/BK128 N19968,"oracle passed; gain 2.91% below 5% gate",reject,6ad9b538

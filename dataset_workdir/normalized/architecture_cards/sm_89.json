@@ -1,0 +1,61 @@
+{
+  "architecture_id": "sm_89",
+  "compiler_observations": [
+    {
+      "applicability": "GInfer commit 65b3fff82721a77680a1023a250a16edf28e821b",
+      "build_revision": "65b3fff82721a77680a1023a250a16edf28e821b",
+      "claim": "The campaign reports a passing full native sm_89 Release build and independent oracle at the accepted Qwen endpoint.",
+      "fact_id": "sm89-ginfer-build-65b3fff8",
+      "hardware_sku": null,
+      "source_refs": [
+        "ginfer-sm89-campaign-summary-36bbd955"
+      ],
+      "toolchain": "CUDA 13.3",
+      "workload_key": null
+    }
+  ],
+  "device_measurements": [
+    {
+      "applicability": "that physical RTX 4090 campaign run only",
+      "build_revision": "1bcc89a96f1bcd28315de4f5d995804cd8b677c2",
+      "claim": "On the campaign RTX 4090, Muse DFlash2 draft4 at C8 and 8K/request reached 52.98 ms per Program round after the retained cycle-8 change.",
+      "fact_id": "sm89-muse-c8-final",
+      "hardware_sku": "NVIDIA GeForce RTX 4090",
+      "source_refs": [
+        "ginfer-sm89-campaign-summary-36bbd955",
+        "ginfer-sm89-muse-cycle8-closed-ledger"
+      ],
+      "toolchain": "CUDA 13.3",
+      "workload_key": "muse-dflash2-draft4-int8g64-c8-8k"
+    },
+    {
+      "applicability": "that physical RTX 4090 campaign run only",
+      "build_revision": "65b3fff82721a77680a1023a250a16edf28e821b",
+      "claim": "On the campaign RTX 4090, the accepted Qwen3.8 MTP3 C8 Program round median was 61.3867 ms versus 66.6010 ms before the change.",
+      "fact_id": "sm89-qwen-c8-final",
+      "hardware_sku": "NVIDIA GeForce RTX 4090",
+      "source_refs": [
+        "ginfer-sm89-campaign-summary-36bbd955"
+      ],
+      "toolchain": "CUDA 13.3",
+      "workload_key": "qwen38-groupwise-mtp3-int8-c8-8192-graph"
+    }
+  ],
+  "fact_policy": "Only versioned NVIDIA documentation may populate immutable_facts. Compiler observations require an exact toolchain/build revision; device measurements require a physical SKU and workload.",
+  "immutable_facts": [
+    {
+      "applicability": "compute capability 8.9",
+      "build_revision": null,
+      "claim": "Compute capability 8.9 is an NVIDIA Ada architecture target with its own tuning guidance and must not inherit tile/resource choices solely from Ampere or Blackwell.",
+      "fact_id": "sm89-family",
+      "hardware_sku": null,
+      "source_refs": [
+        "nvidia-ada-tuning-guide-current-pdf"
+      ],
+      "toolchain": null,
+      "workload_key": null
+    }
+  ],
+  "marketing_family": "Ada",
+  "schema_version": "1.0.0"
+}

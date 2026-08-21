@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ginfer.local/schemas/canonical_episode.schema.json",
+  "title": "GInfer optimization canonical episode",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "episode_id",
+    "family_id",
+    "task_view",
+    "scope",
+    "provenance",
+    "split_group",
+    "events",
+    "view",
+    "outcome",
+    "quality"
+  ],
+  "$defs": {
+    "event_id": {"type": "string", "pattern": "^e[0-9]{3,}$"},
+    "evidence_ref": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._:/#-]+$"},
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value", "unit", "direction", "fact_class"],
+      "properties": {
+        "name": {"type": "string"},
+        "value": {"type": ["number", "string"]},
+        "unit": {"type": "string"},
+        "direction": {"enum": ["lower_is_better", "higher_is_better", "neutral_control", "not_applicable"]},
+        "fact_class": {"enum": ["architecture_immutable", "compiler_derived", "device_measured"]},
+        "workload_key": {"type": ["string", "null"]},
+        "hardware_key": {"type": ["string", "null"]},
+        "toolchain_key": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "episode_id": {"type": "string", "pattern": "^ginfer-[a-z0-9._-]+$"},
+    "family_id": {"type": "string", "pattern": "^family-[a-z0-9._-]+$"},
+    "task_view": {"enum": ["diagnosis", "implementation", "judgment", "orchestration_reporting"]},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "target", "boundary", "op_family", "architectures"],
+      "properties": {
+        "repository": {"type": "string"},
+        "target": {"type": "string"},
+        "boundary": {"type": "string"},
+        "op_family": {"type": "string"},
+        "architectures": {
+          "type": "array",
+          "items": {"enum": ["sm_86", "sm_89", "sm_120a", "cross_sm"]},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "hardware_skus": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "workload": {"type": "object"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_ids", "snapshot_refs", "license_status", "evidence_cutoff"],
+      "properties": {
+        "source_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "snapshot_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "license_status": {"enum": ["internal", "official_public", "compatible", "mixed_compatible"]},
+        "evidence_cutoff": {"type": "string", "format": "date-time"}
+      }
+    },
+    "split_group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["group_id", "lineage_id", "campaign_id", "mechanism_cluster", "assigned_split", "evaluation_tier"],
+      "properties": {
+        "group_id": {"type": "string"},
+        "lineage_id": {"type": "string"},
+        "campaign_id": {"type": "string"},
+        "mechanism_cluster": {"type": "string"},
+        "assigned_split": {"enum": ["train", "validation", "test", "quarantine"]},
+        "evaluation_tier": {"enum": ["train", "in_arch", "cross_arch", "real_hardware", "quarantine"]}
+      }
+    },
+    "events": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["event_id", "sequence", "actor", "event_type", "information_class", "payload", "evidence_refs"],
+        "properties": {
+          "event_id": {"$ref": "#/$defs/event_id"},
+          "sequence": {"type": "integer", "minimum": 0},
+          "actor": {"enum": ["system", "user", "assistant", "tool", "evaluator"]},
+          "event_type": {
+            "enum": [
+              "instruction",
+              "context",
+              "observation",
+              "technical_rationale",
+              "tool_decision",
+              "tool_call",
+              "tool_result",
+              "patch",
+              "validation",
+              "measurement",
+              "decision",
+              "restoration",
+              "report"
+            ]
+          },
+          "information_class": {
+            "enum": [
+              "task_context",
+              "pre_candidate_evidence",
+              "candidate_artifact",
+              "post_candidate_result",
+              "disposition_label",
+              "restoration",
+              "report"
+            ]
+          },
+          "payload": {"type": ["string", "object", "array", "number", "boolean"]},
+          "evidence_refs": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}, "uniqueItems": true},
+          "measurements": {"type": "array", "items": {"$ref": "#/$defs/measurement"}}
+        }
+      }
+    },
+    "view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_generation", "input_event_ids", "target_event_ids", "withheld_event_ids", "result_label_visible"],
+      "properties": {
+        "candidate_generation": {"type": "boolean"},
+        "input_event_ids": {"type": "array", "items": {"$ref": "#/$defs/event_id"}, "minItems": 1, "uniqueItems": true},
+        "target_event_ids": {"type": "array", "items": {"$ref": "#/$defs/event_id"}, "minItems": 1, "uniqueItems": true},
+        "withheld_event_ids": {"type": "array", "items": {"$ref": "#/$defs/event_id"}, "uniqueItems": true},
+        "result_label_visible": {"type": "boolean"}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disposition", "candidate_commit", "restoration_commit", "correctness", "performance_claim"],
+      "properties": {
+        "disposition": {"enum": ["accepted", "rejected", "inconclusive", "report_only", "not_observed"]},
+        "candidate_commit": {"type": ["string", "null"]},
+        "restoration_commit": {"type": ["string", "null"]},
+        "correctness": {"enum": ["passed", "failed", "not_run", "not_observed", "not_applicable"]},
+        "performance_claim": {"type": "string"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "preference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chosen_event_ids", "rejected_response", "failure_mode"],
+      "properties": {
+        "chosen_event_ids": {"type": "array", "items": {"$ref": "#/$defs/event_id"}, "minItems": 1, "uniqueItems": true},
+        "rejected_response": {"type": "string", "minLength": 1},
+        "failure_mode": {"enum": ["correctness_failure", "microbenchmark_overclaim", "subthreshold_gain", "pointwise_regression", "unsupported_arch_transfer", "false_qualification", "poor_orchestration"]}
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_status", "hard_negative", "contains_hidden_chain_of_thought", "secret_scan", "dedup_key"],
+      "properties": {
+        "review_status": {"enum": ["seed_reviewed", "auto_normalized", "human_reviewed", "quarantined"]},
+        "hard_negative": {"type": "boolean"},
+        "contains_hidden_chain_of_thought": {"const": false},
+        "secret_scan": {"enum": ["passed", "failed", "not_run"]},
+        "dedup_key": {"type": "string"},
+        "notes": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

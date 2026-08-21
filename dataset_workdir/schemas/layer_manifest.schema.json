@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ginfer.local/schemas/layer_manifest.schema.json",
+  "title": "Dataset layer manifest record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["record_id", "layer", "relative_path", "sha256", "bytes", "created_at", "producer", "input_refs"],
+  "properties": {
+    "record_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]+$"},
+    "layer": {"enum": ["raw", "normalized", "curated"]},
+    "relative_path": {"type": "string", "pattern": "^(raw|normalized|curated)/"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "bytes": {"type": "integer", "minimum": 0},
+    "mime_type": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "producer": {"type": "string", "minLength": 1},
+    "input_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "source_id": {"type": ["string", "null"]},
+    "metadata": {"type": "object"}
+  }
+}

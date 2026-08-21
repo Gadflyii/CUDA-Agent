@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "seed": "ginfer-kernel-dataset-split-v1",
+  "indivisible_keys": [
+    "family_id",
+    "candidate_and_restoration",
+    "repair_chain",
+    "ported_patch_fingerprint",
+    "campaign_cycle_mechanism_cluster"
+  ],
+  "architecture_policy": {
+    "train_architectures": ["sm_89"],
+    "cross_architecture_holdouts": ["sm_86", "sm_120a"],
+    "physical_sku_holdouts": ["RTX 3090", "RTX 4090", "RTX 5090", "RTX PRO 6000 Blackwell Workstation"],
+    "note": "SM86 and SM120a remain eval-only in the seed because there are too few independent, fully measured groups. Revisit only after closed campaigns are ingested."
+  },
+  "target_ratios_after_grouping": {"train": 0.8, "validation": 0.1, "test": 0.1},
+  "caps": {"near_duplicate_candidates_per_cluster": 3, "terminal_no_win_rows_per_cycle": 8},
+  "test_tiers": ["in_arch", "cross_arch", "real_hardware"]
+}

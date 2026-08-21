@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ginfer.local/schemas/source_record.schema.json",
+  "title": "Dataset source record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "source_class",
+    "title",
+    "locator",
+    "version",
+    "source_date",
+    "retrieved_at",
+    "mime_type",
+    "sm_applicability",
+    "license",
+    "ingestion_status"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "source_class": {
+      "enum": [
+        "ginfer_committed",
+        "ginfer_closed_local",
+        "ginfer_live_reference",
+        "nvidia_official",
+        "third_party_licensed",
+        "third_party_metadata_only",
+        "external_user_supplied",
+        "authored_structure"
+      ]
+    },
+    "title": {"type": "string", "minLength": 1},
+    "locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {"type": "string", "format": "uri"},
+        "repository": {"type": "string"},
+        "path": {"type": "string"},
+        "revision": {"type": "string"},
+        "host_label": {"type": "string"}
+      },
+      "minProperties": 1
+    },
+    "version": {"type": ["string", "null"]},
+    "source_date": {"type": ["string", "null"]},
+    "retrieved_at": {"type": ["string", "null"], "format": "date-time"},
+    "local_relative_path": {"type": ["string", "null"]},
+    "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "bytes": {"type": ["integer", "null"], "minimum": 0},
+    "mime_type": {"type": "string", "minLength": 1},
+    "sm_applicability": {
+      "type": "array",
+      "items": {"enum": ["sm_86", "sm_89", "sm_120a", "cross_sm", "tooling"]},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "identifier", "use_note"],
+      "properties": {
+        "status": {"enum": ["internal", "official_public", "compatible", "metadata_only", "unknown", "excluded"]},
+        "identifier": {"type": ["string", "null"]},
+        "use_note": {"type": "string"}
+      }
+    },
+    "ingestion_status": {"enum": ["declared", "collected", "live_reference", "excluded", "failed"]},
+    "notes": {"type": "string"},
+    "http": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "etag": {"type": ["string", "null"]},
+        "last_modified": {"type": ["string", "null"]},
+        "final_url": {"type": ["string", "null"]}
+      }
+    }
+  }
+}
