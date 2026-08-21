@@ -28,8 +28,13 @@ The current campaign defaults are:
 - at most 24 candidates in one cycle;
 - stop the current cycle at the first accepted candidate;
 - accept only after the independent oracle passes, affected public-Op points have no material
-  unsupported regression, and two real-boundary repetitions each improve the fresh baseline by at
-  least 2%;
+  unsupported regression, and two independent real-boundary repetitions each either reduce
+  matched GPU round latency by at least 1.5% or increase aggregate published throughput by at
+  least 3.0 tokens/s at the declared primary concurrency;
+- for the absolute-throughput arm, require positive matched GPU round-latency improvement and a
+  paired throughput delta that is clearly larger than fresh-baseline measurement noise; preserve
+  identical drafted, accepted, and licensed-token accounting, and do not average repetitions or
+  concurrency points to cross either threshold;
 - recheck unaffected concurrency points and route seams for neutrality;
 - run the named short- and long-context Engine semantic sentinels and registered real test before
   final acceptance;
