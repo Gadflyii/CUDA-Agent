@@ -112,7 +112,7 @@ cuda_agent_checkout=/absolute/path/to/cuda-agent
 ginfer_repo=/absolute/path/to/ginfer
 ginfer_worktree="$ginfer_repo/.worktrees/agentic-kernels"
 
-git clone https://github.com/Gadflyii/cuda-agent.git "$cuda_agent_checkout"
+git clone https://github.com/Gadflyii/CUDA-Agent.git "$cuda_agent_checkout"
 git -C "$ginfer_repo" fetch origin perf/agentic-kernels
 git -C "$ginfer_repo" worktree add -b perf/agentic-kernels \
   "$ginfer_worktree" origin/perf/agentic-kernels
