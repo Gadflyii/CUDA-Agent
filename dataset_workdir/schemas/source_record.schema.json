@@ -22,6 +22,7 @@
     "source_class": {
       "enum": [
         "ginfer_committed",
+        "cuda_agent_committed",
         "ginfer_closed_local",
         "ginfer_live_reference",
         "nvidia_official",

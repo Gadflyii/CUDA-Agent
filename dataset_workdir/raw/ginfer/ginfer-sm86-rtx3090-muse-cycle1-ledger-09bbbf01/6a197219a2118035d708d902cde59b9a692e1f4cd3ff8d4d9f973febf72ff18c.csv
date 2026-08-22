@@ -1,0 +1,2 @@
+cycle_candidate,commit,changed_mechanism,predicted_effect,oracle_result,public_op_result,real_boundary_result,decision,restoration_commit
+1.1,b629605712756f073836370396150acf7c36acfd,"admit maintained BF16 grouped-dynamic-convolution projection MMA on CC86","reduce Muse projection time and improve the measured round while preserving unaffected routes","pass","pass","two qualifying C8 repetitions and neutral controls; full semantic gates passed","accept",""

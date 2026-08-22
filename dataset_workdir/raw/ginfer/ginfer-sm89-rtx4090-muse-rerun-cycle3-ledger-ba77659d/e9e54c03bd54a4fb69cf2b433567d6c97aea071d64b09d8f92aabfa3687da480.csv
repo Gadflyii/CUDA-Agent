@@ -1,0 +1,5 @@
+candidate,commit,scope,oracle,public_or_profile,real_boundary,decision,restoration
+c3_01,45dc1910,"Ada89 fused D128 reduction CTA 128 to 64 threads","fail: Muse D128 BF16 T1 cached page-boundary output non-finite at index 64","not run","not run",reject,5a5e2041
+c3_02,2006a6a0,"D128 partial-attention Bc32 to Bc64","pass generic and Muse GQA suites","B8/8K +2.64% and B8/129K +2.12%, but B8/2K -7.14%, B4/2K -6.56%, B1/2K -2.93%","not run because complete public matrix failed",reject,f3406491
+c3_03,d9e4e693,"D128 INT8 T5 5K-8K split target 64 to 96 keys","pass generic Muse and bidirectional GQA suites","B8/8K 178.816 to 141.088 us; B1/B4 8K also improved; other routes neutral","first pair 640.844 to 640.851 tok/s and 52.6809 to 52.6686 ms; misses both arms",reject,44671a4e
+c3_04,1d0bac78,"CC89 N202048/K6656 W8 exact BN40 route for T17-40","pass W8 Linear registered Muse real and full Release build","T40 2065.408 to 1870.880 us; T17-40 all improve; T16 and T41-49 unchanged; profiled W8 3.981 to 3.652 ms","pair1 642.003 to 646.576 tok/s; pair2 reverse baseline 641.529 vs candidate 645.219; lower latency and identical 992/800 both",accept,

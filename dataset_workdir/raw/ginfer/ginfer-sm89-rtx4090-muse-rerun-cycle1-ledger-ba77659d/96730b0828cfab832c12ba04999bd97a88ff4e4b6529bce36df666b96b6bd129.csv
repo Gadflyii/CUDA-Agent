@@ -1,0 +1,9 @@
+candidate,commit,scope,oracle,public_or_profile,real_boundary,decision,restoration
+c1_01,803a5538,"Q4 MMA lane-0 scale load and warp broadcast","pass Q4 Linear and Q4 SwiGLU","N19968/K6656/T40 +6.19%; representative R32/seams/smaller outputs -3.28% to -22.85%",not run,reject,0b0dab9d
+c1_02,5417884c,"third async stage in R32C40/BK128","pass Q4 Linear","affected points +0.23% to +5.09%; seams neutral","53.3841 ms / 632.838 tok/s vs 53.3760 ms / 632.349 tok/s; 992/800",reject,8c590f2a
+c1_03,fd48baa7,"twenty-CTA R64C40 exact N19968/T40","pass Q4 Linear","231.424 us to 197.632 us twice; T39/T41 neutral","53.3776 ms / 632.973 tok/s vs 53.1966 ms / 634.864 tok/s; misses both arms",reject,f142a1e4
+c1_04,e6510c1d,"exact N256/T40 R16C8 column slices","pass Q4 Linear","56.128 us to 66.560 us; T39/T41 neutral","53.4502 ms / 631.843 tok/s vs 54.6372 ms / 617.864 tok/s",reject,04d5e1ae
+c1_05,b822645f,"exact N256/T40 R16C16 column slices","pass Q4 Linear","56.256 us to 51.200 us; T39/T41 neutral","53.5939 ms / 629.709 tok/s vs 53.7408 ms / 628.768 tok/s",reject,88e8f8e0
+c1_06,44cd7634,"exact N4096/T40 R64C40 dense CTA","pass Q4 Linear","63.488 us to 86.176 us; T39/T41 neutral",not run,reject,6eeddc47
+c1_07,5c9809d7,"exact N4096/T40 R32C40 wide-column warp","pass Q4 Linear","63.488 us to 98.336 us; T39/T41 neutral",not run,reject,9cd4f07b
+c1_08,451b74a6,"Ada89 D128 GQA reduction DChunk64 to DChunk128","pass generic Muse bidirectional GQA and registered real; full Release build","reduction 1.640 ms to 0.989 ms (-39.69%)","pair1 630.546 to 639.902 tok/s; pair2 630.950 to 638.816 tok/s; lower latency and identical 992/800 both",accept,

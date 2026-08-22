@@ -204,6 +204,307 @@
       "title": "SM120a RTX 5090 Muse consolidation cycle 2 candidate, restoration, correction, and terminal history",
       "mime_type": "application/x-ndjson",
       "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-product-contract-f83f476e",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "f83f476eef49e05fb44b2770b1dec2ebec2329f8",
+      "path": "AGENTS.md",
+      "title": "GInfer product and engineering contract at the multi-SM campaign checkpoint",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["cross_sm"]
+    },
+    {
+      "source_id": "ginfer-runbook-kernel-campaign-f83f476e",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "f83f476eef49e05fb44b2770b1dec2ebec2329f8",
+      "path": "docs/maintainer/kernel-optimization-campaign.md",
+      "title": "Kernel campaign runbook with hybrid latency and throughput gate",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["cross_sm"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-checkpoint-report-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-agentic-kernel-campaign.md",
+      "title": "SM86 RTX 3090 Muse campaign report before cycle 11 candidate-five disposition",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle1-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle1-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 1 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle2-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle2-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 2 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle3-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle3-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 3 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle4-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle4-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 4 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle5-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle5-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 5 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle6-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle6-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 6 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle7-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle7-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 7 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle8-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle8-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 8 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle9-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle9-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 9 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle10-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle10-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 10 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle11-checkpoint-ledger-09bbbf01",
+      "kind": "git_file",
+      "revision": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle11-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 11 ledger through four disposed candidates",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-history-09bbbf01",
+      "kind": "git_range",
+      "revision_start_exclusive": "dc688b12dfe8edf8c1ed50062f95b59fd648e262",
+      "revision_end_inclusive": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "title": "SM86 RTX 3090 Muse cycles 3 through cycle 11 candidate-five source history before restoration",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm89-rtx4090-rerun-checkpoint-report-ba77659d",
+      "kind": "git_file",
+      "revision": "ba77659d4c25aedf82dd4b332769073644a3516a",
+      "path": "docs/results/2026-08-21-sm89-rerun-campaign.md",
+      "title": "SM89 RTX 4090 Muse rerun checkpoint report through cycle 3",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-rtx4090-muse-rerun-cycle1-ledger-ba77659d",
+      "kind": "git_file",
+      "revision": "ba77659d4c25aedf82dd4b332769073644a3516a",
+      "path": "docs/results/2026-08-21-sm89-muse-rerun-cycle1-ledger.csv",
+      "title": "SM89 RTX 4090 Muse rerun cycle 1 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-rtx4090-muse-rerun-cycle2-ledger-ba77659d",
+      "kind": "git_file",
+      "revision": "ba77659d4c25aedf82dd4b332769073644a3516a",
+      "path": "docs/results/2026-08-21-sm89-muse-rerun-cycle2-ledger.csv",
+      "title": "SM89 RTX 4090 Muse rerun cycle 2 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-rtx4090-muse-rerun-cycle3-ledger-ba77659d",
+      "kind": "git_file",
+      "revision": "ba77659d4c25aedf82dd4b332769073644a3516a",
+      "path": "docs/results/2026-08-21-sm89-muse-rerun-cycle3-ledger.csv",
+      "title": "SM89 RTX 4090 Muse rerun cycle 3 ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-rtx4090-rerun-history-ba77659d",
+      "kind": "git_range",
+      "revision_start_exclusive": "ec7c79679d466b0a427bd44d1a85ed78db729c73",
+      "revision_end_inclusive": "ba77659d4c25aedf82dd4b332769073644a3516a",
+      "title": "SM89 RTX 4090 Muse rerun cycles 1 through 3 candidate, acceptance, and restoration history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-checkpoint-report-f83f476e",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "f83f476eef49e05fb44b2770b1dec2ebec2329f8",
+      "path": "docs/results/2026-08-21-sm120a-qwen38-nvfp4-dflash2-kernel-campaign.md",
+      "title": "SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 checkpoint report through cycle 8",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-checkpoint-ledger-f83f476e",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "f83f476eef49e05fb44b2770b1dec2ebec2329f8",
+      "path": "docs/results/2026-08-21-sm120a-qwen38-nvfp4-dflash2-kernel-campaign-ledger.csv",
+      "title": "SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 cycles 1 through 8 checkpoint ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-corrections-f83f476e",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "f83f476eef49e05fb44b2770b1dec2ebec2329f8",
+      "path": "docs/results/2026-08-21-sm120a-qwen38-nvfp4-dflash2-kernel-campaign-corrections.csv",
+      "title": "SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 provenance correction sidecar",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-history-f83f476e",
+      "kind": "git_range",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision_start_exclusive": "f5292a8fbec5ee3990f6b7f10a9ba400546d51fc",
+      "revision_end_inclusive": "f83f476eef49e05fb44b2770b1dec2ebec2329f8",
+      "title": "SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 candidate, acceptance, restoration, and checkpoint history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-final-checkpoint-report-a5b0ffb5",
+      "kind": "git_file",
+      "repository": "/ai/ginfer",
+      "revision": "a5b0ffb5716a812644687606ee4d236705c83dde",
+      "path": "docs/results/2026-08-21-sm86-agentic-kernel-campaign.md",
+      "title": "SM86 RTX 3090 Muse accepted cycles 1 through 10 and partial cycle 11 final preservation checkpoint",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle11-final-checkpoint-ledger-a5b0ffb5",
+      "kind": "git_file",
+      "repository": "/ai/ginfer",
+      "revision": "a5b0ffb5716a812644687606ee4d236705c83dde",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle11-ledger.csv",
+      "title": "SM86 RTX 3090 Muse partial cycle 11 ledger through five restored candidates",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-final-checkpoint-history-a5b0ffb5",
+      "kind": "git_range",
+      "repository": "/ai/ginfer",
+      "revision_start_exclusive": "09bbbf01d0a70ca1effff9cded91e1284b4734ef",
+      "revision_end_inclusive": "a5b0ffb5716a812644687606ee4d236705c83dde",
+      "title": "SM86 RTX 3090 Muse cycle 11 candidate-five restoration and final checkpoint history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-cycle7-corrected-ledger-f67cacbe",
+      "kind": "git_file",
+      "revision": "f67cacbe73f923cc26aebcc3b7cfdb1018f63fd8",
+      "path": "docs/results/2026-08-21-sm86-muse-cycle7-ledger.csv",
+      "title": "SM86 RTX 3090 Muse cycle 7 ledger with corrected candidate commit provenance",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm86-rtx3090-muse-provenance-correction-history-f67cacbe",
+      "kind": "git_range",
+      "revision_start_exclusive": "a5b0ffb5716a812644687606ee4d236705c83dde",
+      "revision_end_inclusive": "f67cacbe73f923cc26aebcc3b7cfdb1018f63fd8",
+      "title": "SM86 RTX 3090 Muse cycle 7 candidate-hash provenance correction",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_86"]
+    },
+    {
+      "source_id": "ginfer-sm89-rtx4090-muse-rerun-cycle4-checkpoint-f58f6b5b",
+      "kind": "git_file",
+      "repository": "/ai/ginfer",
+      "revision": "f58f6b5b03bec9b6b3be1cd64d74df1989c86f8b",
+      "path": "docs/results/2026-08-21-sm89-muse-rerun-cycle4-checkpoint.md",
+      "title": "SM89 RTX 4090 Muse partial cycle 4 checkpoint after one restored candidate",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "ginfer-sm89-rtx4090-muse-rerun-cycle4-history-f58f6b5b",
+      "kind": "git_range",
+      "repository": "/ai/ginfer",
+      "revision_start_exclusive": "ba77659d4c25aedf82dd4b332769073644a3516a",
+      "revision_end_inclusive": "f58f6b5b03bec9b6b3be1cd64d74df1989c86f8b",
+      "title": "SM89 RTX 4090 Muse partial cycle 4 candidate, restoration, and checkpoint history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_89"]
+    },
+    {
+      "source_id": "cuda-agent-ginfer-skill-policy-e587168-7ee9892",
+      "kind": "git_range",
+      "source_class": "cuda_agent_committed",
+      "repository": "/ai/cuda-agent",
+      "revision_start_exclusive": "f7fa7e47fef4b4c8ea84382c17822ed55b390893",
+      "revision_end_inclusive": "7ee989297bf3adab0e8e59bfd630e7547a7c2f6a",
+      "title": "CUDA-Agent GInfer campaign consolidation and hybrid performance-gate policy commits",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["cross_sm"]
     }
   ],
   "live_references": [

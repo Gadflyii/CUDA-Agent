@@ -102,8 +102,11 @@ def main() -> None:
             for item in load_jsonl(ROOT / record["relative_path"]):
                 if "commit" in item:
                     commit_records[item["commit"]] = item
-                    if item.get("kind") == "restoration":
-                        checks.require(bool(item.get("reverts_commit")), f"restoration commit lacks candidate link: {item['commit']}")
+    # Immutable raw revisions remain append-only. Validate the latest canonical record for each
+    # commit so a provenance repair can supersede an older incomplete record without deleting it.
+    for item in commit_records.values():
+        if item.get("kind") == "restoration":
+            checks.require(bool(item.get("reverts_commit")), f"restoration commit lacks candidate link: {item['commit']}")
 
     episodes = validate_jsonl_schema(checks, ROOT / "normalized/episodes.jsonl", schemas["canonical_episode.schema.json"], "episodes")
     family_splits: dict[str, set[str]] = defaultdict(set)

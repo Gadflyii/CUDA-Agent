@@ -1,0 +1,2 @@
+candidate,commit,scope,oracle,public_or_profile,real_boundary,decision,restoration
+c2_01,b40488f0,"Ada89 fused D128 reduction CTA 256 to 128 threads","pass generic Muse GQA and registered real; full Release build","all 9 B1/B4/B8 x 2K/8K/129K points +2.51% to +13.08%; profiled reduction 0.989 ms to 0.783 ms (-20.83%)","pair1 639.193 to 642.517 tok/s; pair2 639.092 to 642.681 tok/s; lower latency and identical 992/800 both",accept,

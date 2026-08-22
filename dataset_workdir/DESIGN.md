@@ -66,14 +66,16 @@ This temporal classification is the primary leakage control.
 Sources are registered before use and pinned wherever possible:
 
 1. `ginfer_committed`: immutable Git objects, committed runbooks, tests, results, and diffs;
-2. `ginfer_closed_local`: ignored local ledgers only when a committed result or explicit terminal
+2. `cuda_agent_committed`: immutable CUDA-Agent skill-policy Git objects that governed the
+   collected GInfer campaign;
+3. `ginfer_closed_local`: ignored local ledgers only when a committed result or explicit terminal
    record establishes that the cycle is closed;
-3. `ginfer_live_reference`: active profile/campaign locations recorded for later refresh, never
+4. `ginfer_live_reference`: active profile/campaign locations recorded for later refresh, never
    copied while open;
-4. `nvidia_official`: public NVIDIA manuals, guides, technical articles, and tool documentation;
-5. `third_party_licensed`: pinned repository material whose license permits the intended use;
-6. `third_party_metadata_only`: URL, revision, and license status without code ingestion; and
-7. `authored_structure`: schemas, architecture cards, cross-SM deltas, and task annotations, each
+5. `nvidia_official`: public NVIDIA manuals, guides, technical articles, and tool documentation;
+6. `third_party_licensed`: pinned repository material whose license permits the intended use;
+7. `third_party_metadata_only`: URL, revision, and license status without code ingestion; and
+8. `authored_structure`: schemas, architecture cards, cross-SM deltas, and task annotations, each
    pointing back to evidence sources.
 
 Every raw object records the source ID, exact URL or repository/path/revision, retrieval timestamp,
@@ -214,4 +216,3 @@ runtime qualification. RTX 5090 and RTX PRO 6000 results remain separate despite
 `sm_120a` image. Evaluation reports correctness pass rate, patch/build rate, accepted-candidate
 rate under frozen gates, geomean speedup only across valid tasks, worst pointwise regression,
 false-claim rate, and campaign efficiency (useful accepted candidates per expensive run).
-

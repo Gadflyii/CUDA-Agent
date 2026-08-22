@@ -39,6 +39,25 @@ def commit_time(repo: Path, revision: str) -> str:
     return str(git(repo, "show", "-s", "--format=%cI", revision, text=True)).strip()
 
 
+def exact_parent_revert(repo: Path, commit_id: str, parents: list[str]) -> str | None:
+    """Recover a missing revert footer only when Git proves an exact one-commit reversal."""
+    if len(parents) != 1:
+        return None
+    candidate = parents[0]
+    candidate_parents = str(
+        git(repo, "show", "-s", "--format=%P", candidate, text=True)
+    ).split()
+    if len(candidate_parents) != 1:
+        return None
+    restored_tree = str(
+        git(repo, "show", "-s", "--format=%T", commit_id, text=True)
+    ).strip()
+    pre_candidate_tree = str(
+        git(repo, "show", "-s", "--format=%T", candidate_parents[0], text=True)
+    ).strip()
+    return candidate if restored_tree == pre_candidate_tree else None
+
+
 def collect_git_range(repo: Path, item: dict[str, Any]) -> bytes:
     start = item["revision_start_exclusive"]
     end = item["revision_end_inclusive"]
@@ -70,15 +89,20 @@ def collect_git_range(repo: Path, item: dict[str, Any]) -> bytes:
         )
         body = meta[4].strip()
         revert_match = re.search(r"This reverts commit ([0-9a-f]{40})", body)
+        parents = meta[1].split()
+        is_restoration = meta[3].startswith("Revert ")
+        reverts_commit = revert_match.group(1) if revert_match else None
+        if is_restoration and reverts_commit is None:
+            reverts_commit = exact_parent_revert(repo, commit_id, parents)
         records.append(
             {
                 "commit": meta[0],
-                "parents": meta[1].split(),
+                "parents": parents,
                 "committed_at": meta[2],
                 "subject": meta[3],
                 "body": body,
-                "kind": "restoration" if meta[3].startswith("Revert ") else "candidate_or_retained_change",
-                "reverts_commit": revert_match.group(1) if revert_match else None,
+                "kind": "restoration" if is_restoration else "candidate_or_retained_change",
+                "reverts_commit": reverts_commit,
                 "patch": patch,
             }
         )
@@ -104,6 +128,11 @@ def source_record(
         locator.update({"revision": version})
     else:
         locator.update({"path": item["path"], "revision": item["closure_evidence_revision"]})
+    use_note = (
+        "Internal CUDA-Agent policy evidence; redistribution requires project-owner approval."
+        if source_class == "cuda_agent_committed"
+        else "Internal GInfer evidence; redistribution requires project-owner approval."
+    )
     return {
         "source_id": item["source_id"],
         "source_class": source_class,
@@ -120,7 +149,7 @@ def source_record(
         "license": {
             "status": "internal",
             "identifier": None,
-            "use_note": "Internal GInfer evidence; redistribution requires project-owner approval."
+            "use_note": use_note
         },
         "ingestion_status": "collected",
         "notes": "Read from an immutable Git object or an explicitly closed, hash-pinned local ledger."
@@ -142,13 +171,13 @@ def main() -> None:
             version = item["revision"]
             date = commit_time(repo, item["revision"])
             suffix = Path(item["path"]).suffix or ".bin"
-            source_class = "ginfer_committed"
+            source_class = item.get("source_class", "ginfer_committed")
         elif kind == "git_range":
             data = collect_git_range(repo, item)
             version = f"{item['revision_start_exclusive']}..{item['revision_end_inclusive']}"
             date = commit_time(repo, item["revision_end_inclusive"])
             suffix = ".jsonl"
-            source_class = "ginfer_committed"
+            source_class = item.get("source_class", "ginfer_committed")
         elif kind == "closed_local_file":
             path = Path(item["path"])
             data = path.read_bytes()
