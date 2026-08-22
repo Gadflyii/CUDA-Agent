@@ -428,6 +428,66 @@
       "sm_applicability": ["sm_120a"]
     },
     {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-terminal-report-fa844e78",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "fa844e781d8f8a65094fe3efb9ce043bb17cfde9",
+      "path": "docs/results/2026-08-21-sm120a-qwen38-nvfp4-dflash2-kernel-campaign.md",
+      "title": "Terminal SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 campaign report through cycle 9",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-terminal-ledger-fa844e78",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "fa844e781d8f8a65094fe3efb9ce043bb17cfde9",
+      "path": "docs/results/2026-08-21-sm120a-qwen38-nvfp4-dflash2-kernel-campaign-ledger.csv",
+      "title": "Terminal SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 campaign ledger through cycle 9",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-terminal-corrections-fa844e78",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "fa844e781d8f8a65094fe3efb9ce043bb17cfde9",
+      "path": "docs/results/2026-08-21-sm120a-qwen38-nvfp4-dflash2-kernel-campaign-corrections.csv",
+      "title": "Terminal SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 provenance correction sidecar",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-consolidation-report-fa844e78",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "fa844e781d8f8a65094fe3efb9ce043bb17cfde9",
+      "path": "docs/results/2026-08-22-sm120a-qwen38-nvfp4-dflash2-kernel-consolidation.md",
+      "title": "Closed SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 consolidation report",
+      "mime_type": "text/markdown",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-consolidation-ledger-fa844e78",
+      "kind": "git_file",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision": "fa844e781d8f8a65094fe3efb9ce043bb17cfde9",
+      "path": "docs/results/2026-08-22-sm120a-qwen38-nvfp4-dflash2-kernel-consolidation-ledger.csv",
+      "title": "Closed SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 two-package consolidation ledger",
+      "mime_type": "text/csv",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
+      "source_id": "ginfer-sm120a-rtx5090-qwen38-terminal-history-fa844e78",
+      "kind": "git_range",
+      "repository": "/ai/ginfer/.worktrees/agentic-kernels-5090",
+      "revision_start_exclusive": "f5292a8fbec5ee3990f6b7f10a9ba400546d51fc",
+      "revision_end_inclusive": "fa844e781d8f8a65094fe3efb9ce043bb17cfde9",
+      "title": "SM120a RTX 5090 Qwen3.8 NVFP4 DFlash2 complete candidate, restoration, acceptance, and consolidation history",
+      "mime_type": "application/x-ndjson",
+      "sm_applicability": ["sm_120a"]
+    },
+    {
       "source_id": "ginfer-sm86-rtx3090-muse-final-checkpoint-report-a5b0ffb5",
       "kind": "git_file",
       "repository": "/ai/ginfer",

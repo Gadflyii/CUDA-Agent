@@ -165,7 +165,7 @@
     "task_view": "orchestration_reporting",
     "scope": {
       "repository": "GInfer",
-      "target": "qwen3.8-27b/groupwise-int",
+      "target": "qwen3.8-27b/groupwise-int-dflash2-q4",
       "boundary": "MTP3 Program round and Engine semantic sentinels",
       "op_family": "q4_linear_swiglu",
       "architectures": ["sm_89"],

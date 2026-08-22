@@ -108,7 +108,29 @@ def main() -> None:
         if item.get("kind") == "restoration":
             checks.require(bool(item.get("reverts_commit")), f"restoration commit lacks candidate link: {item['commit']}")
 
+    campaign_episodes = validate_jsonl_schema(
+        checks,
+        ROOT / "normalized/campaign_episodes.jsonl",
+        schemas["canonical_episode.schema.json"],
+        "campaign_episodes",
+    )
     episodes = validate_jsonl_schema(checks, ROOT / "normalized/episodes.jsonl", schemas["canonical_episode.schema.json"], "episodes")
+    campaign_by_id = {episode["episode_id"]: episode for episode in campaign_episodes}
+    episode_by_id = {episode["episode_id"]: episode for episode in episodes}
+    checks.require(
+        len(campaign_by_id) == len(campaign_episodes),
+        "duplicate episode ID in generated campaign episodes",
+    )
+    checks.require(len(episode_by_id) == len(episodes), "duplicate episode ID in merged episodes")
+    checks.require(
+        set(campaign_by_id) <= set(episode_by_id),
+        "generated campaign episodes are missing from normalized/episodes.jsonl",
+    )
+    for episode_id, campaign_episode in campaign_by_id.items():
+        checks.require(
+            episode_by_id.get(episode_id) == campaign_episode,
+            f"merged campaign episode differs from generated authority: {episode_id}",
+        )
     family_splits: dict[str, set[str]] = defaultdict(set)
     lineage_splits: dict[str, set[str]] = defaultdict(set)
     dedup_splits: dict[str, set[str]] = defaultdict(set)
@@ -128,6 +150,33 @@ def main() -> None:
             classes = {events[event_id]["information_class"] for event_id in input_ids}
             checks.require(classes <= ALLOWED_GENERATION_INPUT_CLASSES, f"candidate result/label leaks into generation input: {episode['episode_id']} ({sorted(classes)})")
             checks.require(not view["result_label_visible"], f"generation view exposes result label: {episode['episode_id']}")
+        if episode["task_view"] == "implementation":
+            target_events = [events[event_id] for event_id in target_ids]
+            input_events = [events[event_id] for event_id in input_ids]
+            checks.require(
+                any(
+                    item["event_type"] == "patch"
+                    for item in target_events
+                ),
+                f"implementation view lacks a patch target: {episode['episode_id']}",
+            )
+            if episode["quality"]["review_status"] == "auto_normalized":
+                checks.require(
+                    any(
+                        item["event_type"] == "patch"
+                        and "diff --git" in str(item["payload"])
+                        for item in target_events
+                    ),
+                    f"auto-normalized implementation lacks an exact unified diff target: {episode['episode_id']}",
+                )
+                checks.require(
+                    any(
+                        item["event_type"] == "observation"
+                        and "Pre-change source hunks" in str(item["payload"])
+                        for item in input_events
+                    ),
+                    f"auto-normalized implementation lacks reconstructed preimage: {episode['episode_id']}",
+                )
         if not view["result_label_visible"]:
             checks.require(all(events[event_id]["information_class"] != "disposition_label" for event_id in input_ids), f"hidden label event appears in input: {episode['episode_id']}")
         outcome = episode["outcome"]
@@ -202,6 +251,8 @@ def main() -> None:
             "schemas_validated": True,
             "manifest_hashes_checked": True,
             "candidate_generation_label_leakage_checked": True,
+            "campaign_episode_merge_checked": True,
+            "implementation_patch_preimage_checked": True,
             "revert_links_checked": True,
             "split_lineages_checked": True,
             "live_sources_excluded_from_raw": True,

@@ -1,16 +1,19 @@
 {
   "counts": {
+    "campaign_episodes": 677,
     "cross_sm_deltas": 3,
     "curated_manifest": 9,
-    "episodes": 16,
-    "normalized_manifest": 5,
-    "raw_manifest": 83,
+    "episodes": 693,
+    "normalized_manifest": 6,
+    "raw_manifest": 89,
     "schemas": 5,
-    "source_registry": 88
+    "source_registry": 95
   },
   "errors": [],
   "invariants": {
+    "campaign_episode_merge_checked": true,
     "candidate_generation_label_leakage_checked": true,
+    "implementation_patch_preimage_checked": true,
     "live_sources_excluded_from_raw": true,
     "manifest_hashes_checked": true,
     "revert_links_checked": true,
@@ -19,6 +22,6 @@
     "split_lineages_checked": true
   },
   "status": "pass",
-  "validated_at": "2026-08-22T02:36:19Z",
+  "validated_at": "2026-08-22T16:58:23Z",
   "warnings": []
 }

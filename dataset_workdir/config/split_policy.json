@@ -9,12 +9,20 @@
     "campaign_cycle_mechanism_cluster"
   ],
   "architecture_policy": {
-    "train_architectures": ["sm_89"],
-    "cross_architecture_holdouts": ["sm_86", "sm_120a"],
-    "physical_sku_holdouts": ["RTX 3090", "RTX 4090", "RTX 5090", "RTX PRO 6000 Blackwell Workstation"],
-    "note": "SM86 and SM120a remain eval-only in the seed because there are too few independent, fully measured groups. Revisit only after closed campaigns are ingested."
+    "train_architectures": ["sm_89", "sm_120a"],
+    "cross_architecture_holdouts": ["sm_86"],
+    "physical_sku_holdouts": ["RTX PRO 6000 Blackwell Workstation"],
+    "note": "Earlier closed SM120a cycles are train-owned; later SM120a cycles and consolidation are held out by campaign/cycle. The complete SM86 campaign remains a cross-architecture test, and future RTX PRO 6000 workloads remain sealed real-hardware evaluation."
   },
-  "target_ratios_after_grouping": {"train": 0.8, "validation": 0.1, "test": 0.1},
-  "caps": {"near_duplicate_candidates_per_cluster": 3, "terminal_no_win_rows_per_cycle": 8},
+  "allocation_policy": {
+    "method": "explicit_campaign_cycle",
+    "row_ratio_target": null,
+    "note": "Lineage and sealed evaluation ownership take precedence over row-count ratios."
+  },
+  "training_sampling_recommendation": {
+    "near_duplicate_candidates_per_cluster": 3,
+    "terminal_no_win_rows_per_cycle": 8,
+    "note": "Apply only in the training loader after tokenizer-length and task-view statistics are available; canonical and evaluation layers retain every admitted row."
+  },
   "test_tiers": ["in_arch", "cross_arch", "real_hardware"]
 }

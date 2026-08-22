@@ -18,17 +18,17 @@ evidence, it should:
 9. report claims with exact workload, GPU/SKU, SM image, toolchain, units, limitations, and pending
    physical qualification.
 
-The training target is Qwen3.8-27B delivered in NVFP4 form. The dataset remains provider-neutral
-and does not encode tokenizer-specific chat tokens. It also does not assume that NVFP4 inference
-weights are directly trainable. The training-method decision remains explicit and deferred:
+The specialization target is a **full-parameter fine-tune of Qwen3.8-27B**. Training starts from the
+exact BF16 safetensors checkpoint and emits a resumable BF16 checkpoint. Transformer Engine FP8 is
+the primary training-compute path, not the checkpoint or artifact authority: trainable/master
+weights and optimizer state retain their required higher precision. A short BF16-compute control
+must establish that FP8 has equivalent convergence and materially better step time on Server 1.
 
-- preferred baseline experiment: supervised/preference tuning from the supported higher-precision
-  base, then calibrated NVFP4 quantization and regression evaluation;
-- alternative experiment: an NVFP4-aware adapter or quantization-aware path if the selected stack
-  can demonstrate stable updates and faithful adapter merging.
-
-Both paths consume the same canonical events and must be compared on held-out technical behavior,
-not just training loss.
+The accepted BF16 checkpoint is then quantized for deployment. ModelOpt NVFP4 and AutoRound are
+separate candidates, each evaluated against the BF16 authority before conversion to a registered
+`.ginfer` identity. Quantized results are never treated as the reference for training correctness.
+The dataset remains provider-neutral and does not encode tokenizer-specific chat tokens; the
+training input builder applies the exact pinned Qwen3.8 tokenizer and chat template.
 
 ## Canonical episode
 
@@ -88,6 +88,38 @@ and registry revision. Normalized and curated manifests record the collector/exp
 all input hashes, allowing exports to be reproduced without silently following `HEAD` or a mutable
 web page.
 
+## Closed-campaign trajectory builder
+
+`config/trajectory_campaigns.json` is the explicit admission list for automatic trajectory
+construction. Each entry names closed ledger snapshots, immutable Git histories, governing
+context, later corrections, exact target/hardware/workload scope, and cycle-level split ownership.
+The builder never scans a checkout, guesses that a cycle is closed, or consumes a live-reference
+source.
+
+`scripts/build_campaign_episodes.py` performs these deterministic transformations:
+
+1. resolve every configured source through the registry and raw manifest;
+2. parse the heterogeneous closed CSV ledgers while retaining the source row identity;
+3. resolve candidate and restoration commit prefixes only when the declared immutable Git history
+   makes them unique;
+4. require an exact `reverts_commit` edge before attaching a rejected commit to an implementation
+   outcome;
+5. retain only repository code/test/build hunks and reconstruct pre-change hunk context without
+   exposing the candidate's added lines;
+6. apply recorded correction rows before generating an outcome;
+7. emit diagnosis only when pre-candidate baseline and hypothesis evidence exist, implementation
+   only when an exact patch and preimage exist, judgment for every usable ledger row, and
+   orchestration for accepted or terminal no-win boundaries; and
+8. structurally fingerprint patches, reconcile direct ports to the most restrictive split, run
+   schema and secret checks, and merge the generated episodes with the reviewed seed.
+
+Exact tool commands are emitted only when an immutable source actually records them. Current
+ledgers normally record the selected checks and their results rather than byte-exact shell calls,
+so the implementation target contains the exact code diff plus a focused verification decision;
+it does not fabricate a tool transcript. Oversized patches or missing/revert-unproven history are
+omitted from implementation views and retained, with limitations, only where they remain valid
+judgment evidence. `reports/trajectory_builder.json` records every omission class and distribution.
+
 ## Leakage-safe task views
 
 The same historical campaign can yield several views, but all views share one `family_id` and
@@ -124,6 +156,123 @@ Preference pairs are not manufactured by flipping an accepted label. A rejected 
 valuable hard negative only if its semantic context and actual measured failure are preserved.
 Near-duplicate variants are grouped, and their outcome evidence is hidden in generation views.
 
+## Full fine-tuning on Server 1
+
+### Hardware and memory contract
+
+Server 1 supplies two RTX PRO 6000 Blackwell GPUs with 96 GB each. They are two independent memory
+domains, not an automatically unified 192 GB allocation. Before selecting the distributed layout,
+record the exact SKU, driver/CUDA/Transformer Engine versions, `nvidia-smi topo -m`, peer-access
+result, host RAM, NUMA placement, and available local NVMe capacity. The topology measurement
+decides whether tensor-parallel collectives or fully-sharded all-gathers are the faster two-GPU
+layout; it is not inferred from the product name.
+
+A conventional 27B AdamW full tune is approximately 432 GB before activations: about 54 GB BF16
+parameters, 54 GB BF16 gradients, 108 GB FP32 master weights, and 216 GB FP32 first/second moments.
+Perfect two-way sharding would still be about 216 GB per GPU. Transformer Engine FP8 reduces and
+accelerates eligible linear compute and some working tensors, but does not remove the authoritative
+weights or optimizer state. Therefore the run requires all of the following:
+
+- two-way parameter and gradient sharding;
+- CPU offload of FP32 master weights and Adam moments, unless a separately validated reduced-state
+  optimizer proves both fit and equivalent convergence;
+- transformer-block activation recomputation;
+- packed variable-length sequences and microbatch one per GPU; and
+- resumable distributed checkpoints that materialize a complete BF16 Hugging Face checkpoint.
+
+The primary stack is NVIDIA Megatron Core/Bridge with Transformer Engine. Exact Qwen3.8 conversion
+is an admission gate: load the pinned BF16 checkpoint, round-trip one distributed checkpoint, and
+compare representative logits/state outputs before training. General Qwen support in a framework
+does not prove this exact hybrid-attention/MTP checkpoint mapping. If the selected Megatron release
+cannot express the required full sharding plus offload, use an equivalent supported full-shard
+runtime with Transformer Engine rather than weakening the full-fine-tune requirement.
+
+### Bring-up and training sequence
+
+1. **Freeze data and base.** Pin the BF16 model revision, tokenizer/template hashes, normalized and
+   curated manifest hashes, and split policy. Private validation/test answers are absent from the
+   training mount. Auto-normalized training rows receive sampled review before release training.
+2. **Build token statistics.** Tokenize with the pinned base tokenizer, preserve complete diffs,
+   and report lengths by task view and split. Start with packed 8K sequences; admit 16K examples
+   only after the memory probe. Long-context capability up to the base model limit is evaluated,
+   not recreated by forcing every SFT step to 131K.
+3. **Qualify execution.** Run a memory-only forward/backward probe, then matched BF16-compute and
+   TE-FP8-compute steps. Require finite loss/gradients, checkpoint resume, BF16 logit parity before
+   updates, and an FP8 throughput benefit after synchronization. Capture peak GPU/host memory and
+   tokens/s; an out-of-memory fallback to LoRA is not allowed.
+4. **Pilot the full tune.** Use AdamW, BF16 model/gradient authority, TE FP8 linear compute, gradient
+   clipping, activation recomputation, and token-count-based accumulation. Begin the learning-rate
+   selection with `1e-6`, `2e-6`, and `5e-6`; choose from held-out behavior and retention, not the
+   lowest training loss. The initial effective batch target is 128K non-padding tokens/update,
+   adjusted only for measured stability or memory.
+5. **Run and checkpoint.** Save frequent resumable sharded checkpoints plus periodic consolidated
+   BF16 safetensors. Evaluate diagnosis, exact-patch implementation, judgment, orchestration, and
+   general tool/coding retention separately. Stop on held-out regression or overfit, not an
+   arbitrary epoch count.
+6. **Select in BF16.** The winning checkpoint must pass the frozen private evaluation and the
+   sandboxed real GInfer task harness in BF16-capable reference execution before quantization.
+
+The currently generated corpus is a valid builder output, not automatically a sufficient release
+corpus. A production full tune is gated on reviewed positive and hard-negative coverage, token
+volume, task-view balance, and a capability-retention set. The first run may be a memory/performance
+and overfit-risk pilot; its success must not be reported as a trained production agent merely
+because loss decreases.
+
+### Quantization and `.ginfer` deployment
+
+The selected BF16 checkpoint is immutable input to two downstream branches:
+
+1. **NVIDIA ModelOpt NVFP4.** This is the Blackwell production authority. Build exactly 512 packed
+   4096-token rows from the train split with the pinned Qwen3.8 tokenizer, then apply the checked-in
+   GInfer MSE recipe to only Text MLP gate/up/down projections in layers `0..55`. ModelOpt emits
+   W4A4 NVFP4: E2M1 packed values, one E4M3 scale per K16 block, and FP32 per-tensor weight/input
+   multipliers. GInfer preserves the packed codes and block scales, maps the two multipliers to its
+   reciprocal-divisor convention, and owns row-FP8 quantization for attention, GDN, layers `56..63`,
+   embedding, and output head from the same BF16 checkpoint. Run converter verification, task
+   evaluation, long-context sentinels, and real Engine performance on Blackwell.
+2. **AutoRound.** Evaluate AutoRound NVFP4 and, where useful, its weight-only groupwise result from
+   the same BF16 checkpoint. An AutoRound checkpoint is not relabeled as a current GInfer format:
+   it must either match a registered tensor/scale contract exactly or receive an explicit new
+   converter/identity with its own oracle and kernels.
+
+This export boundary is material. `qwen3_8_27b_nvfp4-modelopt-v2` accepts only the pinned ModelOpt
+revision and recipe, exactly 168 NVFP4 source matrices, exact fused gate/up multiplier equality,
+and `ginfer-quantization.json` hashes binding the packed export to the selected BF16 checkpoint.
+ModelOpt `weight_scale_2` and `input_scale` are multipliers; the adapter stores
+`round_f32(1 / scale)` because the registered GInfer kernels consume divisors. It never decodes or
+requantizes ModelOpt FP4 codes or E4M3 block scales. The calibration manifest and exact
+tokenizer/template hashes are required inputs, and the selected Python environment must import
+ModelOpt from the clean pinned checkout rather than an unrelated installed build. The groupwise
+converter independently applies GInfer's registered max-absolute Q4/Q5/W8 recipes to BF16 tensors.
+An arbitrary ModelOpt,
+LLM Compressor, or AutoRound directory is not loadable.
+
+LLM Compressor is an interoperability/reference source, not the production quantizer. Its
+compressed-tensors layout remains useful for comparing represented values and published artifacts,
+but ModelOpt owns the trained-checkpoint Blackwell path because NVIDIA defines the NVFP4 W4A4
+recipe, scale hierarchy, calibration algorithms, and unified export. AutoRound remains a separate
+quality candidate and must enter through a registered format-specific producer.
+
+Selection is pointwise: BF16 quality is the reference, then each quantized branch must clear the
+same private behavioral suite and real GInfer agent tasks. Report quality deltas, artifact size,
+peak VRAM, prefill/decode throughput, and failures separately. NVFP4 is the preferred Blackwell
+production result; the groupwise branch remains a portability/fallback candidate, not a reason to
+lower the NVFP4 quality gate.
+
+Framework behavior is taken from the pinned versions installed for the run, with these upstream
+documents as discovery authorities:
+
+- [Transformer Engine user guide](https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/index.html);
+- [Megatron Bridge performance and parallelism guide](https://docs.nvidia.com/nemo/megatron-bridge/latest/performance-guide.html);
+- [Megatron Bridge mixed-precision training](https://docs.nvidia.com/nemo/megatron-bridge/nightly/training/mixed-precision.html);
+- [Megatron Bridge / ModelOpt quantization](https://docs.nvidia.com/nemo/megatron-bridge/nightly/modelopt/quantization.html);
+- [NVIDIA ModelOpt PTQ recipe guide](https://github.com/NVIDIA/Model-Optimizer/blob/main/modelopt_recipes/ptq.md);
+- [Transformer Engine NVFP4 format](https://nvidia.github.io/TransformerEngine/features/low_precision_training/nvfp4/nvfp4.html); and
+- [AutoRound source and format documentation](https://github.com/intel/auto-round).
+
+The run manifest records the resolved package/container revisions; a mutable documentation URL is
+not sufficient experiment provenance.
+
 ## Architecture-aware splitting
 
 The indivisible split key is the transitive closure of:
@@ -135,19 +284,24 @@ The indivisible split key is the transitive closure of:
 - all task views derived from the same evidence; and
 - substantially identical patches ported across SMs.
 
-The initial policy uses three evaluation tiers:
+The current closed-campaign policy uses three evaluation tiers:
 
 1. **in-architecture generalization:** unseen candidate families on an architecture present in
    training;
-2. **cross-architecture transfer:** whole SM/route groups held out (initially SM86 and SM120a are
-   evaluation-only until enough independent groups exist); and
+2. **cross-architecture transfer:** the complete SM86 campaign remains held out while SM89 and
+   earlier SM120a cycles supply training evidence; and
 3. **real-hardware qualification:** sealed workloads run on RTX 3090, RTX 4090, RTX 5090, and RTX
-   PRO 6000, with the two SM120a SKUs kept as separate device targets.
+   PRO 6000, with the future RTX PRO 6000 results never inferred from RTX 5090 despite the shared
+   SM120a image.
 
-No split is produced by random rows. Dataset balancing caps repeated no-op tile variations so one
-24-candidate cycle cannot dominate. Final test prompts and device measurements are versioned and
-frozen before model selection. If a mechanism appears on several architectures, all direct ports
-remain together unless the evaluation is explicitly a documented cross-SM transfer test.
+No split is produced by random rows. SM120a Muse cycle 7 and Qwen cycle 7 are in-architecture
+validation; Qwen cycles 8-9, both consolidation campaigns, and all SM86 candidates remain
+test-owned.
+Structural patch fingerprints move direct ports to the most restrictive related split. Dataset
+normalization retains every admitted ledger row. The eventual training loader applies the declared
+near-duplicate/no-win sampling caps after exact-tokenizer length statistics are available, so one
+24-candidate cycle cannot dominate; validation and test remain complete. Final test prompts and
+device measurements are versioned and frozen before model selection.
 
 ## Quality filters
 

@@ -1,0 +1,281 @@
+{
+  "schema_version": "1.0.0",
+  "limits": {
+    "max_patch_chars": 64000,
+    "max_preimage_chars": 64000
+  },
+  "campaigns": [
+    {
+      "campaign_id": "sm89-muse-20260821",
+      "ledger_source_ids": [
+        "ginfer-sm89-muse-cycle9-ledger-36bbd955"
+      ],
+      "history_source_ids": [
+        "ginfer-sm89-candidate-history"
+      ],
+      "context_source_ids": [
+        "ginfer-product-contract-dc688b12",
+        "ginfer-runbook-kernel-campaign-36bbd955",
+        "ginfer-sm89-campaign-summary-36bbd955"
+      ],
+      "correction_source_ids": [],
+      "architecture": "sm_89",
+      "hardware_sku": "NVIDIA GeForce RTX 4090",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "public CUDA Op followed by Muse DFlash2 Program or Engine boundary",
+      "default_op_family": "cuda_kernel",
+      "workload": {
+        "mode": "DFlash2",
+        "draft_width": 4,
+        "kv": "INT8-G64",
+        "capacity": 131072,
+        "concurrency": "1..8"
+      },
+      "assigned_split": "train",
+      "evaluation_tier": "train"
+    },
+    {
+      "campaign_id": "sm89-qwen38-20260821",
+      "ledger_source_ids": [
+        "ginfer-sm89-qwen-cycle2-ledger-36bbd955"
+      ],
+      "history_source_ids": [
+        "ginfer-sm89-candidate-history"
+      ],
+      "context_source_ids": [
+        "ginfer-product-contract-dc688b12",
+        "ginfer-runbook-kernel-campaign-36bbd955",
+        "ginfer-sm89-campaign-summary-36bbd955"
+      ],
+      "correction_source_ids": [],
+      "architecture": "sm_89",
+      "hardware_sku": "NVIDIA GeForce RTX 4090",
+      "target": "qwen3.8-27b/groupwise-int-dflash2-q4",
+      "boundary": "public CUDA Op followed by Qwen3.8 Program or Engine boundary",
+      "default_op_family": "cuda_kernel",
+      "workload": {
+        "mode": "MTP3",
+        "kv": "INT8-G64",
+        "capacity": 131072,
+        "concurrency": "1..8"
+      },
+      "assigned_split": "train",
+      "evaluation_tier": "train"
+    },
+    {
+      "campaign_id": "sm89-muse-rerun-20260822",
+      "ledger_source_ids": [
+        "ginfer-sm89-rtx4090-muse-rerun-cycle1-ledger-ba77659d",
+        "ginfer-sm89-rtx4090-muse-rerun-cycle2-ledger-ba77659d",
+        "ginfer-sm89-rtx4090-muse-rerun-cycle3-ledger-ba77659d"
+      ],
+      "history_source_ids": [
+        "ginfer-sm89-rtx4090-rerun-history-ba77659d"
+      ],
+      "context_source_ids": [
+        "ginfer-product-contract-f83f476e",
+        "ginfer-runbook-kernel-campaign-f83f476e",
+        "ginfer-sm89-rtx4090-rerun-checkpoint-report-ba77659d"
+      ],
+      "correction_source_ids": [],
+      "architecture": "sm_89",
+      "hardware_sku": "NVIDIA GeForce RTX 4090",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "public CUDA Op followed by Muse DFlash2 Program or Engine boundary",
+      "default_op_family": "cuda_kernel",
+      "workload": {
+        "mode": "DFlash2",
+        "draft_width": 4,
+        "kv": "INT8-G64",
+        "capacity": 131072,
+        "concurrency": "1..8"
+      },
+      "assigned_split": "validation",
+      "evaluation_tier": "in_arch"
+    },
+    {
+      "campaign_id": "sm86-muse-20260822",
+      "ledger_source_ids": [
+        "ginfer-sm86-rtx3090-muse-cycle1-ledger-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-cycle2-ledger-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-cycle3-ledger-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-cycle4-ledger-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-cycle5-ledger-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-cycle6-ledger-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-cycle7-corrected-ledger-f67cacbe",
+        "ginfer-sm86-rtx3090-muse-cycle8-ledger-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-cycle9-ledger-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-cycle10-ledger-09bbbf01"
+      ],
+      "history_source_ids": [
+        "ginfer-sm86-accepted-history",
+        "ginfer-sm86-rtx3090-muse-history-09bbbf01",
+        "ginfer-sm86-rtx3090-muse-provenance-correction-history-f67cacbe"
+      ],
+      "context_source_ids": [
+        "ginfer-product-contract-f83f476e",
+        "ginfer-runbook-kernel-campaign-f83f476e",
+        "ginfer-sm86-rtx3090-muse-checkpoint-report-09bbbf01"
+      ],
+      "correction_source_ids": [],
+      "architecture": "sm_86",
+      "hardware_sku": "NVIDIA GeForce RTX 3090",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "public CUDA Op followed by Muse DFlash2 Program or Engine boundary",
+      "default_op_family": "cuda_kernel",
+      "workload": {
+        "mode": "DFlash2",
+        "draft_width": 4,
+        "kv": "INT8-G64",
+        "capacity": 131072,
+        "concurrency": "1..8"
+      },
+      "assigned_split": "test",
+      "evaluation_tier": "cross_arch"
+    },
+    {
+      "campaign_id": "sm120a-rtx5090-muse-20260821",
+      "ledger_source_ids": [
+        "ginfer-sm120a-rtx5090-muse-campaign-ledger-99d1634d"
+      ],
+      "history_source_ids": [
+        "ginfer-sm120a-rtx5090-muse-candidate-history-99d1634d"
+      ],
+      "context_source_ids": [
+        "ginfer-product-contract-f83f476e",
+        "ginfer-runbook-kernel-campaign-f83f476e",
+        "ginfer-sm120a-rtx5090-muse-campaign-report-99d1634d"
+      ],
+      "correction_source_ids": [],
+      "architecture": "sm_120a",
+      "hardware_sku": "NVIDIA GeForce RTX 5090",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "public CUDA Op followed by Muse DFlash2 Program or Engine boundary",
+      "default_op_family": "cuda_kernel",
+      "workload": {
+        "mode": "DFlash2",
+        "draft_width": 4,
+        "kv": "INT8-G64",
+        "capacity": 131072,
+        "concurrency": "1..8"
+      },
+      "assigned_split": "train",
+      "evaluation_tier": "train",
+      "cycle_assignments": {
+        "7": {
+          "assigned_split": "validation",
+          "evaluation_tier": "in_arch"
+        }
+      }
+    },
+    {
+      "campaign_id": "sm120a-rtx5090-muse-consolidation-20260821",
+      "ledger_source_ids": [
+        "ginfer-sm120a-rtx5090-muse-consolidation-terminal-ledger-4a3587a3"
+      ],
+      "history_source_ids": [
+        "ginfer-sm120a-rtx5090-muse-consolidation-c1-history-e5036052",
+        "ginfer-sm120a-rtx5090-muse-consolidation-c2-history-4a3587a3"
+      ],
+      "context_source_ids": [
+        "ginfer-product-contract-f83f476e",
+        "ginfer-runbook-kernel-campaign-f83f476e",
+        "ginfer-sm120a-rtx5090-muse-consolidation-terminal-report-4a3587a3"
+      ],
+      "correction_source_ids": [
+        "ginfer-sm120a-rtx5090-muse-consolidation-corrections-4a3587a3"
+      ],
+      "architecture": "sm_120a",
+      "hardware_sku": "NVIDIA GeForce RTX 5090",
+      "target": "muse-glimmer-30b/groupwise-int-dflash-q4",
+      "boundary": "multi-patch CUDA package followed by Muse DFlash2 Program or Engine boundary",
+      "default_op_family": "cross_kernel_consolidation",
+      "workload": {
+        "mode": "DFlash2",
+        "draft_width": 4,
+        "kv": "INT8-G64",
+        "capacity": 131072,
+        "concurrency": "1..8"
+      },
+      "assigned_split": "test",
+      "evaluation_tier": "in_arch"
+    },
+    {
+      "campaign_id": "sm120a-rtx5090-qwen38-20260821",
+      "ledger_source_ids": [
+        "ginfer-sm120a-rtx5090-qwen38-terminal-ledger-fa844e78"
+      ],
+      "history_source_ids": [
+        "ginfer-sm120a-rtx5090-qwen38-terminal-history-fa844e78"
+      ],
+      "context_source_ids": [
+        "ginfer-product-contract-f83f476e",
+        "ginfer-runbook-kernel-campaign-f83f476e",
+        "ginfer-sm120a-rtx5090-qwen38-terminal-report-fa844e78"
+      ],
+      "correction_source_ids": [
+        "ginfer-sm120a-rtx5090-qwen38-terminal-corrections-fa844e78"
+      ],
+      "architecture": "sm_120a",
+      "hardware_sku": "NVIDIA GeForce RTX 5090",
+      "target": "qwen3.8-27b/nvfp4-dflash2-q4",
+      "boundary": "public CUDA Op followed by Qwen3.8 DFlash2 Program or Engine boundary",
+      "default_op_family": "cuda_kernel",
+      "workload": {
+        "mode": "DFlash2",
+        "draft_width": 4,
+        "adaptive_verification_ceiling": 15,
+        "kv": "INT8-G64",
+        "capacity": 131072,
+        "concurrency": "1..8"
+      },
+      "assigned_split": "train",
+      "evaluation_tier": "train",
+      "cycle_assignments": {
+        "7": {
+          "assigned_split": "validation",
+          "evaluation_tier": "in_arch"
+        },
+        "8": {
+          "assigned_split": "test",
+          "evaluation_tier": "in_arch"
+        },
+        "9": {
+          "assigned_split": "test",
+          "evaluation_tier": "in_arch"
+        }
+      }
+    },
+    {
+      "campaign_id": "sm120a-rtx5090-qwen38-consolidation-20260822",
+      "ledger_source_ids": [
+        "ginfer-sm120a-rtx5090-qwen38-consolidation-ledger-fa844e78"
+      ],
+      "history_source_ids": [
+        "ginfer-sm120a-rtx5090-qwen38-terminal-history-fa844e78"
+      ],
+      "context_source_ids": [
+        "ginfer-product-contract-f83f476e",
+        "ginfer-runbook-kernel-campaign-f83f476e",
+        "ginfer-sm120a-rtx5090-qwen38-terminal-report-fa844e78",
+        "ginfer-sm120a-rtx5090-qwen38-consolidation-report-fa844e78"
+      ],
+      "correction_source_ids": [],
+      "architecture": "sm_120a",
+      "hardware_sku": "NVIDIA GeForce RTX 5090",
+      "target": "qwen3.8-27b/nvfp4-dflash2-q4",
+      "boundary": "multi-patch CUDA package followed by Qwen3.8 DFlash2 Program or Engine boundary",
+      "default_op_family": "cross_kernel_consolidation",
+      "workload": {
+        "mode": "DFlash2",
+        "draft_width": 4,
+        "adaptive_verification_ceiling": 15,
+        "kv": "INT8-G64",
+        "capacity": 131072,
+        "concurrency": "1..8"
+      },
+      "assigned_split": "test",
+      "evaluation_tier": "in_arch"
+    }
+  ]
+}

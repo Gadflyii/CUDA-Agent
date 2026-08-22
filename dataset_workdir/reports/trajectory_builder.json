@@ -1,0 +1,65 @@
+{
+  "by_architecture": {
+    "sm_120a": 477,
+    "sm_86": 99,
+    "sm_89": 101
+  },
+  "by_campaign": {
+    "sm120a-rtx5090-muse-20260821": 116,
+    "sm120a-rtx5090-muse-consolidation-20260821": 79,
+    "sm120a-rtx5090-qwen38-20260821": 275,
+    "sm120a-rtx5090-qwen38-consolidation-20260822": 7,
+    "sm86-muse-20260822": 99,
+    "sm89-muse-20260821": 47,
+    "sm89-muse-rerun-20260822": 29,
+    "sm89-qwen38-20260821": 25
+  },
+  "by_disposition": {
+    "accepted": 94,
+    "rejected": 583
+  },
+  "by_split": {
+    "test": 312,
+    "train": 240,
+    "validation": 125
+  },
+  "by_view": {
+    "diagnosis": 155,
+    "implementation": 230,
+    "judgment": 260,
+    "orchestration_reporting": 32
+  },
+  "candidate_families": 260,
+  "candidate_families_with_corrections": 9,
+  "candidate_families_with_exact_patch": 231,
+  "candidates_by_split_and_disposition": {
+    "test|accepted": 12,
+    "test|rejected": 103,
+    "train|accepted": 11,
+    "train|rejected": 88,
+    "validation|accepted": 4,
+    "validation|rejected": 42
+  },
+  "episodes": 677,
+  "episodes_by_split_and_view": {
+    "test|diagnosis": 70,
+    "test|implementation": 113,
+    "test|judgment": 115,
+    "test|orchestration_reporting": 14,
+    "train|diagnosis": 54,
+    "train|implementation": 74,
+    "train|judgment": 99,
+    "train|orchestration_reporting": 13,
+    "validation|diagnosis": 31,
+    "validation|implementation": 43,
+    "validation|judgment": 46,
+    "validation|orchestration_reporting": 5
+  },
+  "generated_at": "2026-08-22T16:07:54Z",
+  "omissions": {
+    "diagnosis_missing_pre_candidate_baseline_or_hypothesis": 105,
+    "implementation_missing_exact_patch_or_preimage": 30,
+    "seed_candidate_already_curated": 7
+  },
+  "producer": "scripts/build_campaign_episodes.py@1"
+}

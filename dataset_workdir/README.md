@@ -24,30 +24,31 @@ The raw layer is append-only: a collector accepts an already-present byte-identi
 refuses a conflicting overwrite. Every file has a SHA256 record. Normalization retains source IDs,
 immutable revision identifiers, licenses, evidence timing, and candidate/restoration links.
 
-## Current seed
+## Current corpus builder
 
-The first collection targets:
+`config/trajectory_campaigns.json` admits only explicitly closed SM89, SM86, and SM120a campaigns.
+`scripts/build_campaign_episodes.py` joins their ledgers to immutable candidate/revert histories,
+applies later corrections, reconstructs exact implementation patches plus pre-change source hunks,
+and derives leakage-safe diagnosis, implementation, judgment, and orchestration views. It refuses
+to invent missing commands or restoration edges. Live cycles, full terminal chatter, profiler
+databases, model outputs, build products, credentials, and unclosed campaign files remain excluded.
 
-- the committed SM89 Muse/Qwen campaign summary and terminal ledgers;
-- completed SM89 Muse cycle 7-9 ledgers, copied only from explicitly closed cycle directories;
-- Git candidate/revert history and diffs at immutable commits;
-- the two committed, accepted SM86 changes as implementation evidence, without inventing missing
-  runtime measurements;
-- the committed SM120a accepted change as implementation provenance while treating the following
-  local campaign ledger as live and refresh-only;
-- official public NVIDIA programming, tuning, PTX, occupancy, Tensor Core/data-movement, and Nsight
-  material; and
-- license/provenance records for selected third-party repositories. Third-party code is not
-  imported unless the repository exposes a compatible license at the pinned revision.
+The generated report at `reports/trajectory_builder.json` gives the candidate/view/split counts and
+every omission reason. Auto-normalized rows require sampled review before a release training run.
+Official NVIDIA material and license/provenance records remain reference evidence; third-party code
+is not imported unless its pinned license permits the intended use.
 
-This seed is deliberately small. Full terminal chatter, profiler databases, model outputs, build
-products, credentials, and active campaign files are excluded.
+## Training and deployment boundary
 
-## Training method boundary
+The planned specialization is a full-parameter Qwen3.8-27B fine-tune on both 96 GB RTX PRO 6000
+Blackwell GPUs in Server 1. Transformer Engine FP8 is the primary compute path, with full state
+sharding, optimizer/master-state offload as required, activation recomputation, and a matched BF16
+control. The durable training authority is a consolidated BF16 safetensors checkpoint.
 
-The canonical dataset does not assume a trainer or weight representation. A later experiment must
-choose between fine-tuning a higher-precision Qwen3.8-27B base and quantizing to NVFP4, or using an
-NVFP4-aware adapter/quantization-aware path. That choice affects optimization stability, memory,
-and export tooling, not the evidence schema or leakage policy, and therefore does not block corpus
-construction.
-
+After BF16 evaluation, NVIDIA ModelOpt is the production Blackwell NVFP4 authority; AutoRound is an
+independent candidate. `scripts/build_nvfp4_calibration.py` packs exactly 512 training-only 4096-token
+rows with the pinned tokenizer. GInfer then admits only its pinned MLP0-55 ModelOpt profile and
+builds the complete `.ginfer` release with exact checkpoint provenance. Arbitrary ModelOpt, LLM
+Compressor, and AutoRound exports remain rejected. See
+[`DESIGN.md`](DESIGN.md#full-fine-tuning-on-server-1) for the memory model, bring-up gates, training
+sequence, and export qualification.
