@@ -28,13 +28,16 @@ The current campaign defaults are:
 - at most 24 candidates in one cycle;
 - stop the current cycle at the first accepted candidate;
 - accept only after the independent oracle passes, affected public-Op points have no material
-  unsupported regression, and two independent real-boundary repetitions each either reduce
-  matched GPU round latency by at least 1.5% or increase aggregate published throughput by at
-  least 3.0 tokens/s at the declared primary concurrency;
-- for the absolute-throughput arm, require positive matched GPU round-latency improvement and a
-  paired throughput delta that is clearly larger than fresh-baseline measurement noise; preserve
-  identical drafted, accepted, and licensed-token accounting, and do not average repetitions or
-  concurrency points to cross either threshold;
+  unsupported regression, and two independent order-balanced real-boundary repetitions at the
+  identical primary workload produce an arithmetic-mean result that either reduces matched GPU
+  round latency by at least 1.5% or increases aggregate published throughput by at least 3.0
+  tokens/s at the declared primary concurrency;
+- compute the gate from the mean control and candidate latency/throughput values, not by requiring
+  each repetition to cross a threshold independently. For the absolute-throughput arm, require
+  positive mean matched GPU round-latency improvement and a mean throughput delta clearly larger
+  than fresh-baseline measurement noise. Preserve identical drafted, accepted, and licensed-token
+  accounting in every run. Report both repetitions, investigate a material outlier, and never
+  average different concurrency, context, route, or accounting points to cross either threshold;
 - recheck unaffected concurrency points and route seams for neutrality;
 - run the named short- and long-context Engine semantic sentinels and registered real test before
   final acceptance;
@@ -100,12 +103,22 @@ For every candidate, append one durable ledger row containing:
 
 ```text
 cycle candidate | commit | changed mechanism | predicted effect | oracle result |
-public-Op result | real-boundary result | accept/reject reason | restoration commit
+public-Op result | real-boundary result | accept/reject reason | combo eligibility and reason |
+restoration commit
 ```
 
 Commit candidate source before remote execution. Reject through a normal revert commit so the
 accepted tree and experimental history remain inspectable. Do not leave a rejected implementation
 in the final source merely because one microbenchmark point improved.
+
+Classify every rejection when its evidence closes. Mark it `combo-eligible` when correctness,
+accounting, and provenance pass and the mechanism has directionally positive public-Op or
+real-boundary evidence but misses or is too noisy for the acceptance bar without a material
+unsupported regression. Mark correctness failures, accounting changes, provenance failures,
+material regressions, and disproved mechanisms `combo-ineligible` with the reason. Keep eligible
+components in a target-wide index across accepted-cycle resets; reaching the final consolidation
+phase remeasures them on the then-current accepted baseline rather than treating an old percentage
+as additive evidence.
 
 ## Consolidate compatible rejected mechanisms
 
@@ -114,8 +127,8 @@ single-hypothesis loop. Start it only after the single-mechanism terminal cycle 
 
 1. commit the terminal report and freeze the original candidate ledger by commit and content hash;
 2. collect a fresh full matrix and decision-specific profile from the retained binary;
-3. classify promising rejected mechanisms as dispatch-disjoint, overlapping, mutually exclusive,
-   or cache/resource interacting;
+3. collect the target-wide `combo-eligible` index and classify its mechanisms as dispatch-disjoint,
+   overlapping, mutually exclusive, or cache/resource interacting;
 4. exclude mutually exclusive alternatives from the same package and discount overlapping or
    stale savings rather than adding them at face value;
 5. rank only packages with a concrete current-baseline path to the real-boundary gate; and

@@ -203,6 +203,11 @@ agent implements it. The benchmark and correctness suite remain the judges of fa
 
 Ordinary search candidates isolate one mechanism so their result is attributable. After a complete
 single-mechanism no-win cycle, the campaign orchestrator may enter its defined consolidation phase.
+A correct, accounting-identical candidate with positive evidence that misses the acceptance bar is
+not forgotten: record it in the target-wide combo-eligibility index with its dispatch domain and
+interaction risks. The final consolidation phase remeasures eligible components on the current
+accepted baseline. Correctness failures, accounting changes, provenance failures, and materially
+regressive mechanisms are explicitly ineligible.
 A consolidation candidate can contain several source patches only when it is one coherent package
 of explicitly named immutable-ledger components, with dispatch overlap, cache/resource interaction,
 current-baseline ceiling, and a falsifiable combined-effect hypothesis recorded before mutation.
@@ -229,8 +234,9 @@ candidates and comparison-only entry points.
 Do not accept a speedup caused by skipped work, stale output, weaker semantics, unrequested
 precision loss, different cache state, reduced resident context, changed prompt/token count,
 disabled validation, or a narrower timing boundary. Do not widen a tolerance to make a candidate
-pass. Evaluate both the pointwise matrix and aggregate latency/throughput; an average must not hide
-a material regression at one concurrency, context, or dispatch seam.
+pass. Apply the campaign's arithmetic mean only to its order-balanced repetitions of the identical
+primary workload. Evaluate the pointwise concurrency/context matrix separately; no average may
+hide a material regression at another concurrency, context, or dispatch seam.
 
 ## Qualify every supported SM
 
