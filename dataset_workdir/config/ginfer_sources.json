@@ -460,7 +460,7 @@
     {
       "source_id": "ginfer-sm86-rtx3090-muse-cycle7-corrected-ledger-f67cacbe",
       "kind": "git_file",
-      "revision": "f67cacbe73f923cc26aebcc3b7cfdb1018f63fd8",
+      "revision": "f67cacbe2cad374a8044c24c460879f5c9bf1a85",
       "path": "docs/results/2026-08-21-sm86-muse-cycle7-ledger.csv",
       "title": "SM86 RTX 3090 Muse cycle 7 ledger with corrected candidate commit provenance",
       "mime_type": "text/csv",
@@ -470,7 +470,7 @@
       "source_id": "ginfer-sm86-rtx3090-muse-provenance-correction-history-f67cacbe",
       "kind": "git_range",
       "revision_start_exclusive": "a5b0ffb5716a812644687606ee4d236705c83dde",
-      "revision_end_inclusive": "f67cacbe73f923cc26aebcc3b7cfdb1018f63fd8",
+      "revision_end_inclusive": "f67cacbe2cad374a8044c24c460879f5c9bf1a85",
       "title": "SM86 RTX 3090 Muse cycle 7 candidate-hash provenance correction",
       "mime_type": "application/x-ndjson",
       "sm_applicability": ["sm_86"]

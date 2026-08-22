@@ -4,9 +4,9 @@
     "curated_manifest": 9,
     "episodes": 16,
     "normalized_manifest": 5,
-    "raw_manifest": 81,
+    "raw_manifest": 83,
     "schemas": 5,
-    "source_registry": 86
+    "source_registry": 88
   },
   "errors": [],
   "invariants": {
@@ -19,6 +19,6 @@
     "split_lineages_checked": true
   },
   "status": "pass",
-  "validated_at": "2026-08-22T02:34:02Z",
+  "validated_at": "2026-08-22T02:36:19Z",
   "warnings": []
 }
